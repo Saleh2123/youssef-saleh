@@ -43,7 +43,7 @@ res.send('done');
 const updatepack = async (req, res) => {
     const {name,price}=req.body;
    
-  await packages.updateOne({name:name},{$set:{rate:rate,affialiation:affialiation,Email:Email}}).exec()
+  await packages.updateOne({name:name},{$set:{price:price}}).exec()
 
  res.send('done');
    }
@@ -58,8 +58,10 @@ const updatepack = async (req, res) => {
    }
    
  const deletepack= async(req,res)=>{
-    const {name}=req.body;
-    await packages.findByIdAndDelete({name:name})
+    const {name}=req.query;
+    await packages.findOneAndDelete({name:name})
+    console.log(req)
+    res.send('done')
  }   
  
   
@@ -89,4 +91,4 @@ res.send(pres)
 
  
  
- module.exports={createadmin,deleteuser,docreqs,viewapt,viewpres,viewdocapt}
+ module.exports={createadmin,deleteuser,docreqs,viewapt,viewpres,viewdocapt,deletepack,addpack,updatepack}
