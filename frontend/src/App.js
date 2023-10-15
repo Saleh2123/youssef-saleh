@@ -19,6 +19,7 @@ import Alldocs from './alldocs';
 import Home from './js/home';
 import './App.css'
 import Aptdoc from './js/viewaptdoc';
+import Editp from './editpack';
 function App() {
   return (
     <Router>
@@ -30,6 +31,7 @@ function App() {
         <Route path="/Admin" element={<Admin/>} />
         <Route path="admin/AddAdmin" element={<AddAdminstrator/>} />
         <Route path="admin/remove" element={<Remove/>} />
+        <Route path='/admin/edit' element={<Editp></Editp>}></Route>
          <Route path="/admin/reqs" element={<Reqs/>} />
          <Route path="doctor/:id" element={<Doctor/>} />
          <Route path="patient/:id" element={<Patient/>}/>
