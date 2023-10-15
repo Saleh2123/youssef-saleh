@@ -15,6 +15,8 @@ function Alldocs() {
       }); 
 
 const [search,sets]=useState('')
+
+const [r,setr]=useState('')
     //Dummy data 
   const [appointments,setapt] = useState([])
 useEffect(()=>{
@@ -32,6 +34,7 @@ useEffect(()=>{
       <div className="mt-2">
         <h4>Upcoming appointments</h4>
         <input onChange={(e)=>{sets(e.target.value)}}></input>
+        <input onChange={(e)=>{setr(e.target.value)}}></input>
         <div>
           <TableContainer component={Paper}>
             <Table aria-label="List of Appointments">
@@ -45,7 +48,7 @@ useEffect(()=>{
                 </TableRow>
               </TableHead>
               <TableBody>
-                {appointments.filter((row)=>row.name.includes(search)).map((row) => (
+                {appointments.filter((row)=>row.name.includes(search)&&row.speciality.includes(r)).map((row) => (
                   <TableRow key={row.id}>
                   
                     <TableCell>{row.name}</TableCell>
