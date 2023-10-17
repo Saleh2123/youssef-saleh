@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 export default function Aptdoc(){
     const [search,setsearch]=useState('')
     const[state,setstatus]=useState('')
-    const [time,settime]=useState("")
+    const [timee,settime]=useState("")
 const {id}= useParams();
 const [apt,setapt]=useState([])
 useEffect(()=>{
@@ -18,7 +18,6 @@ console.log(apt)
 
 
 
-console.log(new Date(time))
 
 
     return(
@@ -31,9 +30,20 @@ console.log(new Date(time))
 
 <input  type="date" onChange={(e)=>{settime(e.target.value)}}></input>
 {
-    apt?.filter(({patient,status,date})=>{
-        return patient.name.includes(search)&&status.includes(state)&&(time===""||new Date(date)> new Date(time))
-    }).map((data)=>JSON.stringify(data))
+    apt?.filter(({patient,status,time})=>{
+        return patient.name.includes(search)&&status.includes(state)&&(timee===""||new Date(time)> new Date(timee))
+    }).map((data)=>(
+
+<div>
+
+
+{`doctor:&${data.patient.name} time:${data.time} satus:${data.status}`}
+</div>
+
+
+
+
+    ))
 }
 
 
