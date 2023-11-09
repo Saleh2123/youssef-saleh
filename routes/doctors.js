@@ -1,7 +1,17 @@
 const model =require('../model/doctorvariables');
 const Patients = require('../model/patientvariables');
 
+const addtimeslot= async (req,res)=>{
+  const {username,time}=req.body;
+  const {timeslots}= await model.findOne({username:username}).select('timeslots -_id').exec()
+  timeslots.push(time)
+ await model.updateOne({username:title},{$set:{timeslots:timeslots}}).exec()
+  
 
+
+
+
+}
 const createdoctor = async(req,res) => {
     //add a new user to the database with 
     //Name, Email and Age

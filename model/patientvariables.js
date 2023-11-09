@@ -70,6 +70,8 @@ type:String
 ,
 pres:{
     type:Array
+},medicalhistory:{
+    type:Array
 }
 
 })

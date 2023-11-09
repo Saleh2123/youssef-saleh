@@ -20,6 +20,7 @@ import Home from './js/home';
 import './App.css'
 import Aptdoc from './js/viewaptdoc';
 import Editp from './editpack';
+import Upload from './upload';
 function App() {
   return (
     <Router>
@@ -45,7 +46,7 @@ function App() {
             <Route path="doctor/:id/apt" element={<Aptdoc/>}/>
             <Route path="patient/:id/pres" element={<Pres/>}/>
         <Route path="doctor/:id/viewpatients" element={<Viewpatients/>}/>
-      
+   <Route path='/patient/:id/upload' element={<Upload></Upload>}></Route>
       </Routes>
     </Router>
   );

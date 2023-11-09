@@ -83,7 +83,11 @@ type:String
     type:String
 }
 
-
+,status:{
+    type:String
+},timeslots:{
+    type:Array
+}
 
 })
 

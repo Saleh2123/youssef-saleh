@@ -8,31 +8,15 @@ function Home(){
 
 const [user,setuser]=useState('')
 
-    return( <div>
+    return( <div style={{margin:'auto'}}>
 
         <Link to="reg">
-        <button type="submit">Register</button>
+        <button 
+                style={{margin:'auto'}}  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+>register
+                  </button>
         </Link> 
-        <Link to="Admin">
-        <button type="submit">Admin</button>
-        </Link> 
-        <input  onChange={(e)=>{
-            setuser(e.target.value)
-        }} />
-        <Link  to={`doctor/${user}`}>
-
-        <button> Sign in as doc</button>
-        </Link>
       
-        <Link to={`patient/${user}`} >
-
-        <button> Sign in as patient</button>
-        </Link>
-       
-      
-       
-          
-       
 
      </div> )
 }

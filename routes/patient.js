@@ -1,7 +1,9 @@
 const doctor = require('../model/doctorvariables');
 const model =require('../model/patientvariables')
-
-
+const healthpackage=require("../model/healthpackage")
+const viewhealthpack=async(req,res)=>{
+res.send(await healthpackage.find());
+}
 const createpatient = async(req,res) => {
     //add a new user to the database with 
     //Name, Email and Age
