@@ -35,14 +35,6 @@ import axios from 'axios';
 
 function App() {
 
-  const [options,setoptions]=useState({})
-
-  useEffect(()=>{
-    async function test(){
-setoptions({clientSecret:(await axios.post("http://localhost:5000/charge")).data.client_secret})}
-test()
-
-  },[])
   return (
     <Router>
       <Routes>
@@ -70,11 +62,6 @@ test()
         <Route path="doctor/:id/viewpatients" element={<Viewpatients/>}/>
    <Route path='/patient/:id/upload' element={<Upload></Upload>}></Route>
    <Route path='/doctor/:id/upload2' element={<Upload2></Upload2>}></Route>
-
-   <Route path="/stripe" element={
-   
-   <CheckoutForm></CheckoutForm>}>
-  </Route>
       </Routes>
     </Router>
   );
