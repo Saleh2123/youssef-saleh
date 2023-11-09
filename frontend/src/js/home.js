@@ -1,29 +1,26 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
 
-import { Link } from "react-router-dom";
-
-import Choose from "./userreg";
-import { useState } from "react";
-
-function Home(){
-
-const [user,setuser]=useState('')
-
-    return( <div style={{margin:'auto'}}>
-
-        <Link to="reg">
-        <button 
-                style={{margin:'auto'}}  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
->register
-                  </button>
-        </Link> 
-        <Link to="login">
-        <button 
-                style={{margin:'auto'}}  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
->login
-                  </button>
-        </Link>  
-
-     </div> )
+function Home() {
+  return (
+    <Container
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '100vh',
+      }}
+    >
+      <Link to="/reg" style={{ textDecoration: 'none' }}>
+        <Button variant="contained" color="primary">
+          Register
+        </Button>
+      </Link>
+    </Container>
+  );
 }
 
 export default Home;
