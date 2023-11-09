@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+
 const Remove = () => {
   const [formData, setFormData] = useState({
     username: '',
-    password: '',
-    
   });
 
   const handleChange = (e) => {
@@ -12,43 +11,42 @@ const Remove = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
- axios.delete(`http://localhost:5000/deleteruser?username=${formData.username}`)
-    console.log('Form submitted:', formData);
-    alert("Form submitted");
-    // You can add further logic to handle form submission (e.g., API call).
+
+    try {
+      await axios.delete(`http://localhost:5000/deleteruser?username=${formData.username}`);
+      alert("User removed successfully");
+    } catch (error) {
+      console.error("Error removing user:", error);
+      alert("Error removing user. Please check the username and try again.");
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-
-
-
-<label>
-      remove
-      
-      </label> 
-      <br />
-      <label>
-        Username:
-        <input
-        required
-          type="text"
-          name="username"
-          value={formData.username}
-          onChange={handleChange}
-        />
-      </label>
-      <br />
-      
-   
-
-     
-      <br />      <button type="submit">Add Admin</button>
-    </form>
+    <div className="container mx-auto mt-8">
+      <h2 className="text-2xl font-bold">Remove User</h2>
+      <form onSubmit={handleSubmit} className="mt-4">
+        <div className="mb-4">
+          <label className="block font-semibold">Username:</label>
+          <input
+            required
+            type="text"
+            name="username"
+            value={formData.username}
+            onChange={handleChange}
+            className="w-full border border-gray-300 rounded-md p-2"
+          />
+        </div>
+        <button
+          type="submit"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Remove User
+        </button>
+      </form>
+    </div>
   );
 };
 
-export default Remove
+export default Remove;
