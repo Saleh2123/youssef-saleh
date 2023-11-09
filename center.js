@@ -203,15 +203,16 @@ app.get('/', (req, res) => {
             return;
         }
 // Handle the uploaded file here
+console.log(fields)
 
-        const { originalFilename, filepath } = files.someExpressFiles[0];
+        const { originalFilename, filepath } = files.file[0]
         // Save the file using fs.writeFileSync
         fs.writeFileSync(originalFilename, fs.readFileSync(filepath));
 
         const {title}=fields;
-        const {medicalhistory}= await Patients.findOne({username:title}).select('medicalhistory -_id').exec()
+        const {medicalhistory}= await Patients.findOne({username:title[0]}).select('medicalhistory -_id').exec()
         medicalhistory.push(originalFilename)
-       await Patients.updateOne({username:title},{$set:{medicalhistory:medicalhistory}}).exec()
+       await Patients.updateOne({username:title[0]},{$set:{medicalhistory:medicalhistory}}).exec()
         
 
 res.send('File saved successfully!');

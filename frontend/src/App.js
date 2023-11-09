@@ -21,7 +21,21 @@ import './App.css'
 import Aptdoc from './js/viewaptdoc';
 import Editp from './editpack';
 import Upload from './upload';
+import CheckoutForm from './stripe';
+import { Elements } from '@stripe/react-stripe-js';
+import {loadStripe} from '@stripe/stripe-js';
+
+// Make sure to call `loadStripe` outside of a component’s render to avoid
+// recreating the `Stripe` object on every render.
+const stripePromise = loadStripe('pk_test_51OAVMvGeO5iUBvxL6fvjE7UrNQm3PqhvbxN9WJfx8CLrXp2XOj1YdT2Idc3u6LOLMifn7drFobh51P4pepfZ8JY100eP87lH2y');
+
+
 function App() {
+
+  const options = {
+    // passing the client secret obtained from the server
+    clientSecret: 'pi_1FpUmEKZaRsxp2y4c9OPoTjM_secret_tv9tsgAQbAlNRYqm8MAzmYPuE',
+  };
   return (
     <Router>
       <Routes>
@@ -47,6 +61,11 @@ function App() {
             <Route path="patient/:id/pres" element={<Pres/>}/>
         <Route path="doctor/:id/viewpatients" element={<Viewpatients/>}/>
    <Route path='/patient/:id/upload' element={<Upload></Upload>}></Route>
+   <Route path="/stripe" element={
+   <Elements  stripe={stripePromise} options={options}>
+   
+   <CheckoutForm></CheckoutForm>
+   </Elements>}></Route>
       </Routes>
     </Router>
   );

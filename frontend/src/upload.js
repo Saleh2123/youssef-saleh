@@ -13,7 +13,8 @@ const handlechange=(e)=>{
 }
 const submit=async ()=>{
     const finalform= new FormData();
-    finalform.append(form);
+    finalform.append("file",form);
+    finalform.append("title",id);
    await axios.post('http://localhost:5000/upload',finalform)
 window.location="/";
 }

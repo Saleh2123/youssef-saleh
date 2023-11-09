@@ -4,7 +4,6 @@ import { TableContainer, Table, TableBody, TableRow, TableCell, Paper, TableHead
 import axios from "axios";
 
 function PatientApps() {
-
     const {id}=useParams();
     const [formData, setFormData] = useState({
         id:id,
@@ -19,7 +18,7 @@ const [search,sets]=useState('')
   const [appointments,setapt] = useState({appointments:[]})
 useEffect(()=>{
   async function get(){
-    setapt((await axios.get(`http://localhost:5000/patientapt?username=3attu`)).data)
+    setapt((await axios.get(`http://localhost:5000/patientapt?username=${id}`)).data)
     console.log(appointments)
   }
   get()
