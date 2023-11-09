@@ -18,7 +18,7 @@ export default function Aptdoc() {
     }
     get();
   }, []);
-
+console.log(apt)
   return (
     <Container
       sx={{
