@@ -20,7 +20,10 @@ function Patient(){
         <Link to="pres">   
         <button type="submit">View Prescriptions</button>
         </Link>
-        
+         
+        <Link to="changepassword">   
+        <button type="submit">Change Password</button>
+        </Link>
         
 
      </div> )

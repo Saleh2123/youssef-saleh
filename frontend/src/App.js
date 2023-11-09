@@ -59,7 +59,7 @@ test()
          <Route path="/admin/reqs" element={<Reqs/>} />
          <Route path="doctor/:id" element={<Doctor/>} />
          <Route path="patient/:id" element={<Patient/>}/>
-         <Route path="/login/changepassword" element={<ChangePasswordPage/>}/>
+         <Route path="/:d/:id/changepassword" element={<ChangePasswordPage/>}/>
        
          <Route path="patient/:id/family" element={<Family/>}/>
          
@@ -71,7 +71,6 @@ test()
         <Route path="doctor/:id/viewpatients" element={<Viewpatients/>}/>
    <Route path='/patient/:id/upload' element={<Upload></Upload>}></Route>
    <Route path='/doctor/:id/upload2' element={<Upload2></Upload2>}></Route>
-
 
    <Route path="/stripe" element={
    
