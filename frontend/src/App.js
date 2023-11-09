@@ -21,9 +21,12 @@ import './App.css'
 import Aptdoc from './js/viewaptdoc';
 import Editp from './editpack';
 import Upload from './upload';
+import Upload2 from './js/upload2';
 import CheckoutForm from './stripe';
 import { Elements } from '@stripe/react-stripe-js';
 import {loadStripe} from '@stripe/stripe-js';
+import LoginPage from './js/login';
+import ChangePasswordPage from './js/changepass';
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
@@ -42,6 +45,8 @@ function App() {
         <Route path='/' element={<Home></Home>}></Route>
       <Route  path="/reg" element={<Choose/>} />
         <Route  path="reg/pateint" element={<Pateintreg/>} />
+        <Route  path="/login" element={<LoginPage/>} />
+
         <Route path="reg/doctor" element={<Doctorreg/>} />
         <Route path="/Admin" element={<Admin/>} />
         <Route path="admin/AddAdmin" element={<AddAdminstrator/>} />
@@ -50,7 +55,7 @@ function App() {
          <Route path="/admin/reqs" element={<Reqs/>} />
          <Route path="doctor/:id" element={<Doctor/>} />
          <Route path="patient/:id" element={<Patient/>}/>
-         <Route path="patient/:id/addmember" element={<Addmember/>}/>
+         <Route path="/login/changepassword" element={<ChangePasswordPage/>}/>
        
          <Route path="patient/:id/family" element={<Family/>}/>
          
@@ -61,8 +66,10 @@ function App() {
             <Route path="patient/:id/pres" element={<Pres/>}/>
         <Route path="doctor/:id/viewpatients" element={<Viewpatients/>}/>
    <Route path='/patient/:id/upload' element={<Upload></Upload>}></Route>
-   <Route path="/stripe" element={
-   <Elements  stripe={stripePromise} options={options}>
+   <Route path='/doctor/:id/upload2' element={<Upload2></Upload2>}></Route>
+
+
+   <Route path="/stripe" element={<Elements  stripe={stripePromise} options={options}>
    
    <CheckoutForm></CheckoutForm>
    </Elements>}></Route>
