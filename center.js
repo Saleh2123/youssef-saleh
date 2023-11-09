@@ -1,9 +1,9 @@
 const express= require('express')
 const jwt = require('jsonwebtoken');
 const mongoose=require('mongoose')
-const {createpatient, addmember, viewfamily, viewdocss}= require('./routes/patient')
+const {createpatient, addmember, viewfamily, viewdocss, charge}= require('./routes/patient')
 const { createdoctor, updatedoc, viewpatients, viewpatient } = require('./routes/doctors')
-const { deleteuser, docreqs, createadmin, viewapt, viewpres, viewdocapt, deletepack, addpack, updatepack } = require('./routes/admin')
+const { deleteuser, docreqs, createadmin, viewapt, viewpres, viewdocapt, deletepack, addpack, updatepack, updatepass } = require('./routes/admin')
 require ('dotenv').config()
 const app = express()
 const cors = require('cors');
@@ -46,12 +46,12 @@ function verifyToken(req, res, next) {
     }
   }
   
-function login(req,res){
+async function login(req,res){
 const {username,password}=req.body;
 
 const user={username:username,password:password}
 
-if(admin.findOne({username:username,password:password})){
+if(await (admin.findOne({username:username,password:password}))){
     jwt.sign({ user }, 'secretkey', { expiresIn: '30s' }, (err, token) => {
         res.json({
           token,role:"admin"
@@ -64,7 +64,7 @@ if(admin.findOne({username:username,password:password})){
     }
 
 
-else if(Patients.findOne({username:username,password:password})){
+else if((await Patients.findOne({username:username,password:password}))){
     jwt.sign({ user }, 'secretkey', { expiresIn: '30s' }, (err, token) => {
         res.json({
           token,role:"patient"
@@ -75,7 +75,7 @@ else if(Patients.findOne({username:username,password:password})){
 
 
 }
-else if(doctor.findOne({username:username,password:password})){
+else if((await doctor.findOne({username:username,password:password}))){
     jwt.sign({ user }, 'secretkey', { expiresIn: '30s' }, (err, token) => {
         res.json({
           token,role:"doctor"
@@ -218,3 +218,14 @@ console.log(fields)
 res.send('File saved successfully!');
     });
 });
+
+
+
+
+
+
+
+
+
+app.post("/charge",charge)
+app.post("/updatepass",updatepass)

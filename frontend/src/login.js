@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-
+import axios from "axios"
 export default function LoginPage() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -18,12 +18,24 @@ export default function LoginPage() {
       setPassword(event.target.value);
     };
   
-    const handleLogin = () => {
+    const handleLogin = async() => {
       // Perform login logic here
       console.log('Username:', username);
       console.log('Password:', password);
       // You can add your login logic and API calls here
-      setIsLoggedIn(true);
+
+      const data=await (await axios.post("http://localhost:5000/login",{username:username,password:password})).data
+      console.log(data)
+      switch(data.role){
+
+case "admin":window.location=`http://localhost:3000/admin`; break;
+
+case "patient":window.location=`http://localhost:3000/patient/${username}`; break;
+
+case "doctor":window.location=`http://localhost:3000/doctor/${username}`; break;
+
+case "none":alert("wrong username or password");break;
+      }
     };
   
     const handleLogout = () => {

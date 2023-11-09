@@ -1,6 +1,28 @@
 const doctor = require('../model/doctorvariables');
 const model =require('../model/patientvariables')
 const healthpackage=require("../model/healthpackage")
+const stripe=require("stripe")("sk_test_51OAVMvGeO5iUBvxLCELNV3o9D9GvDTflUXdv6Voo0m15g8VKbaGPdpcNw4rMSIFkZ8iwgNiQH0g53uruGILPLAPH00v0J3kmKQ")
+
+
+const charge= async (req, res, next) => {
+   try {
+     const paymentIntent = await stripe.paymentIntents.create({
+       amount: 200, // Amount in cents
+       currency: "gbp",
+       payment_method_types: ["card"],
+       receipt_email: "hadeklte@gmail.com",
+     });
+ console.log(paymentIntent)
+     // Send the payment intent back to the client
+     res.json(paymentIntent);
+   } catch (err) {
+     console.log(err, "failed to charge");
+     res.status(500).send(err);
+   }
+ }
+ 
+ 
+
 const viewhealthpack=async(req,res)=>{
 res.send(await healthpackage.find());
 }
@@ -57,4 +79,4 @@ const {package}=await model.find({username:username})
  }
   
  
- module.exports={createpatient,addmember,viewfamily,viewdocss}
+ module.exports={createpatient,addmember,viewfamily,viewdocss,charge}

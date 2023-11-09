@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState,useParams } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
-
+import axios from "axios"
 export default function ChangePasswordPage() {
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-
+const {id}=useParams();
   const handleOldPasswordChange = (event) => {
     setOldPassword(event.target.value);
   };
@@ -27,6 +27,8 @@ export default function ChangePasswordPage() {
     console.log('New Password:', newPassword);
     console.log('Confirm New Password:', confirmPassword);
     // You can add your password change logic and API calls here
+axios.post("http://localhost:5000/updatepass",{username:id,password:newPassword})
+
   };
 
   return (
