@@ -46,10 +46,9 @@ test()
   return (
     <Router>
       <Routes>
-        <Route path='/' element={<Home></Home>}></Route>
       <Route  path="/reg" element={<Choose/>} />
         <Route  path="reg/pateint" element={<Pateintreg/>} />
-        <Route  path="/login" element={<LoginPage/>} />
+        <Route  path="/" element={<LoginPage/>} />
 
         <Route path="reg/doctor" element={<Doctorreg/>} />
         <Route path="/Admin" element={<Admin/>} />
