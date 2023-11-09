@@ -1,5 +1,22 @@
-import {useStripe, useElements, PaymentElement} from '@stripe/react-stripe-js';
+import {useStripe, useElements, PaymentElement, Elements} from '@stripe/react-stripe-js';
+import { useState,useEffect } from 'react';
+import axios from 'axios';
+import { loadStripe } from '@stripe/stripe-js';
+const stripePromise = loadStripe('pk_test_51OAVMvGeO5iUBvxL6fvjE7UrNQm3PqhvbxN9WJfx8CLrXp2XOj1YdT2Idc3u6LOLMifn7drFobh51P4pepfZ8JY100eP87lH2y');
+const options={clientSecret:(await axios.post("http://localhost:5000/charge")).data.client_secret}
 
+
+const Check=()=>{
+
+  return(
+<Elements options={options} stripe={stripePromise}>
+  <CheckoutForm></CheckoutForm>
+</Elements>
+
+
+
+  )
+}
 const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
@@ -37,9 +54,10 @@ const CheckoutForm = () => {
   return (
     <form onSubmit={handleSubmit}>
       <PaymentElement />
+      
       <button disabled={!stripe}>Submit</button>
     </form>
   )
 };
 
-export default CheckoutForm;
+export default Check;

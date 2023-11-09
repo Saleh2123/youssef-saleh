@@ -1,7 +1,7 @@
 const express= require('express')
 const jwt = require('jsonwebtoken');
 const mongoose=require('mongoose')
-const {createpatient, addmember, viewfamily, viewdocss}= require('./routes/patient')
+const {createpatient, addmember, viewfamily, viewdocss, charge}= require('./routes/patient')
 const { createdoctor, updatedoc, viewpatients, viewpatient } = require('./routes/doctors')
 const { deleteuser, docreqs, createadmin, viewapt, viewpres, viewdocapt, deletepack, addpack, updatepack } = require('./routes/admin')
 require ('dotenv').config()
@@ -218,3 +218,13 @@ console.log(fields)
 res.send('File saved successfully!');
     });
 });
+
+
+
+
+
+
+
+
+
+app.post("/charge",charge)
