@@ -1,9 +1,10 @@
-import React, { useState,useParams } from 'react';
+import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import axios from "axios"
+import{ useParams }from"react-router-dom";
 export default function ChangePasswordPage() {
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');

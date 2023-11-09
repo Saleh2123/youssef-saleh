@@ -31,8 +31,6 @@ setr((await axios.get(`http://localhost:5000/viewdoctors`)).data)
                   <TableCell>Password</TableCell>
                   <TableCell>Date</TableCell>
                   <TableCell>Education</TableCell>
-                  <TableCell>Rate</TableCell>
-                  <TableCell>Affiliation</TableCell>
                   <TableCell>Speciality</TableCell>
                   
                 </TableRow>
@@ -47,9 +45,25 @@ setr((await axios.get(`http://localhost:5000/viewdoctors`)).data)
                     <TableCell>{row.password}</TableCell>
                     <TableCell>{row.date}</TableCell>
                     <TableCell>{row.education}</TableCell>
-                    <TableCell>{row.rate}</TableCell>
-                    <TableCell>{row.affialliation}</TableCell>
                     <TableCell>{row.speciality}</TableCell>
+                   <TableCell> <button
+                        className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded`}
+                        onClick={async () =>{ await axios.post('http://localhost:5000/accept',{username:row.username})
+                
+setr((await axios.get(`http://localhost:5000/viewdoctors`)).data)
+                      }}
+                      > accept</button>
+                      </TableCell>
+                      <TableCell>
+                        <button
+                        className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded`}
+                        onClick={async () =>{ await axios.post('http://localhost:5000/reject',{username:row.username});
+                   
+                      
+setr((await axios.get(`http://localhost:5000/viewdoctors`)).data)
+                      }}
+                      > reject</button>
+                      </TableCell>
                   </TableRow>
                 ))}
               </TableBody>

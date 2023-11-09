@@ -9,7 +9,8 @@ const acceptdoc =async (req,res)=>{
 
 
   const{username}=req.body;
-  doctor.updateOne({username:username},{$set:{status:"accepted"}})
+ await  doctor.updateOne({username:username},{$set:{status:"accepted"}})
+ res.send("done")
 }
 
 
@@ -19,7 +20,8 @@ const rejdoc =async (req,res)=>{
 
 
   const{username}=req.body;
-  doctor.updateOne({username:username},{$set:{status:"rejected"}})
+ await doctor.updateOne({username:username},{$set:{status:"rejected"}})
+ res.send("done")
 }
 
 
@@ -49,7 +51,7 @@ const createadmin = async(req,res) => {
 
  const updatepass= async(req,res)=>{
 
-  const {username,password}=req.query;
+  const {username,password}=req.body;
 
   await model.find({username: username}).updateOne({password:password});
   
@@ -86,7 +88,7 @@ res.send('done');
  }
 
  const docreqs= async(req,res)=>{
-    res.send( await doctor.find())
+    res.send( await doctor.find({status:"pending"}))
  }
 
  
@@ -144,4 +146,4 @@ res.send(pres)
 
  
  
- module.exports={createadmin,deleteuser,docreqs,viewapt,viewpres,viewdocapt,deletepack,addpack,updatepack,updatepass}
+ module.exports={createadmin,deleteuser,docreqs,viewapt,viewpres,viewdocapt,deletepack,addpack,updatepack,updatepass,acceptdoc,rejdoc}
