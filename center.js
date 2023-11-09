@@ -46,12 +46,12 @@ function verifyToken(req, res, next) {
     }
   }
   
-function login(req,res){
+async function login(req,res){
 const {username,password}=req.body;
 
 const user={username:username,password:password}
 
-if(admin.findOne({username:username,password:password})){
+if(await (admin.findOne({username:username,password:password}))){
     jwt.sign({ user }, 'secretkey', { expiresIn: '30s' }, (err, token) => {
         res.json({
           token,role:"admin"
@@ -64,7 +64,7 @@ if(admin.findOne({username:username,password:password})){
     }
 
 
-else if(Patients.findOne({username:username,password:password})){
+else if((await Patients.findOne({username:username,password:password}))){
     jwt.sign({ user }, 'secretkey', { expiresIn: '30s' }, (err, token) => {
         res.json({
           token,role:"patient"
@@ -75,7 +75,7 @@ else if(Patients.findOne({username:username,password:password})){
 
 
 }
-else if(doctor.findOne({username:username,password:password})){
+else if((await doctor.findOne({username:username,password:password}))){
     jwt.sign({ user }, 'secretkey', { expiresIn: '30s' }, (err, token) => {
         res.json({
           token,role:"doctor"

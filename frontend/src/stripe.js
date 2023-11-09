@@ -8,6 +8,7 @@ const options={clientSecret:(await axios.post("http://localhost:5000/charge")).d
 
 const Check=()=>{
 
+  
   return(
 <Elements options={options} stripe={stripePromise}>
   <CheckoutForm></CheckoutForm>

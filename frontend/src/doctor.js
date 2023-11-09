@@ -91,6 +91,9 @@ export default function Doctor(){
          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">View patients</button>
          </Link>
          </div>
+          <Link to="upload2">
+         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">upload documents</button>
+         </Link>
          
         
          </div>

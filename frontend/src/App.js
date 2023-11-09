@@ -25,7 +25,7 @@ import Upload2 from './js/upload2';
 import CheckoutForm from './stripe';
 import { Elements } from '@stripe/react-stripe-js';
 import {loadStripe} from '@stripe/stripe-js';
-import LoginPage from './js/login';
+import LoginPage from './login';
 import ChangePasswordPage from './js/changepass';
 import axios from 'axios';
 

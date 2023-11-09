@@ -16,7 +16,12 @@ const [user,setuser]=useState('')
 >register
                   </button>
         </Link> 
-      
+        <Link to="login">
+        <button 
+                style={{margin:'auto'}}  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+>login
+                  </button>
+        </Link>  
 
      </div> )
 }
