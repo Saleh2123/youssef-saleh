@@ -43,7 +43,11 @@ res.send('done');
 const updatepack = async (req, res) => {
     const {name,price}=req.body;
    
+<<<<<<< HEAD
   await packages.updateOne({name:name},{$set:{price:price}}).exec()
+=======
+  await packages.updateOne({name:name},{$set:{rate:rate,affialiation:affialiation,Email:Email}}).exec()
+>>>>>>> Saleh
 
  res.send('done');
    }
@@ -58,10 +62,15 @@ const updatepack = async (req, res) => {
    }
    
  const deletepack= async(req,res)=>{
+<<<<<<< HEAD
     const {name}=req.query;
     await packages.findOneAndDelete({name:name})
     console.log(req)
     res.send('done')
+=======
+    const {name}=req.body;
+    await packages.findByIdAndDelete({name:name})
+>>>>>>> Saleh
  }   
  
   
@@ -91,4 +100,8 @@ res.send(pres)
 
  
  
+<<<<<<< HEAD
  module.exports={createadmin,deleteuser,docreqs,viewapt,viewpres,viewdocapt,deletepack,addpack,updatepack}
+=======
+ module.exports={createadmin,deleteuser,docreqs,viewapt,viewpres,viewdocapt}
+>>>>>>> Saleh
