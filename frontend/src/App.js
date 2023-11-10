@@ -29,21 +29,14 @@ import LoginPage from './login';
 import ChangePasswordPage from './js/changepass';
 import axios from 'axios';
 import His from './viewmedicalhis';
-
+import ViewHealthPack from './viewHealthPack';
+import Payment from './payment';
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
 
 
 function App() {
 
-  const [options,setoptions]=useState({})
-
-  useEffect(()=>{
-    async function test(){
-setoptions({clientSecret:(await axios.post("http://localhost:5000/charge")).data.client_secret})}
-test()
-
-  },[])
   return (
     <Router>
       <Routes>
@@ -62,7 +55,7 @@ test()
          <Route path="/:d/:id/changepassword" element={<ChangePasswordPage/>}/>
        
          <Route path="patient/:id/family" element={<Family/>}/>
-         
+         <Route path="patient/:id/healthpack" element={<ViewHealthPack/>}/>
          <Route path="patient/:id/doctor" element={<Alldocs/>}/>
          <Route path="patient/:id/addmember" element={<Addmember/>}/>
             <Route path="patient/:id/apt" element={<Patientapps/>}/>
@@ -73,11 +66,7 @@ test()
    
    <Route path='/patient/:id/his' element={<His></His>}></Route>
    <Route path='/doctor/:id/upload2' element={<Upload2></Upload2>}></Route>
-
-   <Route path="/stripe" element={
-   
-   <CheckoutForm></CheckoutForm>}>
-  </Route>
+        <Route path="/payment" element={<Payment/>}> </Route>
       </Routes>
     </Router>
   );
