@@ -88,7 +88,9 @@ type:String
 },timeslots:{
     type:Array
 }
-
+,dets:{
+    type:Array
+}
 })
 
 const doctor= mongoose.model('request', doctorSchema);

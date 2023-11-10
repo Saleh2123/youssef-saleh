@@ -2,7 +2,7 @@ const doctor = require('../model/doctorvariables');
 const model =require('../model/patientvariables')
 const healthpackage=require("../model/healthpackage")
 const stripe=require("stripe")("sk_test_51OAVMvGeO5iUBvxLCELNV3o9D9GvDTflUXdv6Voo0m15g8VKbaGPdpcNw4rMSIFkZ8iwgNiQH0g53uruGILPLAPH00v0J3kmKQ")
-
+const fs=require("fs")
 
 const charge= async (req, res, next) => {
    try {
@@ -22,7 +22,34 @@ const charge= async (req, res, next) => {
  }
  
  
+const medichistory=async(req,res)=>{
 
+
+   const {username,file}=req.body
+   
+   const {medicalhistory}= await model.findOne({username:username}).select('medicalhistory -_id').exec()
+
+
+res.send(medicalhistory)
+
+
+
+}
+ 
+const remove=async(req,res)=>{
+
+
+const {username,file}=req.body
+
+const {medicalhistory}= await model.findOne({username:username}).select('medicalhistory -_id').exec()
+   
+medicalhistory.splice(medicalhistory.findIndex((d)=>file==d),1)
+console.log(medicalhistory)
+await model.findOneAndUpdate({username:username,$set:{medicalhistory:medicalhistory}})
+fs.unlinkSync(file)
+
+res.send("sdone");
+}
 const viewhealthpack=async(req,res)=>{
 res.send(await healthpackage.find());
 }
@@ -79,4 +106,4 @@ const {package}=await model.find({username:username})
  }
   
  
- module.exports={createpatient,addmember,viewfamily,viewdocss,charge}
+ module.exports={createpatient,addmember,viewfamily,viewdocss,charge,remove,medichistory}

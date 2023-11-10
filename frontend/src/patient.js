@@ -20,7 +20,12 @@ function Patient(){
         <Link to="pres">   
         <button type="submit">View Prescriptions</button>
         </Link>
-
+        <Link to="upload">   
+        <button type="submit">upload health records</button>
+        </Link>
+        <Link to="his">   
+        <button type="submit">view health records</button>
+        </Link>
 
 
      </div> )

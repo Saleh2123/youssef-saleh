@@ -7,8 +7,8 @@ import axios from "axios";
 
 export default function Aptdoc() {
   const [search, setSearch] = useState("");
-  const [status, setStatus] = useState("");
-  const [time, setTime] = useState("");
+  const [statuss, setStatus] = useState("");
+  const [timee, setTime] = useState("");
   const { id } = useParams();
   const [apt, setApt] = useState([]);
 
@@ -39,26 +39,26 @@ console.log(apt)
       <TextField
         label="Status"
         placeholder="Status"
-        value={status}
+        value={statuss}
         onChange={(e) => {
           setStatus(e.target.value);
         }}
       />
       <TextField
-        label="Select Date"
+      
         type="date"
-        value={time}
+        value={timee}
         onChange={(e) => {
           setTime(e.target.value);
         }}
       />
       {apt
         ?.filter(({ patient, status, time }) => {
-          return patient.name.includes(search) && status.includes(status) && (time === "" || new Date(time) > new Date(time));
+          return patient.name.includes(search) && status.includes(statuss) && (timee === "" || new Date(time) > new Date(timee));
         })
         .map((data) => (
           <div>
-            {`Doctor: ${data.patient.name}, Time: ${data.time}, Status: ${data.status}`}
+            {`Paitent: ${data.patient.name}, Time: ${data.time}, Status: ${data.status}`}
           </div>
         ))}
     </Container>

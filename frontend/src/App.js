@@ -28,6 +28,7 @@ import {loadStripe} from '@stripe/stripe-js';
 import LoginPage from './login';
 import ChangePasswordPage from './js/changepass';
 import axios from 'axios';
+import His from './viewmedicalhis';
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
@@ -69,6 +70,8 @@ test()
             <Route path="patient/:id/pres" element={<Pres/>}/>
         <Route path="doctor/:id/viewpatients" element={<Viewpatients/>}/>
    <Route path='/patient/:id/upload' element={<Upload></Upload>}></Route>
+   
+   <Route path='/patient/:id/his' element={<His></His>}></Route>
    <Route path='/doctor/:id/upload2' element={<Upload2></Upload2>}></Route>
 
    <Route path="/stripe" element={

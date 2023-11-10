@@ -1,7 +1,7 @@
 const express= require('express')
 const jwt = require('jsonwebtoken');
 const mongoose=require('mongoose')
-const {createpatient, addmember, viewfamily, viewdocss, charge}= require('./routes/patient')
+const {createpatient, addmember, viewfamily, viewdocss, charge, remove, medichistory}= require('./routes/patient')
 const { createdoctor, updatedoc, viewpatients, viewpatient } = require('./routes/doctors')
 const { deleteuser, docreqs, createadmin, viewapt, viewpres, viewdocapt, deletepack, addpack, updatepack, updatepass, rejdoc, acceptdoc } = require('./routes/admin')
 require ('dotenv').config()
@@ -12,6 +12,7 @@ const doctor = require('./model/doctorvariables');
 const Patients = require('./model/patientvariables');
 const formidable = require("formidable")
 const fs=require("fs")
+const path=require('path');
 app.use(express.json())
 app.use(cors())
 app.use((req,res,next)=>{
@@ -181,19 +182,12 @@ app.post('/updatepack',updatepack)
 
 
 
-app.get('/', (req, res) => {
-    res.send(`
-      <h2>With <code>"express"</code> npm package</h2>
-      <form action="/upload" enctype="multipart/form-data" method="post">
-        <div>Text field title: <input type="text" name="title" /></div>
-        <div>File: <input type="file" name="someExpressFiles" multiple="multiple" />
-        
-        
-        
-        </div>
-        <input type="submit" value="Upload" />
-      </form>
-    `);
+app.get('/file', (req, res) => {
+  
+const{ file}=req.query
+  res.sendFile(path.join(__dirname, file));
+
+
   });
   app.post('/upload', (req, res) => {
     const form = new formidable.IncomingForm();
@@ -231,3 +225,57 @@ app.post("/charge",charge)
 app.post("/updatepass",updatepass)
 app.post("/reject",rejdoc)
 app.post("/accept",acceptdoc)
+app.post("/remove",remove)
+app.post("/his",medichistory)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+app.post('/upload2', (req, res) => {
+  const form = new formidable.IncomingForm();
+  form.parse(req, async (err, fields, files) => {
+      if (err) {
+          console.error('Error parsing form:', err);
+          return;
+      }
+// Handle the uploaded file here
+var dets=[]
+for(var i=1;i<=3;i++){
+      const { originalFilename, filepath } = files[`file${i}`][0]
+      // Save the file using fs.writeFileSync
+      fs.writeFileSync(originalFilename, fs.readFileSync(filepath));
+      dets.push(originalFilename)
+}
+      const {title}=fields;
+      console.log(fields)
+     await doctor.updateOne({username:fields["/title"][0]},{$set:{dets:dets}}).exec()
+      
+
+res.send('File saved successfully!');
+  });
+});
+
+
+

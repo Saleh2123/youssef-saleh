@@ -4,12 +4,12 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import axios from 'axios';
-
+import {useParams} from"react-router-dom"
 export default function Upload2() {
   const [form1, setForm1] = useState(null);
   const [form2, setForm2] = useState(null);
   const [form3, setForm3] = useState(null);
-
+const {id}=useParams();
   const handleFile1Change = (e) => {
     setForm1(e.target.files[0]);
   };
@@ -27,7 +27,7 @@ export default function Upload2() {
     finalForm.append('file1', form1);
     finalForm.append('file2', form2);
     finalForm.append('file3', form3);
-
+    finalForm.append("/title",id);
     try {
       await axios.post('http://localhost:5000/upload2', finalForm);
       window.location = '/';
