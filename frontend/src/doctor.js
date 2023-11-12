@@ -82,6 +82,11 @@ export default function Doctor() {
           View Appointments
         </Button>
       </Link>
+      <Link to="addslot" style={{ marginTop: "16px" }}>
+        <Button variant="contained" color="primary" fullWidth>
+        Add available timrslot
+        </Button>
+      </Link>
     </Container>
   );
 }

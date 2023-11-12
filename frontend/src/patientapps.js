@@ -27,7 +27,7 @@ function PatientApps() {
   const [appointments, setapt] = useState({ appointments: [] });
   useEffect(() => {
     async function get() {
-      setapt(await axios.get(`http://localhost:5000/patientapt?username=${id}`));
+      setapt((await axios.get(`http://localhost:5000/patientapt?username=${id}`)).data);
     }
     get();
   }, []);

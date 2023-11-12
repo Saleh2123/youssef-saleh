@@ -2,10 +2,11 @@ import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import { Link, useParams } from 'react-router-dom';
 
 
 function Payment() {
-
+const {price}=useParams()
     return(
         <Container
       style={{
@@ -30,9 +31,11 @@ function Payment() {
         <Typography variant="h4" align="center">
           Please Select Payment Method
         </Typography>
+        <Link to={`/stripe?price=${price}`}>
         <Button variant="contained" color="primary">
           Credit Card
         </Button>
+        </Link>
         <Button variant="contained" color="primary">
           Wallet
         </Button>

@@ -72,7 +72,23 @@ pres:{
     type:Array
 },medicalhistory:{
     type:Array
-}
+},
+secret:{
+    type:String
+    },
+    
+healthPackages: {
+    name: String, // Changed to an object
+    status: {
+      type: String,
+      enum: ['Subscribed', 'Unsubscribed', 'Cancelled'],
+      default: 'Unsubscribed',
+    },
+    start_date: Date,
+    renewal_date: Date,
+    end_date: Date,
+  },
+
 
 })
 

@@ -31,6 +31,12 @@ import axios from 'axios';
 import His from './viewmedicalhis';
 import ViewHealthPack from './viewHealthPack';
 import Payment from './payment';
+import Check from './stripe';
+import Otp from './otp';
+import Middle from './middle';
+import ViewSubscriptionStatus from './substatus';
+import AddavSlot from './addtome';
+import Views from './viewslots';
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
 
@@ -63,10 +69,15 @@ function App() {
             <Route path="patient/:id/pres" element={<Pres/>}/>
         <Route path="doctor/:id/viewpatients" element={<Viewpatients/>}/>
    <Route path='/patient/:id/upload' element={<Upload></Upload>}></Route>
-   
+  <Route path="/otp" element={<Otp></Otp>}></Route> 
    <Route path='/patient/:id/his' element={<His></His>}></Route>
    <Route path='/doctor/:id/upload2' element={<Upload2></Upload2>}></Route>
-        <Route path="/payment" element={<Payment/>}> </Route>
+   <Route path='/doctor/:id/addslot' element={<AddavSlot></AddavSlot>}></Route>
+    
+        <Route path="patient/:id/healthpack/payment/:pack" element={<Middle/>}> </Route>
+        <Route path="patient/:id/status" element={<ViewSubscriptionStatus></ViewSubscriptionStatus>}> </Route>
+        <Route path="patient/:id/select" element={<Views></Views>}> </Route>
+  
       </Routes>
     </Router>
   );

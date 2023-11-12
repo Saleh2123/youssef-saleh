@@ -4,24 +4,89 @@ const healthpackage=require("../model/healthpackage")
 const stripe=require("stripe")("sk_test_51OAVMvGeO5iUBvxLCELNV3o9D9GvDTflUXdv6Voo0m15g8VKbaGPdpcNw4rMSIFkZ8iwgNiQH0g53uruGILPLAPH00v0J3kmKQ")
 const fs=require("fs")
 
-const charge= async (req, res, next) => {
-   try {
-     const paymentIntent = await stripe.paymentIntents.create({
-       amount: 200, // Amount in cents
-       currency: "gbp",
-       payment_method_types: ["card"],
-       receipt_email: "hadeklte@gmail.com",
-     });
- console.log(paymentIntent)
-     // Send the payment intent back to the client
-     res.json(paymentIntent);
-   } catch (err) {
-     console.log(err, "failed to charge");
-     res.status(500).send(err);
-   }
+
+
+const addtimes= async (req,res)=>{
+   const {username,time}=req.body;
+   const {timeslots}=await doctor.findOne({username:username})
+ timeslots.push(time)
+  await doctor.updateOne({username:username},{$set:{timeslots:timeslots}}).exec()
+   
+ res.send('done')
+ 
  }
  
+const charge= async (req, res, next) => {
+   const price= (await healthpackage.findOne({name:req.body.pack})).price
+    try {
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: price, // Amount in cents
+        currency: "gbp",
+        payment_method_types: ["card"],
+        receipt_email: "hadeklte@gmail.com",
+      });
+  console.log(paymentIntent)
+      // Send the payment intent back to the client
+      res.json(paymentIntent);
+    } catch (err) {
+      console.log(err, "failed to charge");
+      res.status(500).send(err);
+    }
+  }
  
+const subscribeToPackage = async (req, res) => {
+   try {
+     const { username, packageId } = req.body;
+ 
+     // Find the patient by username
+     const patient = await model.findOne({ username });
+ 
+     if (!patient) {
+       return res.status(404).json({ message: 'Patient not found' });
+     }
+ 
+     // Find the health package by packageId
+     const healthPackage = await healthpackage.findOne({name:packageId})
+ 
+     if (!healthPackage) {
+       return res.status(404).json({ message: 'Health package not found' });
+     }
+ 
+     // Update the patient's healthPackages field
+     patient.healthPackages = {
+       name: healthPackage.name,
+       status: 'Subscribed',
+       start_date: new Date(),
+       renewal_date: new Date(new Date().setFullYear(new Date().getFullYear() + 1)),
+       
+     };
+     // Update the family members' healthPackages (if any)
+     if (patient.familymem && patient.familymem.length > 0) {
+       for (const familyMember of patient.familymem) {
+         const familyMemberPatient = await model.findOne({ username: familyMember.familymem?.username });
+ 
+         if (familyMemberPatient) {
+           familyMemberPatient.healthPackages = {
+             name: healthPackage.name,
+             status: 'Subscribed',
+             start_date: new Date(),
+             renewal_date: new Date(new Date().setFullYear(new Date().getFullYear() + 1)),
+           };
+ 
+           await familyMemberPatient.save();
+         }
+       }
+     }
+ 
+     // Save changes to the patient
+     await patient.save();
+ 
+     res.status(200).json({ message: 'Health package subscribed successfully' });
+   } catch (error) {
+     console.error(error);
+     res.status(500).json({ message: 'Internal server error' });
+   }
+ };
 const medichistory=async(req,res)=>{
 
 
@@ -105,5 +170,86 @@ const {package}=await model.find({username:username})
   res.json(docs)
  }
   
+
+ const cancelSub = async (req, res) => {
+   try {
+     const { username } = req.query;
  
- module.exports={createpatient,addmember,viewfamily,viewdocss,charge,remove,medichistory}
+     // Find the patient by username
+     const patient = await model.findOne({ username });
+ 
+     if (!patient) {
+       return res.status(404).json({ message: 'Patient not found' });
+     }
+ 
+     // Find the health package by packageId
+     if (patient.healthPackages) {
+       patient.healthPackages.end_date=new Date(),
+       patient.healthPackages.status = 'Cancelled';
+       await patient.save();
+     }
+ 
+     // Cancel the subscription for family members (if any)
+     if (patient.familymem && patient.familymem.length > 0) {
+       for (const familyMember of patient.familymem) {
+         const familyMemberPatient = await model.findOne({ username: familyMember.familyMember?.name });
+ 
+         if (familyMemberPatient) {
+           patient.healthPackages.end_date=new Date(),
+           familyMemberPatient.healthPackages.status = 'Cancelled';
+           await familyMemberPatient.save();
+         }
+       }
+     }
+ 
+     return res.status(200).json({ message: 'Health package subscription cancelled successfully' });
+   } catch (error) {
+     console.error(error);
+     res.status(500).json({ message: 'Cancellation error' });
+   }
+ };
+ 
+const ViewHealthPackages = async (req,res) =>{
+   const username = req.query;
+   const usernameString = (typeof username === 'string') ? username : username.username;
+   try{
+
+  
+      const patient = await model.findOne({username : usernameString}).select('healthPackages')
+      //console.log('Received username:', username);
+      
+      console.log(usernameString)
+      if(!patient){
+         return res.status(404).json({message:'Patient not found'});
+      }
+      
+      res.json({ patientHealthPackages:patient.healthPackages });
+   }
+   catch(error){
+      res.status(500).json({message:'error retrieving health packages', error:error.message})
+   }
+}
+
+const viewslots =async(req,res)=>{
+   res.send((await doctor.find({username:req.body.username}).select("timeslots")))
+   
+   
+   
+   
+   
+   }
+ 
+
+   const select= async(req,res)=>{
+      const {username,doc,time}=req.body;
+      const {appointments}= await model.findOne({username:username})
+         const{ _id}=await doctor.findOne({username:doc})
+         
+      appointments.push({doctor:_id,time:JSON.stringify(time)})
+     await model.updateOne({username:username},{$set:{appointments:appointments}}).exec()
+      console.log(appointments)
+   res.send(appointments)
+   
+    }
+ 
+ module.exports={createpatient,addmember,viewfamily,viewdocss,charge,remove,medichistory,viewhealthpack,subscribeToPackage,ViewHealthPackages,cancelSub,viewslots,addtimes,select}

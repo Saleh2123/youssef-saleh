@@ -106,6 +106,11 @@ export default function LoginPage() {
             Register
           </Button>
         </Link>
+        <Link to="/otp" style={{ textDecoration: 'none' }}>
+        <Button variant="contained" color="primary">
+         Reset with email
+        </Button>
+      </Link>
       </Box>
     </Container>
   );

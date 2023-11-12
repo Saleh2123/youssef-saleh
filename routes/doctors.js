@@ -12,6 +12,24 @@ const addtimeslot= async (req,res)=>{
 
 
 }
+
+
+const addapt= async(req,res)=>{
+
+const {doctor,patient,apt} =req.body;
+const {appintments}= await Patients.findOne({username:patient}).select('appoinments -_id').exec()
+
+const {_id}=await model.findOne({username:doctor})
+appintments.push({time:apt,doctor:_id})
+await Patients.updateOne({username:patient},{$set:{appointments:appintments}}).exec()
+
+res.sen("done")
+
+
+
+
+
+}
 const createdoctor = async(req,res) => {
     //add a new user to the database with 
     //Name, Email and Age

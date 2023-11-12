@@ -1,7 +1,7 @@
 const express= require('express')
 const jwt = require('jsonwebtoken');
 const mongoose=require('mongoose')
-const {createpatient, addmember, viewfamily, viewdocss, charge, remove, medichistory}= require('./routes/patient')
+const {createpatient, addmember, viewfamily, viewdocss, charge, remove, medichistory, viewhealthpack, subscribeToPackage, ViewHealthPackages, cancelSub, addtimes, viewslots, select}= require('./routes/patient')
 const { createdoctor, updatedoc, viewpatients, viewpatient } = require('./routes/doctors')
 const { deleteuser, docreqs, createadmin, viewapt, viewpres, viewdocapt, deletepack, addpack, updatepack, updatepass, rejdoc, acceptdoc } = require('./routes/admin')
 require ('dotenv').config()
@@ -279,3 +279,120 @@ res.send('File saved successfully!');
 
 
 
+app.get("/hp",viewhealthpack)
+
+
+
+
+
+
+
+
+
+    
+function makeid(length) {
+  let result = '';
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const charactersLength = characters.length;
+  let counter = 0;
+  while (counter < length) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    counter += 1;
+  }
+  return result;
+}
+
+const notp=require("notp")
+const nodemailer =require("nodemailer")
+const transporter = nodemailer.createTransport({ 
+  service: 'gmail', 
+  auth: { 
+    user: "sarageita74@gmail.com", 
+    pass: "yayvemblnwtvuwsb"
+  } 
+  });
+
+app.post("/otp",async(req,res)=>{   
+  const {email}=req.body;
+  
+  const secret =makeid(16)
+ const  token = notp.totp.gen(secret,{time:30,window:1})
+ const info = await transporter.sendMail({
+  from: 'omarrrrr240@gmail.com', // sender address
+  to: email ,// list of receivers
+  subject: "otp", // Subject line
+  text:token, // plain text body
+  html: `<b>${token}</b>`, // html body
+});
+
+
+
+    
+await admin.updateOne({email:email},{$set:{secret:secret}})
+
+await  doctor.updateOne({email:email},{$set:{secret:secret}})
+
+await  Patients.updateOne({email:email},{$set:{secret:secret}})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  res.send(token)
+ })
+ app.post("/checkotp",async (req,res)=>{
+  const t=req.body.token.toString();
+
+const {email,pass}=req.body
+  const secret =(await Patients.findOne({email:req.body.email})).secret?(await Patients.findOne({email:req.body.email})).secret:
+  (await admin.findOne({email:req.body.email}))?.secret?(await admin.findOne({email:req.body.email}))?.secret:(await doctor.findOne({email:req.body.email}))?.secret
+//console.log(t);
+// const isValid = totp.check(t, secret);
+console.log(secret)
+const isVerfied = notp.totp.verify(t,secret,{time:30,window:1})
+
+console.log(isVerfied)
+if(isVerfied){
+
+  console.log('h');
+          await Patients.updateOne({email:email},{$set:{password:pass}})
+          
+          await admin.updateOne({email:email},{$set:{password:pass}})
+        
+        await  doctor.updateOne({email:email},{$set:{password:pass}})
+        await Patients.updateOne({email:email},{$set:{secret:""}})
+          
+        await admin.updateOne({email:email},{$set:{secret:""}})
+      
+      await  doctor.updateOne({email:email},{$set:{secret:""}})
+      
+         }
+
+  res.json({isVerfied:isVerfied});
+//  res.send( totp.verify(opts:{token}))
+       })
+
+
+       
+app.post("/subscribe", subscribeToPackage)
+
+app.get("/ViewSubscriptionStatus",ViewHealthPackages)
+app.get("/cancelsub",cancelSub)
+
+     app.post("/addav",addtimes)
+     app.post("/viewslots",viewslots)
+     app.post("/select",select)

@@ -14,9 +14,11 @@ function Home() {
         minHeight: '100vh',
       }}
     >
-      <Link to="/reg" style={{ textDecoration: 'none' }}>
+
+
+      <Link to="/otp" style={{ textDecoration: 'none' }}>
         <Button variant="contained" color="primary">
-          Register
+         Reset with email
         </Button>
       </Link>
     </Container>
