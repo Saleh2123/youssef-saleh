@@ -1,6 +1,7 @@
 const doctor = require('../model/doctorvariables');
 const model =require('../model/patientvariables')
 const Patients = require('../model/patientvariables');
+
 const viewSubscriptionStatus = async (req, res) => {
    const { patientUsername } = req.body;
  
@@ -24,15 +25,20 @@ const viewSubscriptionStatus = async (req, res) => {
    }
  };
  
-
+ const showWallet = async(req,res)=>{
+  try{
+     res.status(200).json(wallet)}
+  catch(error){
+     console.error(error);
+     res.status(500).json({ error: 'Internal Server Error' });
+     }
+ }
 
 
 
 
 const createpatient = async(req,res) => {
-    //add a new user to the database with 
-    //Name, Email and Age
- console.log('here')
+
  const {username,name,email,password,birth_date,gender,mobile_no,emergencyname,emergencyphone}=req.body;
 
  var book1 = new model({ name:name,username:username,email:email,password:password,birth_date:birth_date,gender:gender,mobile_no:mobile_no,emergencyname:emergencyname,emergencyphone:emergencyphone});
@@ -58,6 +64,7 @@ const viewfamily= async (req, res) => {
    
 res.send(familymem)
    }
+
  const viewdocss=async(req,res)=>{
 const {username}=req.body;
 const {package}=await model.find({username:username})
@@ -81,5 +88,29 @@ const {package}=await model.find({username:username})
   res.json(docs)
  }
   
+ const filterAppointments = async (req,res) =>{
+  const {  date, status } = req.body;
+  try{
+    if(appointments.length ===0){
+      return res.status(404).send("no appointments for this patient")
+    }
+    const filteredAppointments = appointments.filter(
+      (appointment) => appointment.date === date||appointment.status === status
+    );
+    res.status(200).json(filteredAppointments);
+  }
+  catch(error){
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
+const cancelSub = async (req,res){
+  const {subscriptions} = await model.find({});
+  subscriptions.status='canceled';
+}
+
+const
  
- module.exports={createpatient,addmember,viewfamily,viewdocss,viewSubscriptionStatus}
+ module.exports={createpatient,addmember,viewfamily,viewdocss,viewSubscriptionStatus,
+  showWallet,filterAppointments,cancelSub}

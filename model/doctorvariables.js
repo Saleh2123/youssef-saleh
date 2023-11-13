@@ -74,17 +74,21 @@ const doctorSchema = new Schema({
              
         },
         time:{
-type:String
-        }
+            type:TimeRanges
+        },
+        date:{
+            type:Date
+        },
     }
     ]
 }
 
 ,price:{
-    type:String
+    type:Number
+},
+wallet: {
+    type:Number
 }
-
-
 
 })
 

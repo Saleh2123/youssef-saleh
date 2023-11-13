@@ -25,7 +25,6 @@ const patientSchema = new Schema({
           },
         },
       ],
-    // ... (other fields)
     healthRecords: [
       {
         doctorUsername: {
@@ -37,11 +36,11 @@ const patientSchema = new Schema({
           required: true,
         },
         bloodPressure: {
-          type: String, // You can change the type to be more specific if needed
+          type: String, 
           required: true,
         },
         temperature: {
-          type: String, // You can change the type to be more specific if needed
+          type: String, 
           required: true,
         },
         symptoms: {
@@ -54,7 +53,10 @@ const patientSchema = new Schema({
         },
       },
     ],
-    // ... (other fields)
+    wallet: {
+      type: Number,
+      required:false
+    },
   });
 
 const Patients = mongoose.model('patient', patientSchema);
