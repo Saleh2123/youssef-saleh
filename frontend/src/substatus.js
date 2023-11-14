@@ -50,11 +50,11 @@ const ViewSubscriptionStatus = () => {
       {subscriptionData && (
         <div>
           <h2>Patient Status:</h2>
-          <p>Name: {subscriptionData.patientHealthPackages.name}</p>
-          <p>Status: {subscriptionData.patientHealthPackages.status}</p>
-          <p>Start Date: {subscriptionData.patientHealthPackages.start_date}</p>
-          <p>Renewal Date: {subscriptionData.patientHealthPackages.renewal_date}</p>
-          <p>End Date: {subscriptionData.patientHealthPackages.end_date}</p>
+          <p>Name: {subscriptionData.subscriptions.name}</p>
+          <p>Status: {subscriptionData.subscriptions.status}</p>
+          <p>Start Date: {subscriptionData.subscriptions.start_date}</p>
+          <p>Renewal Date: {subscriptionData.subscriptions.renewal_date}</p>
+          <p>End Date: {subscriptionData.subscriptions.end_date}</p>
 
         </div>
       )}
