@@ -35,10 +35,10 @@ function Patient(){
         <Link to="select">   
         <button type="submit">select appointment</button>
         </Link>
-        <Link to="select">   
+        <Link to="filterMyAppointments">   
         <button type="submit">filter appointments</button>
         </Link>
-        <Link to="select">   
+        <Link to="showWallet">   
         <button type="submit">show wallet</button>
         </Link>
 
