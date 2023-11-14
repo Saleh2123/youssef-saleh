@@ -98,6 +98,17 @@ export default function Doctor() {
         <Link to="showWallet">   
         <button type="submit">show wallet</button>
         </Link>
+      <Link to="contract" style={{ marginTop: "16px" }}>
+        <Button variant="contained" color="primary" fullWidth>
+        view contract
+        </Button>
+        
+      </Link>
+      <Link to="hr" style={{ marginTop: "16px" }}>
+        <Button variant="contained" color="primary" fullWidth>
+      add record
+        </Button>
+        </Link>
     </Container>
   );
 }

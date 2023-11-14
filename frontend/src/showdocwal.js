@@ -3,13 +3,13 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { TableContainer, Table, TableBody, TableRow, TableCell, Paper, TableHead } from '@mui/material';
 
-export default function ViewWallet() {
+export default function ViewWalletdoc() {
   const [walletData, setWalletData] = useState([]);
   const { id } = useParams();
 
   useEffect(() => {
     async function fetchData() {
-      setWalletData((await axios.get(`http://localhost:5000/showWallet`,{params:{
+      setWalletData((await axios.get(`http://localhost:5000/showDoctorWallet`,{params:{
         username:id
       }})).data);
     }

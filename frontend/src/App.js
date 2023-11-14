@@ -37,6 +37,11 @@ import Middle from './middle';
 import ViewSubscriptionStatus from './substatus';
 import AddavSlot from './addtome';
 import Views from './viewslots';
+import ViewCon from './contract';
+import ViewWallet from './showWallet';
+import ViewWalletdoc from './showdocwal';
+import Hr from './addhr';
+import AddSlot from './addslot';
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
 
@@ -59,6 +64,10 @@ function App() {
          <Route path="doctor/:id" element={<Doctor/>} />
          <Route path="patient/:id" element={<Patient/>}/>
          <Route path="/:d/:id/changepassword" element={<ChangePasswordPage/>}/>
+         <Route path="patient/:id/showwallet" element={<ViewWallet/>}/>
+         <Route path="doctor/:id/showwallet" element={<ViewWalletdoc/>}/>
+         <Route path="doctor/:id/hr" element={<Hr/>}/>
+         <Route path="doctor/:id/slot" element={<AddSlot/>}/>
        
          <Route path="patient/:id/family" element={<Family/>}/>
          <Route path="patient/:id/healthpack" element={<ViewHealthPack/>}/>
@@ -73,7 +82,8 @@ function App() {
    <Route path='/patient/:id/his' element={<His></His>}></Route>
    <Route path='/doctor/:id/upload2' element={<Upload2></Upload2>}></Route>
    <Route path='/doctor/:id/addslot' element={<AddavSlot></AddavSlot>}></Route>
-    
+   <Route path='/doctor/:id/contract' element={<ViewCon></ViewCon>}></Route>
+   
         <Route path="patient/:id/healthpack/payment/:pack" element={<Middle/>}> </Route>
         <Route path="patient/:id/status" element={<ViewSubscriptionStatus></ViewSubscriptionStatus>}> </Route>
         <Route path="patient/:id/select" element={<Views></Views>}> </Route>

@@ -18,15 +18,15 @@ const addapt= async(req,res)=>{
 
 const {doctor,patient,apt,date} =req.body;
 try{
-const {appintmentsP}= await Patients.findOne({username:patient}).select('appoinments -_id').exec()
+const appintmentsP= (await Patients.findOne({username:patient})).appointments
 
-const {_did}=await model.findOne({username:doctor})
+const _did=(await model.findOne({username:doctor})).id
 appintmentsP.push({time:apt,doctor:_did,date:date})
 await Patients.updateOne({username:patient},{$set:{appointments:appintmentsP}}).exec()
 
-const {appintmentsD}= await doctors.findOne({username:doctor}).select('appoinments -_id').exec()
+const appintmentsD=( await doctors.findOne({username:doctor})).appointments
 
-const {_pid}=await Patients.findOne({username:patient})
+const _pid=(await Patients.findOne({username:patient})).id
 appintmentsD.push({time:apt,patient:_pid,date:date})
 await doctors.updateOne({username:doctor},{$set:{appointments:appintmentsD}}).exec()
 
@@ -217,7 +217,7 @@ const showDoctorWallet = async (req,res)=>{
       return res.status(404).json({ error: 'Doctor not found' });
     }
     const wallet = doctor.wallet;
-    res.send(wallet)
+    res.json(wallet)
   }
   catch(error){
     console.error(error);

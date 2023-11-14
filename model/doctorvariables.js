@@ -93,7 +93,17 @@ type:String
 }
 ,dets:{
     type:Array
-}
+}, contract:{
+    type:   {
+           contract:{
+               type:String
+
+           },
+           status:{
+               type:String
+           }
+       }
+   }
 })
 
 const doctor= mongoose.model('request', doctorSchema);

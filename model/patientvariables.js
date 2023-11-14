@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const patientSchema = new Schema({
+  medicalhistory:{type:Array},
     username: {
       type: String,
       required: true,
@@ -70,6 +71,10 @@ const patientSchema = new Schema({
       ]
   },wallet:{
     type:Number
+  },familymem:{
+    type:Array
+  },pres:{
+    type:Array
   }
   });
 

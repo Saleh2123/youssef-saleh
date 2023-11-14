@@ -162,13 +162,29 @@ res.send('File saved successfully!');
     });
 });
 
+const acceptContract = async(req, res)=>{
+  const {username}=req.body;
+  await doctor.findOneAndUpdate({username:username},{$set:{contract:{status:"Accepted"}}})
+  res.status(200).send("contract accepted");
+}
 
+
+const getcontract= async (req,res)=>{
+  const {username,time}=req.body;
+  const {contract}=await doctor.findOne({username:username})
+
+  
+res.json(contract)
+
+}
+app.post("/contract",getcontract)
 app.post("/charge",charge)
 app.post("/updatepass",updatepass)
 app.post("/reject",rejdoc)
 app.post("/accept",acceptdoc)
 app.post("/remove",remove)
 app.post("/his",medichistory)
+app.post("/acceptContract",acceptContract)
 
 
 

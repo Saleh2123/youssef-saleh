@@ -13,7 +13,7 @@ export default function Family() {
     }
     fetchData();
   }, [id]);
-
+console.log(familyData)
   return (
     <div className="container mx-auto mt-8">
       <h2 className="text-2xl font-bold">Family Members</h2>
@@ -29,7 +29,23 @@ export default function Family() {
           </TableHead>
           <TableBody>
             {familyData?.map((data) => (
-              <TableRow key={data.id}>
+           data.familymem?  
+           
+
+           <TableRow key={data.id}>
+           <TableCell>{data.familymem.name}</TableCell>
+           <TableCell>{data.national_id}</TableCell>
+           <TableCell>{data.relation}</TableCell>
+           <TableCell>{data.age}</TableCell>
+         </TableRow>
+
+
+
+
+
+
+
+           :<TableRow key={data.id}>
                 <TableCell>{data.name}</TableCell>
                 <TableCell>{data.national_id}</TableCell>
                 <TableCell>{data.relation}</TableCell>

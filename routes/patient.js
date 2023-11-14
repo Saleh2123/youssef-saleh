@@ -117,7 +117,7 @@ const medichistory=async(req,res)=>{
    
    const {medicalhistory}= await model.findOne({username:username}).select('medicalhistory -_id').exec()
 
-
+console.log(medicalhistory)
 res.send(medicalhistory)
 
 
@@ -261,13 +261,13 @@ const viewslots =async(req,res)=>{
 
 const select= async(req,res)=>{
       const {username,doc,time,date}=req.body;
-      const {appointmentsP}= await model.findOne({username:username})
-         const{ _did}=await doctor.findOne({username:doc})
+      const appointmentsP= (await model.findOne({username:username})).appointments
+         const _did=(await doctor.findOne({username:doc})).id
          
       appointmentsP.push({doctor:_did,time:JSON.stringify(time),date:date})
      await model.updateOne({username:username},{$set:{appointments:appointmentsP}}).exec()
-     const {appointmentsD}= await doctor.findOne({username:doc})
-         const{ _pid}=await Patients.findOne({username:username})
+     const appointmentsD= (await doctor.findOne({username:doc})).appointments
+         const _pid=(await Patients.findOne({username:username})).id
          
       appointmentsD.push({patient:_pid,time:JSON.stringify(time),date:date})
      await doctor.updateOne({username:doc},{$set:{appointments:appointmentsD}}).exec()
@@ -307,7 +307,7 @@ const showWallet = async (req,res)=>{
       return res.status(404).json({ error: 'Patient not found' });
     }
     const wallet = patient.wallet;
-    res.send(wallet)
+    res.json(wallet)
   }
   catch(error){
     console.error(error);
