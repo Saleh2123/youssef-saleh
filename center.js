@@ -2,7 +2,7 @@ const express= require('express')
 const jwt = require('jsonwebtoken');
 const mongoose=require('mongoose')
 const {createpatient, addmember, viewfamily, viewdocss, charge, remove, medichistory, viewhealthpack, subscribeToPackage, ViewHealthPackages, cancelSub, addtimes, viewslots, select, viewSubscriptionStatus, showWallet, filterMyAppointments}= require('./routes/patient')
-const { createdoctor, updatedoc, viewpatients, viewpatient, addHealthRecord, viewAvailableAppointments, viewAppointments, followUp, showDoctorWallet, filterDoctorAppointments, addapt, addtimeslot } = require('./routes/doctors')
+const { createdoctor, updatedoc, viewpatients, viewpatient, addHealthRecord, viewAvailableAppointments, viewAppointments, showDoctorWallet, filterDoctorAppointments, addapt, addtimeslot } = require('./routes/doctors')
 const { deleteuser, docreqs, createadmin, viewapt, viewpres, viewdocapt, deletepack, addpack, updatepack, updatepass, rejdoc, acceptdoc } = require('./routes/admin')
 require ('dotenv').config()
 const app = express()

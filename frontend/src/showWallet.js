@@ -9,7 +9,7 @@ export default function ViewWallet() {
 
   useEffect(() => {
     async function fetchData() {
-      setWalletData((await axios.get(`http://localhost:5000/showWallet?username=${id}`)).data);
+      setWalletData((await axios.get(`http://localhost:5000/showWallet`)).data);
     }
     fetchData();
   }, [id]);
