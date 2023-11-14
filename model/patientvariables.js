@@ -2,96 +2,63 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const patientSchema = new Schema({
     username: {
-        type: String,
-        required: true
-    }
-    ,
-    name: {
-        type: String,
-        required: true
-    }
-    ,
-    email: {
-        type: String,
-        required: true
-    }
-
-    ,
-    password: {
-        type: String,
-        required: true
-    }
-    ,
-    birth_date: {
-        type: String,
-        required: true
-    }
-
-    ,
-    gender: {
-        type: String,
-        required: true
-    }
-    ,
-    mobile_no: {
-        type: Number,
-        required: true
-    }
-
-   
-,familymem:{
-    type:Array,
-    required:false
-}
-,
-emergencyname:{
-    type:String
-    ,required:true
-},emergencyphone:{
-    type:String,
-    required:true
-}
-
-,appointments:{
-    type:[
-        {
-           doctor:    {
-                
-            type: mongoose.Types.ObjectId,
-            ref:'request',
-             
-        },
-        time:{
-type:String
-        }
-    }
-    ]
-}
-,
-pres:{
-    type:Array
-},medicalhistory:{
-    type:Array
-},
-secret:{
-    type:String
-    },
-    
-healthPackages: {
-    name: String, // Changed to an object
-    status: {
       type: String,
-      enum: ['Subscribed', 'Unsubscribed', 'Cancelled'],
-      default: 'Unsubscribed',
+      required: true,
     },
-    start_date: Date,
-    renewal_date: Date,
-    end_date: Date,
-  },
-
-
-})
-
+    name: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+    },
+    followUpAppointments: [
+        {
+          scheduledDate: {
+            type: Date,
+            required: true,
+          },
+          description: {
+            type: String,
+            required: true,
+          },
+        },
+      ],
+    // ... (other fields)
+    healthRecords: [
+      {
+        doctorUsername: {
+            type: String,
+            required: true,
+          },
+        recordDate: {
+          type: Date,
+          required: true,
+        },
+        bloodPressure: {
+          type: String, // You can change the type to be more specific if needed
+          required: true,
+        },
+        temperature: {
+          type: String, // You can change the type to be more specific if needed
+          required: true,
+        },
+        symptoms: {
+          type: String,
+          required: true,
+        },
+        description: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
+    // ... (other fields)
+  });
 
 const Patients = mongoose.model('patient', patientSchema);
 module.exports = Patients;
+
+
+

@@ -3,7 +3,30 @@ const model =require('../model/patientvariables')
 const healthpackage=require("../model/healthpackage")
 const stripe=require("stripe")("sk_test_51OAVMvGeO5iUBvxLCELNV3o9D9GvDTflUXdv6Voo0m15g8VKbaGPdpcNw4rMSIFkZ8iwgNiQH0g53uruGILPLAPH00v0J3kmKQ")
 const fs=require("fs")
-
+const Patients = require('../model/patientvariables');
+const viewSubscriptionStatus = async (req, res) => {
+   const { patientUsername } = req.body;
+ 
+   try {
+     // Find the patient using the provided username
+     const patient = await Patients.findOne({ username: patientUsername });
+ 
+     if (!patient) {
+       return res.status(404).json({ error: 'Patient not found' });
+     }
+ 
+     // Extract the subscription status from the patient's data
+     const subscriptions = patient.subscriptions;
+     if (subscriptions===undefined  || !subscriptions)
+      return res.status(404).send("This patient has no subscription");
+ 
+     res.status(200).json({ subscriptions });
+   } catch (error) {
+     console.error(error);
+     res.status(500).json({ error: 'Internal Server Error' });
+   }
+ };
+ 
 
 
 const addtimes= async (req,res)=>{
@@ -253,3 +276,4 @@ const viewslots =async(req,res)=>{
     }
  
  module.exports={createpatient,addmember,viewfamily,viewdocss,charge,remove,medichistory,viewhealthpack,subscribeToPackage,ViewHealthPackages,cancelSub,viewslots,addtimes,select}
+

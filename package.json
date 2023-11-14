@@ -5,7 +5,7 @@
   "main": "center.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node center.js",
+    "start": "nodemon center.js",
     "dev": "nodemon center.js"
   },
   "keywords": [],

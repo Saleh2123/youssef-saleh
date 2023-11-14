@@ -92,96 +92,39 @@ else if((await doctor.findOne({username:username,password:password}))){
     res.json({role:"none"})
 }
 
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 app.delete("/deleteruser",deleteuser)
 app.post("/createpatient",createpatient)
 app.post("/createdoctor",createdoctor)
 app.post("/createadmin",createadmin)
-app.put("/docedit",updatedoc)
+app.put("/updatedoc",updatedoc)
 app.post("/addmember",addmember)
 app.get("/family",viewfamily)
 app.get("/patientapt",viewapt)
 
 app.get("/doctorapt",viewdocapt)
 app.get("/pres",viewpres)
-app.get("/viewpatients",viewpatients)
+//app.get("/viewpatients",viewpatients)
 app.get("/alldocs",viewdocss)
 app.post("/login",login)
+app.get("/viewSubscriptionStatus",viewSubscriptionStatus)
+app.patch("/addHealthRecord",addHealthRecord);
 
 
+app.get('/viewAppointments', viewAppointments);
+app.get('/viewAvailableAppointments', viewAvailableAppointments);
+app.get('/viewSubscriptionStatus', viewSubscriptionStatus);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//app.get('/viewAppointments', viewAppointments);
 
 
 app.get("/viewdoctors",docreqs)
 app.delete('/deletepack',deletepack)
 app.post('/addpack',addpack)
 app.post('/updatepack',updatepack)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 app.get('/file', (req, res) => {
   
 const{ file}=req.query

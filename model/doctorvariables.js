@@ -4,6 +4,10 @@ const Patients = require('./patientvariables');
 const { Int32 } = require('mongodb');
 const Schema = mongoose.Schema
 const doctorSchema = new Schema({
+    affiliation:{
+        type:String,
+        required:true
+    },
     username: {
         type: String,
         required: true
@@ -55,10 +59,7 @@ const doctorSchema = new Schema({
     }
 
   ,
-    affialiation:{
-        type:String,
-        required:true
-    },
+    
     speciality:{
         type:String,
         required:true
@@ -95,3 +96,5 @@ type:String
 
 const doctor= mongoose.model('request', doctorSchema);
 module.exports = doctor;
+
+
