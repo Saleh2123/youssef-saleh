@@ -16,18 +16,26 @@ const addtimeslot= async (req,res)=>{
 
 const addapt= async(req,res)=>{
 
-const {doctor,patient,apt} =req.body;
-const {appintments}= await Patients.findOne({username:patient}).select('appoinments -_id').exec()
+const {doctor,patient,apt,date} =req.body;
+try{
+const {appintmentsP}= await Patients.findOne({username:patient}).select('appoinments -_id').exec()
 
-const {_id}=await model.findOne({username:doctor})
-appintments.push({time:apt,doctor:_id})
-await Patients.updateOne({username:patient},{$set:{appointments:appintments}}).exec()
+const {_did}=await model.findOne({username:doctor})
+appintmentsP.push({time:apt,doctor:_did,date:date})
+await Patients.updateOne({username:patient},{$set:{appointments:appintmentsP}}).exec()
 
-res.sen("done")
+const {appintmentsD}= await doctors.findOne({username:doctor}).select('appoinments -_id').exec()
 
+const {_pid}=await Patients.findOne({username:patient})
+appintmentsD.push({time:apt,patient:_pid,date:date})
+await doctors.updateOne({username:doctor},{$set:{appointments:appintmentsD}}).exec()
 
-
-
+res.send("done")
+}
+catch(error){
+  console.error(error);
+  res.status(500).json({ error: 'Internal Server Error' });
+}
 
 }
 //const Contract = require('../model/contractvariables');
@@ -157,6 +165,65 @@ const addHealthRecord = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+/*
+const followUp = async (req,res) =>{
+  const{doctorUsername,patientUsername,date,desc}=req.body;
+  try{
+    const doctor = await doctors.findOne({ username: doctorUsername });
+    const patient = await Patients.findOne({ username: patientUsername });
+    if((!doctor)||!(patient)){
+      return res.status(404).json({ error: 'Patient or Doctor not found' });
+    }
+    const {appointments}= await Patients.findOne({username:patientUsername})
+   appointments.push({scheduledDate: date, description:desc})
+   await model.updateOne({username:username},{$set:{appointments:appointments}}).exec()
+   console.log(followUpAppointments)
+   res.send(followUpAppointments)
+  }
+  catch(error){
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};*/
+
+const filterDoctorAppointments = async (req,res)=>{
+  const {username,date,status}=req.query;
+  try {
+    const doctor = await doctors.findOne({ username: username });
+
+    if (!doctor) {
+      return res.status(404).json({ error: 'Doctor not found' });
+    }
+    if(doctor.appointments.length ===0){
+      return res.status(404).send("no appointments for this doctor")
+    }
+    // Filter appointments based on the provided status (upcoming, completed, canceled, rescheduled.)
+    const filteredAppointments = doctor.appointments.filter(
+      (appointment) => appointment.status === status||appointment.date === date
+    );
+
+    res.status(200).json(filteredAppointments);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+const showDoctorWallet = async (req,res)=>{
+  const{username}=req.query;
+  try{
+    const doctor = await doctors.findOne({username:username})
+    if(!doctor){
+      return res.status(404).json({ error: 'Doctor not found' });
+    }
+    const wallet = doctor.wallet;
+    res.send(wallet)
+  }
+  catch(error){
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
 
 module.exports = {
   createdoctor,
@@ -166,14 +233,9 @@ module.exports = {
  // viewSubscriptionStatus,
   viewAvailableAppointments,
   viewAppointments,
-  //addHealthRecord,\
-  addHealthRecord
+  addHealthRecord,
+  addapt,addtimeslot,viewAppointments,filterDoctorAppointments,showDoctorWallet
 };
 
-// ... (Your existing imports)
-
-
-
-// ... (Your existing functions)
 
 

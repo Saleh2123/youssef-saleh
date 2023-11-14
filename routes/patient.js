@@ -4,19 +4,20 @@ const healthpackage=require("../model/healthpackage")
 const stripe=require("stripe")("sk_test_51OAVMvGeO5iUBvxLCELNV3o9D9GvDTflUXdv6Voo0m15g8VKbaGPdpcNw4rMSIFkZ8iwgNiQH0g53uruGILPLAPH00v0J3kmKQ")
 const fs=require("fs")
 const Patients = require('../model/patientvariables');
+const doctor = require('../model/doctorvariables');
 const viewSubscriptionStatus = async (req, res) => {
-   const { patientUsername } = req.body;
+   const { username } = req.query;
  
    try {
      // Find the patient using the provided username
-     const patient = await Patients.findOne({ username: patientUsername });
+     const patient = await Patients.findOne({ username: username });
  
      if (!patient) {
        return res.status(404).json({ error: 'Patient not found' });
      }
  
      // Extract the subscription status from the patient's data
-     const subscriptions = patient.subscriptions;
+     const subscriptions = patient.healthPackages;
      if (subscriptions===undefined  || !subscriptions)
       return res.status(404).send("This patient has no subscription");
  
@@ -255,25 +256,68 @@ const ViewHealthPackages = async (req,res) =>{
 
 const viewslots =async(req,res)=>{
    res.send((await doctor.find({username:req.body.username}).select("timeslots")))
-   
-   
-   
-   
-   
+    
    }
  
 
-   const select= async(req,res)=>{
-      const {username,doc,time}=req.body;
-      const {appointments}= await model.findOne({username:username})
-         const{ _id}=await doctor.findOne({username:doc})
+const select= async(req,res)=>{
+      const {username,doc,time,date}=req.body;
+      const {appointmentsP}= await model.findOne({username:username})
+         const{ _did}=await doctor.findOne({username:doc})
          
-      appointments.push({doctor:_id,time:JSON.stringify(time)})
-     await model.updateOne({username:username},{$set:{appointments:appointments}}).exec()
-      console.log(appointments)
-   res.send(appointments)
+      appointmentsP.push({doctor:_did,time:JSON.stringify(time),date:date})
+     await model.updateOne({username:username},{$set:{appointments:appointmentsP}}).exec()
+     const {appointmentsD}= await doctor.findOne({username:doc})
+         const{ _pid}=await Patients.findOne({username:username})
+         
+      appointmentsD.push({patient:_pid,time:JSON.stringify(time),date:date})
+     await doctor.updateOne({username:doc},{$set:{appointments:appointmentsD}}).exec()
+      console.log(appointmentsP)
+   res.send(appointmentsP)
    
-    }
+}
  
- module.exports={createpatient,addmember,viewfamily,viewdocss,charge,remove,medichistory,viewhealthpack,subscribeToPackage,ViewHealthPackages,cancelSub,viewslots,addtimes,select}
+const filterMyAppointments = async (req,res)=>{
+  const {username,date,status}=req.query;
+  try {
+    const patient = await Patients.findOne({ username: username });
+
+    if (!patient) {
+      return res.status(404).json({ error: 'Patient not found' });
+    }
+    if(patient.appointments.length ===0){
+      return res.status(404).send("no appointments for this patient")
+    }
+    // Filter appointments based on the provided status (upcoming, completed, canceled, rescheduled.)
+    const filteredAppointments = patient.appointments.filter(
+      (appointment) => appointment.status === status||appointment.date === date
+    );
+
+    res.status(200).json(filteredAppointments);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
+const showWallet = async (req,res)=>{
+  const{username}=req.query;
+  try{
+    const patient = await Patients.findOne({username:username})
+    if(!patient){
+      return res.status(404).json({ error: 'Patient not found' });
+    }
+    const wallet = patient.wallet;
+    res.send(wallet)
+  }
+  catch(error){
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
+
+ module.exports={viewSubscriptionStatus,createpatient,addmember,viewfamily,viewdocss,charge,
+  remove,medichistory,viewhealthpack,subscribeToPackage,ViewHealthPackages,
+  cancelSub,viewslots,addtimes,select,filterMyAppointments,showWallet}
 

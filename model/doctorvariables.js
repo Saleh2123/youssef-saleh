@@ -33,7 +33,6 @@ const doctorSchema = new Schema({
         type: String,
         required: true
     }
-
     ,
     education: {
         type: String,
@@ -44,7 +43,6 @@ const doctorSchema = new Schema({
         type: Number,
         required: true
     }
-
    ,
     patients: {
         type: [
@@ -75,9 +73,13 @@ const doctorSchema = new Schema({
         },
         time:{
 type:String
+        },date:{
+            type:Date
         }
     }
     ]
+},wallet:{
+    type:number
 }
 
 ,price:{

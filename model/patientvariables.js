@@ -13,19 +13,17 @@ const patientSchema = new Schema({
       type: String,
       required: true,
     },
-    followUpAppointments: [
-        {
-          scheduledDate: {
-            type: Date,
-            required: true,
-          },
-          description: {
-            type: String,
-            required: true,
-          },
-        },
-      ],
-    // ... (other fields)
+    healthPackages: {	
+      name: String, // Changed to an object	
+      status: {	
+        type: String,	
+        enum: ['Subscribed', 'Unsubscribed', 'Cancelled'],	   
+        default: 'Unsubscribed',	
+      },	    
+      start_date: Date,	    
+      renewal_date: Date,	       
+      end_date: Date,	
+  },
     healthRecords: [
       {
         doctorUsername: {
@@ -37,11 +35,11 @@ const patientSchema = new Schema({
           required: true,
         },
         bloodPressure: {
-          type: String, // You can change the type to be more specific if needed
+          type: String, 
           required: true,
         },
         temperature: {
-          type: String, // You can change the type to be more specific if needed
+          type: String, 
           required: true,
         },
         symptoms: {
@@ -54,7 +52,25 @@ const patientSchema = new Schema({
         },
       },
     ],
-    // ... (other fields)
+    appointments:{
+      type:[
+          {
+             doctor:    {
+  
+              type: mongoose.Types.ObjectId,
+              ref:'request',
+  
+          },
+          time:{
+  type:String
+          },date:{
+            type:Date
+          }
+      }
+      ]
+  },wallet:{
+    type:Number
+  }
   });
 
 const Patients = mongoose.model('patient', patientSchema);

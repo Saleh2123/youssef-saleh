@@ -1,8 +1,8 @@
 const express= require('express')
 const jwt = require('jsonwebtoken');
 const mongoose=require('mongoose')
-const {createpatient, addmember, viewfamily, viewdocss, charge, remove, medichistory, viewhealthpack, subscribeToPackage, ViewHealthPackages, cancelSub, addtimes, viewslots, select}= require('./routes/patient')
-const { createdoctor, updatedoc, viewpatients, viewpatient } = require('./routes/doctors')
+const {createpatient, addmember, viewfamily, viewdocss, charge, remove, medichistory, viewhealthpack, subscribeToPackage, ViewHealthPackages, cancelSub, addtimes, viewslots, select, viewSubscriptionStatus, showWallet, filterMyAppointments}= require('./routes/patient')
+const { createdoctor, updatedoc, viewpatients, viewpatient, addHealthRecord, viewAvailableAppointments, viewAppointments, followUp, showDoctorWallet, filterDoctorAppointments, addapt, addtimeslot } = require('./routes/doctors')
 const { deleteuser, docreqs, createadmin, viewapt, viewpres, viewdocapt, deletepack, addpack, updatepack, updatepass, rejdoc, acceptdoc } = require('./routes/admin')
 require ('dotenv').config()
 const app = express()
@@ -111,12 +111,18 @@ app.get("/alldocs",viewdocss)
 app.post("/login",login)
 app.get("/viewSubscriptionStatus",viewSubscriptionStatus)
 app.patch("/addHealthRecord",addHealthRecord);
-
+app.post('/addapt',addapt);
+app.post('/addtimeslot',addtimeslot);
 
 app.get('/viewAppointments', viewAppointments);
 app.get('/viewAvailableAppointments', viewAvailableAppointments);
 app.get('/viewSubscriptionStatus', viewSubscriptionStatus);
+app.get('/viewslots',viewslots);
 
+app.get('/showWallet',showWallet);
+app.get('/showDoctorWallet',showDoctorWallet);
+app.get('/filterMyAppointments',filterMyAppointments);
+app.get('/filterDoctorAppointments',filterDoctorAppointments)
 
 //app.get('/viewAppointments', viewAppointments);
 
@@ -157,41 +163,12 @@ res.send('File saved successfully!');
 });
 
 
-
-
-
-
-
-
-
 app.post("/charge",charge)
 app.post("/updatepass",updatepass)
 app.post("/reject",rejdoc)
 app.post("/accept",acceptdoc)
 app.post("/remove",remove)
 app.post("/his",medichistory)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -223,14 +200,6 @@ res.send('File saved successfully!');
 
 
 app.get("/hp",viewhealthpack)
-
-
-
-
-
-
-
-
 
     
 function makeid(length) {
@@ -268,31 +237,12 @@ app.post("/otp",async(req,res)=>{
   html: `<b>${token}</b>`, // html body
 });
 
-
-
     
 await admin.updateOne({email:email},{$set:{secret:secret}})
 
 await  doctor.updateOne({email:email},{$set:{secret:secret}})
 
 await  Patients.updateOne({email:email},{$set:{secret:secret}})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
   res.send(token)
