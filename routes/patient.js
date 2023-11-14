@@ -4,7 +4,6 @@ const healthpackage=require("../model/healthpackage")
 const stripe=require("stripe")("sk_test_51OAVMvGeO5iUBvxLCELNV3o9D9GvDTflUXdv6Voo0m15g8VKbaGPdpcNw4rMSIFkZ8iwgNiQH0g53uruGILPLAPH00v0J3kmKQ")
 const fs=require("fs")
 const Patients = require('../model/patientvariables');
-const doctor = require('../model/doctorvariables');
 const viewSubscriptionStatus = async (req, res) => {
    const { username } = req.query;
  

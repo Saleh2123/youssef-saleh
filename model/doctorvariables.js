@@ -79,7 +79,7 @@ type:String
     }
     ]
 },wallet:{
-    type:number
+    type:String
 }
 
 ,price:{
