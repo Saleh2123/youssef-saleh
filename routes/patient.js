@@ -4,29 +4,48 @@ const healthpackage=require("../model/healthpackage")
 const stripe=require("stripe")("sk_test_51OAVMvGeO5iUBvxLCELNV3o9D9GvDTflUXdv6Voo0m15g8VKbaGPdpcNw4rMSIFkZ8iwgNiQH0g53uruGILPLAPH00v0J3kmKQ")
 const fs=require("fs")
 const Patients = require('../model/patientvariables');
+
+
 const viewSubscriptionStatus = async (req, res) => {
-   const { username } = req.query;
- 
-   try {
-     // Find the patient using the provided username
-     const patient = await Patients.findOne({ username: username });
- 
-     if (!patient) {
-       return res.status(404).json({ error: 'Patient not found' });
-     }
- 
-     // Extract the subscription status from the patient's data
-     const subscriptions = patient.healthPackages;
-     if (subscriptions===undefined  || !subscriptions)
-      return res.status(404).send("This patient has no subscription");
- 
-     res.status(200).json({ subscriptions });
-   } catch (error) {
-     console.error(error);
-     res.status(500).json({ error: 'Internal Server Error' });
-   }
- };
- 
+  try {
+    const { username } = req.query;
+    const patient = await model.findOne({ username });
+    if (!patient) {
+      return res.status(404).json({ message: 'Patient not found' });
+    }
+    const patientStatus = {
+      name: patient.healthPackages.name,
+      status: patient.healthPackages.status,
+      start_date: patient.healthPackages.start_date,
+      renewal_date: patient.healthPackages.renewal_date,
+      end_date: patient.healthPackages.end_date,
+    };
+    const familyMembersStatus = [];
+    if (patient.familymem && patient.familymem.length > 0) {
+      for (const familyMember of patient.familymem) {
+        const familyMemberPatient = await model.findOne({ username: familyMember.familymem?.username });
+        if (familyMemberPatient) {
+          if (familyMemberPatient.healthPackages) {
+              const subscriptionStatus = {
+              name: familyMemberPatient.healthPackages.name,
+              status: familyMemberPatient.healthPackages.status,
+              start_date: familyMemberPatient.healthPackages.start_date,
+              renewal_date: familyMemberPatient.healthPackages.renewal_date,
+              end_date: familyMemberPatient.healthPackages.end_date,
+            };
+            familyMembersStatus.push(subscriptionStatus);
+          }
+        }
+      }
+    }
+
+    res.status(200).json({ patientStatus, familyMembersStatus });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
 
 
 const addtimes= async (req,res)=>{
@@ -215,9 +234,10 @@ const {package}=await model.find({username:username})
      // Cancel the subscription for family members (if any)
      if (patient.familymem && patient.familymem.length > 0) {
        for (const familyMember of patient.familymem) {
-         const familyMemberPatient = await model.findOne({ username: familyMember.familyMember?.name });
+         const familyMemberPatient = await model.findOne({ username: familyMember.familymem?.username });
  
          if (familyMemberPatient) {
+          
            patient.healthPackages.end_date=new Date(),
            familyMemberPatient.healthPackages.status = 'Cancelled';
            await familyMemberPatient.save();
