@@ -47,7 +47,7 @@ function App() {
     <Router>
       <Routes>
       <Route  path="/reg" element={<Choose/>} />
-        <Route  path="reg/pateint" element={<Pateintreg/>} />
+        <Route  path="/reg/pateint" element={<Pateintreg/>} />
         <Route  path="/" element={<LoginPage/>} />
 
         <Route path="reg/doctor" element={<Doctorreg/>} />

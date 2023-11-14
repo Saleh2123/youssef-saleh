@@ -49,7 +49,9 @@ const {pack}=useParams()
       // Make sure to disable form submission until Stripe.js has loaded.
       return;
     }
+    if(!pack.includes("pack")){
 await handleSubscribe()
+    }
     const result = await stripe.confirmPayment({
       //`Elements` instance that was used to create the Payment Element
       elements,

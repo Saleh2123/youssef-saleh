@@ -15,7 +15,7 @@ console.log(m);
 async function set(time){
 
     await axios.post("http://localhost:5000/select",{username:id,doc:d,time:time})
-console.log(m);
+window.location.href=`patient/:${id}/healthpack/payment/:pack`
 }
 
 
