@@ -66,6 +66,10 @@ const patientSchema = new Schema({
   type:String
           },date:{
             type:Date
+          },
+          status:{
+            type:String,
+            default:"Pending"
           }
       }
       ]

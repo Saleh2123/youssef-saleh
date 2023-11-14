@@ -75,7 +75,10 @@ const doctorSchema = new Schema({
 type:String
         },date:{
             type:Date
-        }
+        },   status:{
+            type:String,
+            default:"Pending"
+          }
     }
     ]
 },wallet:{
