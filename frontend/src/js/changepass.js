@@ -5,11 +5,14 @@ import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import axios from "axios"
 import{ useParams }from"react-router-dom";
+
+import PasswordChecklist from "react-password-checklist"
 export default function ChangePasswordPage() {
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 const {id}=useParams();
+const [valid,setvalid]= useState(false)
   const handleOldPasswordChange = (event) => {
     setOldPassword(event.target.value);
   };
@@ -28,6 +31,11 @@ const {id}=useParams();
     console.log('New Password:', newPassword);
     console.log('Confirm New Password:', confirmPassword);
     // You can add your password change logic and API calls here
+
+    if(!valid){
+      alert("password doesnot meet reqs");
+      return;
+    }
 axios.post("http://localhost:5000/updatepass",{username:id,password:newPassword})
 
   };
@@ -73,6 +81,27 @@ axios.post("http://localhost:5000/updatepass",{username:id,password:newPassword}
           onChange={handleConfirmPasswordChange}
           sx={{ color: 'white' }}
         />
+
+
+<PasswordChecklist
+				rules={["minLength","specialChar","number","capital"]}
+				minLength={5}
+				value={newPassword}
+				valueAgain={confirmPassword}
+				onChange={(isValid) => {
+setvalid(isValid);
+
+
+        }}
+			/>
+
+
+
+
+
+
+
+
         <Button variant="contained" onClick={handleChangePassword}>
           Change Password
         </Button>

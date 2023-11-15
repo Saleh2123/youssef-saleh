@@ -83,7 +83,8 @@ function App() {
    <Route path='/doctor/:id/upload2' element={<Upload2></Upload2>}></Route>
    <Route path='/doctor/:id/addslot' element={<AddavSlot></AddavSlot>}></Route>
    <Route path='/doctor/:id/contract' element={<ViewCon></ViewCon>}></Route>
-   
+  
+   <Route path='/doctor/:id/slot' element={<AddSlot></AddSlot>}></Route> 
         <Route path="patient/:id/healthpack/payment/:pack" element={<Middle/>}> </Route>
         <Route path="patient/:id/status" element={<ViewSubscriptionStatus></ViewSubscriptionStatus>}> </Route>
         <Route path="patient/:id/select" element={<Views></Views>}> </Route>

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const patientSchema = new Schema({
+  secret:{type:String},
   medicalhistory:{type:Array},
     username: {
       type: String,
@@ -79,6 +80,8 @@ const patientSchema = new Schema({
     type:Array
   },pres:{
     type:Array
+  },password:{
+    type:String
   }
   });
 

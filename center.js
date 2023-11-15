@@ -277,13 +277,13 @@ const isVerfied = notp.totp.verify(t,secret,{time:30,window:1})
 console.log(isVerfied)
 if(isVerfied){
 
-  console.log('h');
-          await Patients.updateOne({email:email},{$set:{password:pass}})
+
+        console.log(  await Patients.updateOne({email:email},{$set:{password:pass}}))
           
           await admin.updateOne({email:email},{$set:{password:pass}})
         
         await  doctor.updateOne({email:email},{$set:{password:pass}})
-        await Patients.updateOne({email:email},{$set:{secret:""}})
+       console.log( await Patients.updateOne({email:email},{$set:{secret:""}}))
           
         await admin.updateOne({email:email},{$set:{secret:""}})
       

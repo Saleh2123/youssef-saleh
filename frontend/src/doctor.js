@@ -87,9 +87,14 @@ export default function Doctor() {
         Add available timrslot
         </Button>
       </Link>
-      <Link to="addslot" style={{ marginTop: "16px" }}>
+      <Link to="slot" style={{ marginTop: "16px" }}>
         <Button variant="contained" color="primary" fullWidth>
-        Add available timrslot
+       add appointment
+        </Button>
+      </Link>
+      <Link to="changepassword" style={{ marginTop: "16px" }}>
+        <Button variant="contained" color="primary" fullWidth>
+    changepassword
         </Button>
       </Link>
       <Link to="filterMyAppointments">   

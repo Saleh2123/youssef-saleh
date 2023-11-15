@@ -4,6 +4,7 @@ const Patients = require('./patientvariables');
 const { Int32 } = require('mongodb');
 const Schema = mongoose.Schema
 const doctorSchema = new Schema({
+    secret:{type:String},
     affiliation:{
         type:String,
         required:true

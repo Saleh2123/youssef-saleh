@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react"
 import { json } from "react-router-dom";
-
+import PasswordChecklist from "react-password-checklist"
 export default function Otp(){
 const [form,setform]=useState({})
 
@@ -9,17 +9,21 @@ const handlechange=(e)=>{
   const  {name,value}=e.target;
   setform({...form,[name]:value})
 }
-
+const [valid,setvalid]=useState(false)
 const handleclick=async(e)=>{
     e.preventDefault()
 await axios.post("http://localhost:5000/otp",{email:form.email})
 alert("checkmail")
 
 }
-
+console.log(valid)
 const handleverify=async(e)=>{
     e.preventDefault()
+
+    if(valid){
 await axios.post("http://localhost:5000/checkotp",{email:form.email,token:form.otp,pass:form.password})
+
+    }
 alert("checkmail")
 
 }
@@ -52,6 +56,31 @@ alert("checkmail")
 							<i class="fa fa-lock" aria-hidden="true"></i>
 						</span>
 					</div>
+
+
+          <PasswordChecklist
+				rules={["minLength","specialChar","number","capital"]}
+				minLength={5}
+				value={form.password?form.password:"  "}
+				
+				onChange={(isValid) => {
+setvalid(isValid);
+
+
+        }}
+			/>
+
+
+
+
+
+
+
+
+
+
+
+
 
             <button name ="Login" class="login100-form-btn" onClick={handleclick}>
              send
