@@ -54,7 +54,8 @@ console.log(apt)
       />
       {apt
         ?.filter(({ patient, status, time }) => {
-          return patient?.name.includes(search) && status?.includes(statuss) && (timee === "" || new Date(time) > new Date(timee));
+          console.log(JSON.parse(time).time)
+          return patient?.name.includes(search) && status?.includes(statuss) && (timee === "" || JSON.parse(time).date === timee);
         })
         .map((data) => (
           <div>

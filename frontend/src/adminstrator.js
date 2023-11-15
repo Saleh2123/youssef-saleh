@@ -18,6 +18,14 @@ function Admin(){
         <Link to="">   
         <button type="submit">Edit Health Package</button>
         </Link>
+
+
+        <Link to="changepassword" style={{ marginTop: "16px" }}>
+        <button variant="contained" color="primary" fullWidth>
+    changepassword
+        </button>
+      </Link>
+
      </div> )
     
 }

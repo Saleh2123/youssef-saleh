@@ -97,6 +97,24 @@ export default function Doctor() {
     changepassword
         </Button>
       </Link>
+
+      <Link to="/" style={{ marginTop: "16px" }}>
+        <Button variant="contained" color="primary" fullWidth>
+    changepassword
+        </Button>
+        </Link>
+
+
+
+
+
+
+
+
+
+
+
+
       <Link to="filterMyAppointments">   
         <button type="submit">filter appointments</button>
         </Link>

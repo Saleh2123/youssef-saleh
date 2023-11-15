@@ -41,6 +41,9 @@ function Patient(){
         <Link to="showWallet">   
         <button type="submit">show wallet</button>
         </Link>
+        <Link to="link">   
+        <button type="submit">Link</button>
+        </Link>
 
 
      </div> )

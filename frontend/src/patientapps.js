@@ -53,7 +53,9 @@ console.log(apt)
         }}
       />
       {apt.appointments?.filter(({ doctor, status, time }) => {
-          return doctor?.name.includes(search) && status?.includes(statuss) && (timee === "" || JSON.parse(time).time === time);
+
+        console.log(JSON.parse(time).date)
+          return doctor?.name.includes(search) && status?.includes(statuss) && (timee === "" || JSON.parse(time).date === timee);
         })
         ?.map((data) => (
           <div>

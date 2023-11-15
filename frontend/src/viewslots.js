@@ -15,7 +15,7 @@ console.log(m);
 async function set(time){
 
     await axios.post("http://localhost:5000/select",{username:id,doc:d,time:time})
-window.location.href=`patient/:${id}/healthpack/payment/:pack`
+window.location=`healthpack/payment/:pack`
 }
 
 
@@ -45,6 +45,12 @@ return(
                         }
                       }
                       > select</button>
+
+<button
+                        className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded`}
+                       
+                      
+                      > wallet</button>
             </>
         ))
     )

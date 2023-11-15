@@ -305,3 +305,44 @@ app.get("/cancelsub",cancelSub)
      app.post("/addav",addtimes)
      app.post("/viewslots",viewslots)
      app.post("/select",select)
+   
+
+
+
+
+
+
+
+
+
+
+
+     
+const link =async(req,res)=>{
+
+  const {username,familymem1,phone,relation}=req.body;
+  if(familymem1){
+  const {familymem}= await Patients.findOne({username:username}).select('familymem -_id').exec()
+ 
+ const f=await Patients.findOne({email:familymem1})
+ familymem.push({familymem:f,relation:relation});
+ await Patients.updateOne({username:username},{$set:{familymem:familymem}}).exec()
+  }
+  console.log(phone)
+  if(phone){
+     
+     const {familymem}= await Patients.findOne({username:username}).select('familymem -_id').exec()
+    
+    const f=await model.findOne({mobile_no:phone})
+     familymem.push({familymem:f,relation:relation});
+    await Patients.updateOne({username:username},{$set:{familymem:familymem}}).exec()
+     }
+  
+res.send("done")
+
+
+
+
+
+}
+app.post("/link",link)

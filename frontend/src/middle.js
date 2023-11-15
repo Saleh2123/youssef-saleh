@@ -11,8 +11,15 @@ const {pack}=useParams()
     async function get(){
 
      console.log(pack)
-setoptions({clientSecret:(await axios.post("http://localhost:5000/charge",{pack:pack})).data.client_secret})}
 
+     if(pack.includes("pack")){
+
+      setoptions({clientSecret:(await axios.post("http://localhost:5000/charge",{pack:"gold"})).data.client_secret})
+
+     }
+     else{
+setoptions({clientSecret:(await axios.post("http://localhost:5000/charge",{pack:pack})).data.client_secret})}
+     }
 get()
 
 
