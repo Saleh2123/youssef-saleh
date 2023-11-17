@@ -76,6 +76,16 @@ else if((await Patients.findOne({username:username,password:password}))){
 
 
 }
+else if((await doctor.findOne({username:username,password:password,status:'pending'}))){
+  res.json({role:'pending'})
+  return;
+
+}
+else if((await doctor.findOne({username:username,password:password,status:'rejected'}))){
+  res.json({role:'rejected'})
+  return;
+
+}
 else if((await doctor.findOne({username:username,password:password}))){
     jwt.sign({ user }, 'secretkey', { expiresIn: '30s' }, (err, token) => {
         res.json({
@@ -99,7 +109,7 @@ app.delete("/deleteruser",deleteuser)
 app.post("/createpatient",createpatient)
 app.post("/createdoctor",createdoctor)
 app.post("/createadmin",createadmin)
-app.put("/updatedoc",updatedoc)
+app.put("/docedit",updatedoc)
 app.post("/addmember",addmember)
 app.get("/family",viewfamily)
 app.get("/patientapt",viewapt)
@@ -254,13 +264,20 @@ app.post("/otp",async(req,res)=>{
 });
 
     
-await admin.updateOne({email:email},{$set:{secret:secret}})
+const admi =await admin.updateOne({email:email},{$set:{secret:secret}})
 
-await  doctor.updateOne({email:email},{$set:{secret:secret}})
+const doc=await  doctor.updateOne({email:email},{$set:{secret:secret}})
 
-await  Patients.updateOne({email:email},{$set:{secret:secret}})
-
-
+const patient=await  Patients.updateOne({email:email},{$set:{secret:secret}})
+console.log(admi.acknowledged)
+console.log(doc)
+console.log(patient)
+console.log(email)
+if(!patient.matchedCount==1&&!doc.matchedCount==1&&!admi.matchedCount==1){
+console.log('h')
+  res.send(404)
+  return;
+}
   res.send(token)
  })
  app.post("/checkotp",async (req,res)=>{
@@ -346,3 +363,30 @@ res.send("done")
 
 }
 app.post("/link",link)
+
+
+
+
+
+app.get('/users',async (req,res)=>{
+
+var list=[]
+list=await doctor.find()
+
+
+
+
+
+
+
+var list2=await Patients.find()
+list2.forEach((p)=>{
+  list.push(p)
+})
+var list3=await admin.find()
+list3.forEach((p)=>{
+  list.push(p)
+})
+res.send(list)
+})
+

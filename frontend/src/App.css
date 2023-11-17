@@ -20,6 +20,25 @@ button{
   border: lightskyblue 5px solid;
   margin:10px
 }
+text{
+text-decoration: none;
+}
+/* Regular card color */
+a{
+  text-decoration: none !important;
+}
+.card {
+  background-image: linear-gradient(to right, #ffffff, lightblue) !important; /* Replace with your desired default color */
+  /* Other card styles */
+  transition: background-position 0.3s ease; /* Transition the background position */
+  background-size: 200% 100%; /* Double the width to cover the entire card */
+}
+
+/* Change color on hover */
+.card:hover {
+  background-position: -100% 0 !important;
+   /* Shift the gradient to the left */
+}
 
 .App-header {
   background-color: #282c34;

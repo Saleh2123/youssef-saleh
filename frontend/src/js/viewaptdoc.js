@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
-
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 import axios from "axios";
 
 export default function Aptdoc() {
@@ -18,49 +22,58 @@ export default function Aptdoc() {
     }
     get();
   }, []);
-console.log(apt)
+
   return (
-    <Container
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: "16px",
-      }}
-    >
-      <TextField
-        label="Search by Doctor"
-        placeholder="Doctor"
-        value={search}
-        onChange={(e) => {
-          setSearch(e.target.value);
-        }}
-      />
-      <TextField
-        label="Status"
-        placeholder="Status"
-        value={statuss}
-        onChange={(e) => {
-          setStatus(e.target.value);
-        }}
-      />
-      <TextField
-      
-        type="date"
-        value={timee}
-        onChange={(e) => {
-          setTime(e.target.value);
-        }}
-      />
+    <Container maxWidth="sm" sx={{ mt: 4 }}>
+      <Box sx={{ display: "flex", gap: "16px", mb: 2 }}>
+        <TextField
+          label="Search by Patient"
+          placeholder="Doctor"
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value);
+          }}
+          fullWidth
+        />
+        <Select
+          value={statuss}
+          onChange={(e) => {
+            setStatus(e.target.value);
+          }}
+          displayEmpty
+          fullWidth
+          label="Status"
+        >
+          <MenuItem value="">Select Status</MenuItem>
+          <MenuItem value="Pending">Pending</MenuItem>
+          <MenuItem value="Upcoming">Upcoming</MenuItem>
+        </Select>
+        <TextField
+          type="date"
+          value={timee}
+          onChange={(e) => {
+            setTime(e.target.value);
+          }}
+          fullWidth
+        />
+      </Box>
       {apt
         ?.filter(({ patient, status, time }) => {
-          console.log(JSON.parse(time).time)
-          return patient?.name.includes(search) && status?.includes(statuss) && (timee === "" || JSON.parse(time).date === timee);
+          return (
+            patient?.name.includes(search) &&
+            (statuss === "" || status?.includes(statuss)) &&
+            (timee === "" || JSON.parse(time).date === timee)
+          );
         })
-        .map((data) => (
-          <div>
-            {`Paitent: ${data.patient.name}, Time: ${data.time}, Status: ${data.status}`}
-          </div>
+        .map((data, index) => (
+          <Paper key={index} elevation={3} sx={{ p: 2, mb: 2 }}>
+            <Typography variant="body1" sx={{ fontWeight: "bold" }}>
+              Patient: {data.patient.name}
+            </Typography>
+            <Typography variant="body2" sx={{ mb: 1 }}>
+              Date: {JSON.parse(data.time).date}, hour: {JSON.parse(data.time).hour}, Status: {data.status}
+            </Typography>
+          </Paper>
         ))}
     </Container>
   );

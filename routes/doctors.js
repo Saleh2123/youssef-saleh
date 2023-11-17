@@ -53,8 +53,19 @@ const createdoctor = async(req,res) => {
  }
  
 const updatedoc = async (req, res) => {
-    const {username,rate,affialiation,email}=req.body;
-  await model.updateOne({username:username},{$set:{rate:rate,affialiation:affialiation,email:email}}).exec()
+    const {username,rate,affiliation,email}=req.body;
+   if(rate){
+  await model.updateOne({username:username},{$set:{rate:rate}}).exec()
+   }
+   if(affiliation){
+
+    await model.updateOne({username:username},{$set:{affiliation:affiliation}}).exec()
+
+   }
+   if(email){
+    
+  await model.updateOne({username:username},{$set:{email:email}}).exec()
+   }
  res.send('done');
    }
  const viewpatients= async (req,res)=>{

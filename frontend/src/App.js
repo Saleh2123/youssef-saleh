@@ -44,6 +44,8 @@ import Hr from './addhr';
 import AddSlot from './addslot';
 import Linkfam from './link';
 import Hisd from './medicalhisdoc';
+
+import 'bootstrap/dist/css/bootstrap.min.css'
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
 

@@ -1,57 +1,58 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import { Button, Typography, Container, Box } from '@mui/material';
 
 const ViewCon = () => {
-  const [username, setUsername] = useState('');
   const [subscriptionData, setSubscriptionData] = useState(null);
   const [error, setError] = useState(null);
-  const {id}=useParams()
+  const { id } = useParams();
+
   const handleViewSubscription = async () => {
     try {
       const response = await axios.post('http://localhost:5000/contract', {
-       
-          username: id,
-        
+        username: id,
       });
       setSubscriptionData(response.data);
       setError(null);
-      console.log({username});
     } catch (err) {
       setError('Patient not found or internal server error');
       setSubscriptionData(null);
     }
   };
 
+  const handleAcceptContract = async () => {
+    try {
+      await axios.post('http://localhost:5000/acceptcontract', {
+        username: id,
+      });
+      handleViewSubscription();
+    } catch (err) {
+      setError('Error accepting contract');
+    }
+  };
+
   return (
-    <div>
-      <h1>View Subscription Status</h1>
-     
-      <div>
-        <button onClick={handleViewSubscription}>View Subscription Status</button>
-      </div>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {subscriptionData && (
-        <div>
-        
-          <p>Name: {subscriptionData.contract}</p>
-          <p>Status: {subscriptionData.status}</p>
-       
-         <button onClick={async()=>{
-
-const response = await axios.post('http://localhost:5000/acceptcontract', {
-       
-username: id,
-
-});
-
-handleViewSubscription()
-         }}>
-            accept
-         </button>
-        </div>
-      )}
-    </div>
+    <Container maxWidth="sm">
+      <Box mt={4} textAlign="center">
+        <Typography variant="h4">View Subscription Status</Typography>
+        <Box mt={2}>
+          <Button variant="contained" onClick={handleViewSubscription}>
+            View Subscription Status
+          </Button>
+        </Box>
+        {error && <Typography color="error">{error}</Typography>}
+        {subscriptionData && (
+          <Box mt={2}>
+            <Typography>Name: {subscriptionData.contract}</Typography>
+            <Typography>Status: {subscriptionData.status}</Typography>
+            <Button variant="outlined" onClick={handleAcceptContract} mt={2}>
+              Accept
+            </Button>
+          </Box>
+        )}
+      </Box>
+    </Container>
   );
 };
 

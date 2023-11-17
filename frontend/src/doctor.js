@@ -4,7 +4,16 @@ import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import axios from "axios";
-
+import {
+  MDBContainer,
+  MDBRow,
+  MDBCol,
+  MDBCard,
+  MDBCardBody,
+  MDBCardImage,
+  MDBCardTitle,
+  MDBCardGroup,MDBCardText
+} from "mdb-react-ui-kit";
 export default function Doctor() {
   const { id } = useParams();
   const [formData, setFormData] = useState({
@@ -72,66 +81,137 @@ export default function Doctor() {
           Update Info
         </Button>
       </form>
-      <Link to="viewpatients" style={{ marginTop: "16px" }}>
-        <Button variant="contained" color="primary" fullWidth>
-          View Patients
-        </Button>
-      </Link>
-      <Link to="apt" style={{ marginTop: "16px" }}>
-        <Button variant="contained" color="primary" fullWidth>
-          View Appointments
-        </Button>
-      </Link>
-      <Link to="addslot" style={{ marginTop: "16px" }}>
-        <Button variant="contained" color="primary" fullWidth>
-        Add available timrslot
-        </Button>
-      </Link>
-      <Link to="slot" style={{ marginTop: "16px" }}>
-        <Button variant="contained" color="primary" fullWidth>
-       add appointment
-        </Button>
-      </Link>
-      <Link to="changepassword" style={{ marginTop: "16px" }}>
-        <Button variant="contained" color="primary" fullWidth>
-    changepassword
-        </Button>
-      </Link>
 
-      <Link to="/" style={{ marginTop: "16px" }}>
-        <Button variant="contained" color="primary" fullWidth>
-    logout
-        </Button>
-        </Link>
-
-
-
-
-
-
-
-
-
-
-
-
-      <Link to="filterMyAppointments">   
-        <button type="submit">filter appointments</button>
-        </Link>
-        <Link to="showWallet">   
-        <button type="submit">show wallet</button>
-        </Link>
-      <Link to="contract" style={{ marginTop: "16px" }}>
-        <Button variant="contained" color="primary" fullWidth>
-        view contract
-        </Button>
-        
-      </Link>
-      <Link to="hr" style={{ marginTop: "16px" }}>
-        <Button variant="contained" color="primary" fullWidth>
-      add record
-        </Button>
-        </Link>
+        <App></App>
+        <App2></App2>
     </Container>
+  );
+}
+ function App() {
+  return (
+    <MDBCardGroup>
+
+    
+      <MDBCard>
+        <Link to="viewpatients"  style={{color:'black'}}>
+        <MDBCardImage src='https://mdbootstrap.com/img/new/standard/city/041.webp' alt='...' position='top' />
+        <MDBCardBody>
+          <MDBCardTitle> View patients</MDBCardTitle>
+          <MDBCardText>
+        View a list of all  patients that have/had appointments with me
+          </MDBCardText>
+          <MDBCardText>
+        
+          </MDBCardText>
+        </MDBCardBody>
+        </Link>
+      </MDBCard>
+  
+     
+      <MDBCard>
+      <Link to="apt"  style={{color:'black'}}>
+        <MDBCardImage src='https://mdbootstrap.com/img/new/standard/city/042.webp' alt='...' position='top' />
+        <MDBCardBody>
+          <MDBCardTitle>   View Appointments</MDBCardTitle>
+          <MDBCardText>
+            This is a wider card with supporting text below as a natural lead-in to additional content.
+          </MDBCardText>
+          <MDBCardText>
+            <small className='text-muted'>Last updated 3 mins ago</small>
+          </MDBCardText>
+        </MDBCardBody>
+        </Link>
+        </MDBCard>
+         <MDBCard>
+          
+        <Link to="slot"  style={{color:'black'}}>
+        <MDBCardImage src='https://mdbootstrap.com/img/new/standard/city/043.webp' alt='...' position='top' />
+        <MDBCardBody>
+          <MDBCardTitle>Schedule follow up</MDBCardTitle>
+          <MDBCardText>
+            This is a wider card with supporting text below as a natural lead-in to additional content. This
+            card has even longer content than the first to show that equal height action.
+          </MDBCardText>
+          <MDBCardText>
+            <small className='text-muted'>Last updated 3 mins ago</small>
+          </MDBCardText>
+        </MDBCardBody>
+        </Link>
+      </MDBCard>
+      <MDBCard>
+      <Link to="addslot"  style={{color:'black'}}>
+        <MDBCardImage src='https://mdbootstrap.com/img/new/standard/city/043.webp' alt='...' position='top' />
+        <MDBCardBody>
+          <MDBCardTitle>add available time slot</MDBCardTitle>
+          <MDBCardText>
+            This is a wider card with supporting text below as a natural lead-in to additional content. This
+            card has even longer content than the first to show that equal height action.
+          </MDBCardText>
+          <MDBCardText>
+            <small className='text-muted'>Last updated 3 mins ago</small>
+          </MDBCardText>
+        </MDBCardBody>
+        </Link>
+      </MDBCard>
+      
+    </MDBCardGroup>
+  );
+}
+function App2() {
+  return (
+    <MDBCardGroup>
+
+    
+      <MDBCard>
+        <Link to="hr"  style={{color:'black'}}>
+        <MDBCardImage src='https://mdbootstrap.com/img/new/standard/city/041.webp' alt='...' position='top' />
+        <MDBCardBody>
+          <MDBCardTitle> Add health record for a patient</MDBCardTitle>
+          <MDBCardText>
+        View a list of all  patients that have/had appointments with me
+          </MDBCardText>
+          <MDBCardText>
+        
+          </MDBCardText>
+        </MDBCardBody>
+        </Link>
+      </MDBCard>
+  
+     
+      <MDBCard>
+      <Link to="contract"  style={{color:'black'}}>
+        <MDBCardImage src='https://mdbootstrap.com/img/new/standard/city/042.webp' alt='...' position='top' />
+        <MDBCardBody>
+          <MDBCardTitle>   View my contract</MDBCardTitle>
+          <MDBCardText>
+            This is a wider card with supporting text below as a natural lead-in to additional content.
+          </MDBCardText>
+          <MDBCardText>
+            <small className='text-muted'>Last updated 3 mins ago</small>
+          </MDBCardText>
+        </MDBCardBody>
+        </Link>
+        </MDBCard>
+         <MDBCard>
+          
+        <Link to="showWallet"  style={{color:'black'}}>
+        <MDBCardImage src='https://mdbootstrap.com/img/new/standard/city/043.webp' alt='...' position='top' />
+        <MDBCardBody>
+          <MDBCardTitle>View ammount in my wallet</MDBCardTitle>
+          <MDBCardText>
+            This is a wider card with supporting text below as a natural lead-in to additional content. This
+            card has even longer content than the first to show that equal height action.
+          </MDBCardText>
+          <MDBCardText>
+            <small className='text-muted'>Last updated 3 mins ago</small>
+          </MDBCardText>
+        </MDBCardBody>
+        </Link>
+      </MDBCard>
+      <MDBCard>
+     
+      </MDBCard>
+      
+    </MDBCardGroup>
   );
 }

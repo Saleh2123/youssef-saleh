@@ -46,6 +46,13 @@ export default function LoginPage() {
       case 'none':
         alert('Wrong username or password');
         break;
+      case "pending":
+        alert("pending admin acceptencance")
+        break;
+      
+        case "rejected":
+          alert("admin rejected your request")
+          break;
     }
   };
 

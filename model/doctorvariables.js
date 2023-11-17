@@ -92,7 +92,7 @@ type:String
 
 ,status:{
     type:String,
-    default:'Pending'
+    default:'pending'
 },timeslots:{
     type:Array
 }
@@ -106,6 +106,7 @@ type:String
            },
            status:{
                type:String
+
            }
        }
    }

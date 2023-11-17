@@ -5,7 +5,7 @@ import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import axios from 'axios';
 import {useParams} from"react-router-dom"
-export default function Upload2() {
+export default function Upload2({user}) {
   const [form1, setForm1] = useState(null);
   const [form2, setForm2] = useState(null);
   const [form3, setForm3] = useState(null);
@@ -27,7 +27,7 @@ const {id}=useParams();
     finalForm.append('file1', form1);
     finalForm.append('file2', form2);
     finalForm.append('file3', form3);
-    finalForm.append("/title",id);
+    finalForm.append("/title",user);
     try {
       await axios.post('http://localhost:5000/upload2', finalForm);
       window.location = '/';
@@ -59,17 +59,17 @@ const {id}=useParams();
       >
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
           <label style={{ color: 'white', fontSize: '2rem' }}>ID</label>
-          <TextField type="file" onChange={handleFile1Change} />
+          <TextField type="file" onChange={handleFile1Change} required />
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
           <label style={{ color: 'white', fontSize: '2rem' }}>Medical License</label>
-          <TextField type="file" onChange={handleFile2Change} />
+          <TextField type="file" onChange={handleFile2Change}  required/>
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
           <label style={{ color: 'white', fontSize: '2rem' }}>Medical Degree</label>
-          <TextField type="file" onChange={handleFile3Change} />
+          <TextField type="file" onChange={handleFile3Change} required />
         </Box>
-        <Button variant="contained" onClick={submit}>
+        <Button style={{visibility:'hidden'}} id="upload"variant="contained" onClick={submit}>
           Upload
         </Button>
       </Box>

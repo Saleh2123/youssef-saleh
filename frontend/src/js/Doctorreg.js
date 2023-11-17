@@ -4,6 +4,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
+import Upload2 from './upload2';
 
 const smallerInputStyle = {
   width: '200px', // Adjust the width as needed
@@ -29,9 +30,13 @@ const Doctorreg = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    try{
   await axios.post('http://localhost:5000/createdoctor', formData);
-    console.log('Form submitted:', formData);
-    alert('Registration complete');
+    await document.getElementById('upload').click()
+    alert('Registration complete');}
+    catch(err){
+      alert('enter full details')
+    }
     // You can add further logic to handle form submission (e.g., API call).
   };
 
@@ -92,6 +97,7 @@ const Doctorreg = () => {
             value={formData.rate}
             onChange={handleChange}
             fullWidth
+        
             style={smallerInputStyle}
           />
           <TextField
@@ -120,6 +126,7 @@ const Doctorreg = () => {
             fullWidth
             style={smallerInputStyle}
           />
+          <Upload2 user={formData.username} ></Upload2>
           <Button type="submit" variant="contained" color="primary" style={smallerInputStyle}>
             Register
           </Button>
