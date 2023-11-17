@@ -100,7 +100,7 @@ export default function Doctor() {
 
       <Link to="/" style={{ marginTop: "16px" }}>
         <Button variant="contained" color="primary" fullWidth>
-    changepassword
+    logout
         </Button>
         </Link>
 

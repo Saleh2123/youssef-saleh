@@ -29,8 +29,7 @@ const Doctorreg = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    await axios.post('http://localhost:5000/createdoctor', formData);
+  await axios.post('http://localhost:5000/createdoctor', formData);
     console.log('Form submitted:', formData);
     alert('Registration complete');
     // You can add further logic to handle form submission (e.g., API call).

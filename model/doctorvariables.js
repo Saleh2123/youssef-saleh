@@ -91,7 +91,8 @@ type:String
 }
 
 ,status:{
-    type:String
+    type:String,
+    default:'Pending'
 },timeslots:{
     type:Array
 }
