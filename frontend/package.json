@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@daily-co/daily-js": "^0.55.0",
+    "@daily-co/daily-react": "^0.16.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.14.16",
@@ -27,7 +29,10 @@
     "react-password-checklist": "^1.5.0",
     "react-router-dom": "^6.16.0",
     "react-scripts": "^5.0.1",
+    "recoil": "^0.7.7",
+    "simplewebrtc": "^3.0.2",
     "tailwindcss": "^3.3.3",
+    "util": "^0.12.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
