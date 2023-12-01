@@ -47,6 +47,7 @@ import Hisd from './medicalhisdoc';
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import VideoChat from './video';
+import Videochatt from './videochat/src/components/App/App';
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
 
@@ -59,7 +60,7 @@ function App() {
       <Route  path="/reg" element={<Choose/>} />
         <Route  path="/reg/pateint" element={<Pateintreg/>} />
         <Route  path="/" element={<LoginPage/>} />
-        <Route  path="/:doctor/:patient" element={<VideoChat/>} />
+        <Route  path="/:doctor/:patient" element={<Videochatt/>} />
 
         <Route path="reg/doctor" element={<Doctorreg/>} />
         <Route path="/Admin" element={<Admin/>} />
