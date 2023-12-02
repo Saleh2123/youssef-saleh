@@ -176,26 +176,6 @@ const addHealthRecord = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
-/*
-const followUp = async (req,res) =>{
-  const{doctorUsername,patientUsername,date,desc}=req.body;
-  try{
-    const doctor = await doctors.findOne({ username: doctorUsername });
-    const patient = await Patients.findOne({ username: patientUsername });
-    if((!doctor)||!(patient)){
-      return res.status(404).json({ error: 'Patient or Doctor not found' });
-    }
-    const {appointments}= await Patients.findOne({username:patientUsername})
-   appointments.push({scheduledDate: date, description:desc})
-   await model.updateOne({username:username},{$set:{appointments:appointments}}).exec()
-   console.log(followUpAppointments)
-   res.send(followUpAppointments)
-  }
-  catch(error){
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-};*/
 
 const filterDoctorAppointments = async (req,res)=>{
   const {username,date,status}=req.query;
@@ -236,6 +216,33 @@ const showDoctorWallet = async (req,res)=>{
   }
 };
 
+const addPrescription = async(req,res)=>{
+  const {patientUsername, doctorUsername, time, medicineName, medicineDosage} = req.body
+  try{
+    const date = Date.now();
+    const doctor = await doctors.findOne({username:doctorUsername})
+    if(!doctor){
+      return res.status(404).json({ error: 'Doctor not found' });
+    }
+    const patient = await Patients.findOne({username:patientUsername})
+    const appointment = patient.appointments.filter({doctor:doctor})
+    if(!patient){
+      return res.status(404).json({ error: 'Patient not found' });
+    }
+    if(!appointment){
+      return res.status(404).json({ error: 'Doctor had no appointments with this patient' });
+    }
+    const prescription = patient.prescriptions
+    prescription.push({time:time, date:date, doctor:doctor, medicineName:medicineName, medicineDosage:medicineDosage})
+    await Patients.updateOne({username:patientUsername},{$set:{prescriptions:prescription}}).exec()
+    res.send('done');
+  }
+  catch(error){
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
 module.exports = {
   createdoctor,
   updatedoc,
@@ -245,7 +252,9 @@ module.exports = {
   viewAvailableAppointments,
   viewAppointments,
   addHealthRecord,
-  addapt,addtimeslot,viewAppointments,filterDoctorAppointments,showDoctorWallet
+  addapt,addtimeslot,viewAppointments,
+  filterDoctorAppointments,showDoctorWallet,
+  addPrescription
 };
 
 

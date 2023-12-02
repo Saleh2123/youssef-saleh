@@ -335,8 +335,22 @@ const showWallet = async (req,res)=>{
   }
 }
 
+const viewPrescriptions = async (req,res)=>{
+   const {username} = req.query;
+   try{
+    const patient = await Patients.findOne({username:username})
+    if(!patient){
+      return res.status(404).json({ error: 'Patient not found' });
+    }
+   res.json(patient.prescriptions);
+   }
+   catch(error){
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+   }
+}
 
  module.exports={viewSubscriptionStatus,createpatient,addmember,viewfamily,viewdocss,charge,
   remove,medichistory,viewhealthpack,subscribeToPackage,ViewHealthPackages,
-  cancelSub,viewslots,addtimes,select,filterMyAppointments,showWallet}
+  cancelSub,viewslots,addtimes,select,filterMyAppointments,showWallet,viewPrescriptions}
 
