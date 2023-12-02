@@ -30,11 +30,11 @@ function App() {
       
         <MDBCard>
           <Link to="addadmin"  style={{color:'black'}}>
-          <MDBCardImage src='https://mdbootstrap.com/img/new/standard/city/041.webp' alt='...' position='top' />
+          <MDBCardImage src='https://icon-library.com/images/add-people-icon/add-people-icon-28.jpg' alt='...' position='top' />
           <MDBCardBody>
-            <MDBCardTitle> add admin</MDBCardTitle>
+            <MDBCardTitle> Add admin</MDBCardTitle>
             <MDBCardText>
-          View a list of all  patients that have/had appointments with me
+          Add another admin to be able to type documents,respond to business enquiries, drawing up contracts and provide customer service.
             </MDBCardText>
             <MDBCardText>
           
@@ -46,14 +46,14 @@ function App() {
        
         <MDBCard>
         <Link to="remove"  style={{color:'black'}}>
-          <MDBCardImage src='https://mdbootstrap.com/img/new/standard/city/042.webp' alt='...' position='top' />
+          <MDBCardImage src='https://uxwing.com/wp-content/themes/uxwing/download/checkmark-cross/remove-icon.svg' alt='...' position='top' />
           <MDBCardBody>
             <MDBCardTitle>  Remove doctor/patient/admin</MDBCardTitle>
             <MDBCardText>
-              This is a wider card with supporting text below as a natural lead-in to additional content.
+              Remove any staff member that is no more in our concideration 
             </MDBCardText>
             <MDBCardText>
-              <small className='text-muted'>Last updated 3 mins ago</small>
+              <small className='text-muted'></small>
             </MDBCardText>
           </MDBCardBody>
           </Link>
@@ -61,15 +61,14 @@ function App() {
            <MDBCard>
             
           <Link to="reqs"  style={{color:'black'}}>
-          <MDBCardImage src='https://mdbootstrap.com/img/new/standard/city/043.webp' alt='...' position='top' />
+          <MDBCardImage src='https://pic.onlinewebfonts.com/svg/img_193411.svg' alt='...' position='top' />
           <MDBCardBody>
             <MDBCardTitle>View and accept doctor requests</MDBCardTitle>
             <MDBCardText>
-              This is a wider card with supporting text below as a natural lead-in to additional content. This
-              card has even longer content than the first to show that equal height action.
+               Accept or view any requests sent by a doctor
             </MDBCardText>
             <MDBCardText>
-              <small className='text-muted'>Last updated 3 mins ago</small>
+              <small className='text-muted'></small>
             </MDBCardText>
           </MDBCardBody>
           </Link>
@@ -87,9 +86,9 @@ function App() {
           <Link to="hr"  style={{color:'black'}}>
           <MDBCardImage src='https://mdbootstrap.com/img/new/standard/city/041.webp' alt='...' position='top' />
           <MDBCardBody>
-            <MDBCardTitle> Add health record for a patient</MDBCardTitle>
+            <MDBCardTitle> Add health record </MDBCardTitle>
             <MDBCardText>
-          View a list of all  patients that have/had appointments with me
+          Add health record for patients 
             </MDBCardText>
             <MDBCardText>
           
@@ -103,12 +102,12 @@ function App() {
         <Link to="contract"  style={{color:'black'}}>
           <MDBCardImage src='https://mdbootstrap.com/img/new/standard/city/042.webp' alt='...' position='top' />
           <MDBCardBody>
-            <MDBCardTitle>   View my contract</MDBCardTitle>
+            <MDBCardTitle>   View contract</MDBCardTitle>
             <MDBCardText>
-              This is a wider card with supporting text below as a natural lead-in to additional content.
+              Check my contract.
             </MDBCardText>
             <MDBCardText>
-              <small className='text-muted'>Last updated 3 mins ago</small>
+              <small className='text-muted'></small>
             </MDBCardText>
           </MDBCardBody>
           </Link>
@@ -120,11 +119,9 @@ function App() {
           <MDBCardBody>
             <MDBCardTitle>View ammount in my wallet</MDBCardTitle>
             <MDBCardText>
-              This is a wider card with supporting text below as a natural lead-in to additional content. This
-              card has even longer content than the first to show that equal height action.
-            </MDBCardText>
+             check how much is left in your wallet            </MDBCardText>
             <MDBCardText>
-              <small className='text-muted'>Last updated 3 mins ago</small>
+              <small className='text-muted'></small>
             </MDBCardText>
           </MDBCardBody>
           </Link>
