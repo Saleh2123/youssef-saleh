@@ -74,7 +74,33 @@ const patientSchema = new Schema({
           }
       }
       ]
-  },wallet:{
+  },prescriptions:{
+    type:[
+      {
+         doctor:    {
+
+          type: mongoose.Types.ObjectId,
+          ref:'request',
+
+      },
+      time:{
+        type:String
+      },date:{
+        type:Date
+      },
+      status:{
+        type:String,
+        default:"Not filled"
+      },
+      medicineName:{
+        type:String
+        },
+        medicineDosage:{
+          type:Number
+        }
+       
+      }
+  ]},wallet:{
     type:Number
   },familymem:{
     type:Array

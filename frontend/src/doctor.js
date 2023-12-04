@@ -94,7 +94,7 @@ export default function Doctor() {
     
       <MDBCard>
         <Link to="viewpatients"  style={{color:'black'}}>
-        <MDBCardImage src='https://mdbootstrap.com/img/new/standard/city/041.webp' alt='...' position='top' />
+        <MDBCardImage src='https://cdn2.iconfinder.com/data/icons/health-care-3/512/find_patients-512.png' alt='...' position='top' />
         <MDBCardBody>
           <MDBCardTitle> View patients</MDBCardTitle>
           <MDBCardText>
@@ -110,14 +110,14 @@ export default function Doctor() {
      
       <MDBCard>
       <Link to="apt"  style={{color:'black'}}>
-        <MDBCardImage src='https://mdbootstrap.com/img/new/standard/city/042.webp' alt='...' position='top' />
+        <MDBCardImage src='https://icon-library.com/images/event-icon-transparent/event-icon-transparent-13.jpg' alt='...' position='top' />
         <MDBCardBody>
           <MDBCardTitle>   View Appointments</MDBCardTitle>
           <MDBCardText>
-            This is a wider card with supporting text below as a natural lead-in to additional content.
+            View all appointments booked by patients
           </MDBCardText>
           <MDBCardText>
-            <small className='text-muted'>Last updated 3 mins ago</small>
+            <small className='text-muted'></small>
           </MDBCardText>
         </MDBCardBody>
         </Link>
@@ -125,30 +125,28 @@ export default function Doctor() {
          <MDBCard>
           
         <Link to="slot"  style={{color:'black'}}>
-        <MDBCardImage src='https://mdbootstrap.com/img/new/standard/city/043.webp' alt='...' position='top' />
+        <MDBCardImage src='https://previews.123rf.com/images/mattbadal/mattbadal1903/mattbadal190300108/124798528-schedule-icon-with-calendar-symbol-with-line-or-outline-style-business-icon-stock.jpg' alt='...' position='top' />
         <MDBCardBody>
           <MDBCardTitle>Schedule follow up</MDBCardTitle>
           <MDBCardText>
-            This is a wider card with supporting text below as a natural lead-in to additional content. This
-            card has even longer content than the first to show that equal height action.
+           Schedule a follow up on the date of your choice
           </MDBCardText>
           <MDBCardText>
-            <small className='text-muted'>Last updated 3 mins ago</small>
+            <small className='text-muted'></small>
           </MDBCardText>
         </MDBCardBody>
         </Link>
       </MDBCard>
       <MDBCard>
       <Link to="addslot"  style={{color:'black'}}>
-        <MDBCardImage src='https://mdbootstrap.com/img/new/standard/city/043.webp' alt='...' position='top' />
+        <MDBCardImage src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcQ5_yFDQXuFknQTwVRsvJukz6cGojDf25LQ&usqp=CAU' alt='...' position='top' />
         <MDBCardBody>
-          <MDBCardTitle>add available time slot</MDBCardTitle>
+          <MDBCardTitle>Add time slot</MDBCardTitle>
           <MDBCardText>
-            This is a wider card with supporting text below as a natural lead-in to additional content. This
-            card has even longer content than the first to show that equal height action.
+         Add availble time slot to your Schedule
           </MDBCardText>
           <MDBCardText>
-            <small className='text-muted'>Last updated 3 mins ago</small>
+            <small className='text-muted'></small>
           </MDBCardText>
         </MDBCardBody>
         </Link>
@@ -164,11 +162,11 @@ function App2() {
     
       <MDBCard>
         <Link to="hr"  style={{color:'black'}}>
-        <MDBCardImage src='https://mdbootstrap.com/img/new/standard/city/041.webp' alt='...' position='top' />
+        <MDBCardImage src='https://static.thenounproject.com/png/2218873-200.png' alt='...' position='top' />
         <MDBCardBody>
-          <MDBCardTitle> Add health record for a patient</MDBCardTitle>
+          <MDBCardTitle> Add health record </MDBCardTitle>
           <MDBCardText>
-        View a list of all  patients that have/had appointments with me
+        Add health record to my patient
           </MDBCardText>
           <MDBCardText>
         
@@ -180,14 +178,14 @@ function App2() {
      
       <MDBCard>
       <Link to="contract"  style={{color:'black'}}>
-        <MDBCardImage src='https://mdbootstrap.com/img/new/standard/city/042.webp' alt='...' position='top' />
+        <MDBCardImage src='https://as2.ftcdn.net/v2/jpg/00/89/21/97/1000_F_89219791_L8yYUCYXRCv7lMbVrqBI5oipl8RAGClR.jpg' alt='...' position='top' />
         <MDBCardBody>
           <MDBCardTitle>   View my contract</MDBCardTitle>
           <MDBCardText>
-            This is a wider card with supporting text below as a natural lead-in to additional content.
+            Check my contract date
           </MDBCardText>
           <MDBCardText>
-            <small className='text-muted'>Last updated 3 mins ago</small>
+            <small className='text-muted'></small>
           </MDBCardText>
         </MDBCardBody>
         </Link>
@@ -195,15 +193,14 @@ function App2() {
          <MDBCard>
           
         <Link to="showWallet"  style={{color:'black'}}>
-        <MDBCardImage src='https://mdbootstrap.com/img/new/standard/city/043.webp' alt='...' position='top' />
+        <MDBCardImage src='https://static.vecteezy.com/system/resources/previews/028/213/659/original/wallet-icon-simple-outline-style-affordable-investment-money-cash-dollar-bill-payment-business-finance-concept-thin-line-symbol-isolated-on-white-background-svg-vector.jpg' alt='...' position='top' />
         <MDBCardBody>
           <MDBCardTitle>View ammount in my wallet</MDBCardTitle>
           <MDBCardText>
-            This is a wider card with supporting text below as a natural lead-in to additional content. This
-            card has even longer content than the first to show that equal height action.
+           Check my amount in my wallet
           </MDBCardText>
           <MDBCardText>
-            <small className='text-muted'>Last updated 3 mins ago</small>
+            <small className='text-muted'></small>
           </MDBCardText>
         </MDBCardBody>
         </Link>

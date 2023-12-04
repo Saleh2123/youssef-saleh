@@ -56,9 +56,7 @@ const doctorSchema = new Schema({
         ],
         required: false
     }
-
   ,
-    
     speciality:{
         type:String,
         required:true
@@ -84,9 +82,33 @@ type:String
     ]
 },wallet:{
     type:String
-}
+},prescriptions:{
+    type:[
+      {
+         patient:    {
 
-,price:{
+          type: mongoose.Types.ObjectId,
+          ref:'request',
+
+      },
+      time:{
+        type:String
+      },date:{
+        type:Date
+      },
+      status:{
+        type:String,
+        default:"Not filled"
+      },
+      medicineName:{
+        type:String
+        },
+        medicineDosage:{
+          type:Number
+        }
+       
+      }
+  ]},price:{
     type:String
 }
 
