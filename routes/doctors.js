@@ -30,6 +30,16 @@ const _pid=(await Patients.findOne({username:patient})).id
 appintmentsD.push({time:apt,patient:_pid,date:date})
 await doctors.updateOne({username:doctor},{$set:{appointments:appintmentsD}}).exec()
 
+const emailP = (await model.findOne({username:username})).email
+const emailD = (await doctor.findOne({username:doc})).email
+transporter.sendMail({
+  from: 'omarrrrr240@gmail.com', // sender address
+  to: emailP,emailD ,// list of receivers
+  subject: "Appointment Reserved", // Subject line
+  text:"" , // plain text body
+  html: `<b>  </b>`, // html body
+ });
+
 res.send("done")
 }
 catch(error){
@@ -225,7 +235,9 @@ const addPrescription = async(req,res)=>{
       return res.status(404).json({ error: 'Doctor not found' });
     }
     const patient = await Patients.findOne({username:patientUsername})
-    const appointment = patient.appointments.filter({doctor:doctor})
+    const appointment = patient.appointments.filter(
+      (appointment) => appointment.status === 'completed'
+    )
     if(!patient){
       return res.status(404).json({ error: 'Patient not found' });
     }
@@ -235,7 +247,68 @@ const addPrescription = async(req,res)=>{
     const prescription = patient.prescriptions
     prescription.push({time:time, date:date, doctor:doctor, medicineName:medicineName, medicineDosage:medicineDosage})
     await Patients.updateOne({username:patientUsername},{$set:{prescriptions:prescription}}).exec()
+    const doctorPrescriptions = doctor.prescriptions
+    doctorPrescriptions.push({time:time, date:date, patient:patient, medicineName:medicineName, medicineDosage:medicineDosage})
+    await doctors.updateOne({username:doctorUsername},{$set:{prescriptions:doctorPrescriptions}}).exec()
     res.send('done');
+  }
+  catch(error){
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
+const viewDoctorPrescriptions = async (req,res)=>{
+  const {username} = req.query;
+  try{
+   const doctor = await doctors.findOne({username:username})
+   if(!doctor){
+     return res.status(404).json({ error: 'Doctor not found' });
+   }
+  res.json(doctor.prescriptions);
+  }
+  catch(error){
+   console.error(error);
+   res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
+const cancelPatientApp = async (req,res)=>{
+  const {username,doc,date} = req.body
+  try{
+    const patient = await Patients.findOne({username:username})
+    if(!patient){
+      return res.status(404).json({ error: 'Patient not found' });
+    }
+    const doctor1 = await doctor.findOne({username:doc})
+    if(!doctor1){
+      return res.status(404).json({ error: 'Doctor not found' });
+    }
+    const _did=(await doctor.findOne({username:doc})).id
+    const _pid=(await Patients.findOne({username:username})).id
+    const appointmentsP = patient.appointments || []
+    const appointmentsD = doctor1.appointments || []
+    const indexP = appointmentsP.findIndex((obj => (obj.date===date)&&(obj.doctor===_did))) 
+    const indexD = appointmentsD.findIndex((obj => (obj.date===date)&&(obj.patient===_pid))) 
+    if((indexP!== -1)||(indexD!==-1)){
+      return res.status(404).json({ error: 'Appointment not found' });
+    }
+    if((appointmentsP[indexP].status==='canceled')&&(appointmentsD[indexD].status==='canceled')){
+      return res.status(404).json({ error: 'Appointment already canceled' });
+    }
+    appointmentsP[indexP].status='canceled'
+    appointmentsD[indexD].status='canceled'
+    
+    const emailP = (await model.findOne({username:username})).email
+     const emailD = (await doctor.findOne({username:doc})).email
+    transporter.sendMail({
+      from: 'omarrrrr240@gmail.com', // sender address
+      to: `${emailP}, ${emailD}`,// list of receivers
+      subject: "Appointment Canceled", // Subject line
+      text: "", // plain text body
+      html: `<b> Appointment Canceled </b>`, // html body
+    });
+      patient.wallet += doctor1.price;    
   }
   catch(error){
     console.error(error);
@@ -254,7 +327,8 @@ module.exports = {
   addHealthRecord,
   addapt,addtimeslot,viewAppointments,
   filterDoctorAppointments,showDoctorWallet,
-  addPrescription
+  addPrescription,viewDoctorPrescriptions,
+  cancelPatientApp
 };
 
 

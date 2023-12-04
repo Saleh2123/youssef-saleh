@@ -4,7 +4,15 @@ const healthpackage=require("../model/healthpackage")
 const stripe=require("stripe")("sk_test_51OAVMvGeO5iUBvxLCELNV3o9D9GvDTflUXdv6Voo0m15g8VKbaGPdpcNw4rMSIFkZ8iwgNiQH0g53uruGILPLAPH00v0J3kmKQ")
 const fs=require("fs")
 const Patients = require('../model/patientvariables');
+const nodemailer =require("nodemailer")
 
+const transporter = nodemailer.createTransport({ 
+  service: 'gmail', 
+  auth: { 
+    user: "sarageita74@gmail.com", 
+    pass: "yayvemblnwtvuwsb"
+  } 
+  });
 
 const viewSubscriptionStatus = async (req, res) => {
   try {
@@ -121,7 +129,7 @@ const subscribeToPackage = async (req, res) => {
      }
  
      // Save changes to the patient
-     await patient.save();
+    await patient.save();
  
      res.status(200).json({ message: 'Health package subscribed successfully' });
    } catch (error) {
@@ -281,19 +289,39 @@ const viewslots =async(req,res)=>{
 
 const select= async(req,res)=>{
       const {username,doc,time,date}=req.body;
+    try{
+      const _did=(await doctor.findOne({username:doc})).id
+      const _pid=(await Patients.findOne({username:username})).id
+      if(!_pid){
+        return res.status(404).json({ error: 'Patient not found' });
+     }
+     if(!_did){
+      return res.status(404).json({ error: 'Doctor not found' });
+     }
+
       const appointmentsP= (await model.findOne({username:username})).appointments
-         const _did=(await doctor.findOne({username:doc})).id
-         
       appointmentsP.push({doctor:_did,time:JSON.stringify(time),date:date})
      await model.updateOne({username:username},{$set:{appointments:appointmentsP}}).exec()
+
      const appointmentsD= (await doctor.findOne({username:doc})).appointments
-         const _pid=(await Patients.findOne({username:username})).id
-         
       appointmentsD.push({patient:_pid,time:JSON.stringify(time),date:date})
      await doctor.updateOne({username:doc},{$set:{appointments:appointmentsD}}).exec()
+
+     const emailP = (await model.findOne({username:username})).email
+     const emailD = (await doctor.findOne({username:doc})).email
+    transporter.sendMail({
+      from: 'omarrrrr240@gmail.com', // sender address
+      to: `${emailP}, ${emailD}`,// list of receivers
+      subject: "Appointment Reserved", // Subject line
+      text:"" , // plain text body
+      html: `<b> Appointment reserved </b>`, // html body
+    });
       console.log(appointmentsP)
-   res.send(appointmentsP)
-   
+      res.send(appointmentsP)
+  }
+  catch(error){
+    res.status(500).json({ error: 'Internal server error' });
+  }
 }
  
 const filterMyAppointments = async (req,res)=>{
@@ -350,7 +378,98 @@ const viewPrescriptions = async (req,res)=>{
    }
 }
 
+
+const rescheduleApp = async (req,res)=>{
+   const {username,doc,oldDate,date,time} = req.body
+   try{
+    const patient = await Patients.findOne({username:username})
+    if(!patient){
+      return res.status(404).json({ error: 'Patient not found' });
+    }
+    const doctor1 = await doctor.findOne({username:doc})
+    if(!doctor1){
+      return res.status(404).json({ error: 'Doctor not found' });
+    }
+    const _did=(await doctor.findOne({username:doc})).id
+    const _pid=(await Patients.findOne({username:username})).id
+    const appointmentsP = patient.appointments || []
+    const appointmentsD = doctor1.appointments || []
+    const indexP = appointmentsP.findIndex((obj => (obj.date===oldDate)&&(obj.doctor===_did))) 
+    const indexD = appointmentsD.findIndex((obj => (obj.date===oldDate)&&(obj.patient===_pid))) 
+    if((indexP!== -1)||(indexD!==-1)){
+      return res.status(404).json({ error: 'Appointment not found' });
+    }
+    appointmentsP[indexP].date=date
+    appointmentsP[indexP].time=time
+    appointmentsP[indexP].status='rescheduled'
+    appointmentsD[indexD].date=date
+    appointmentsD[indexD].time=time
+    appointmentsD[indexD].status='rescheduled'
+
+    const emailP = (await model.findOne({username:username})).email
+     const emailD = (await doctor.findOne({username:doc})).email
+    transporter.sendMail({
+      from: 'omarrrrr240@gmail.com', // sender address
+      to: `${emailP}, ${emailD}`,// list of receivers
+      subject: "Appointment Rescheduled", // Subject line
+      text: "", // plain text body
+      html: `<b> Appointment Rescheduled </b>`, // html body
+    });
+
+  }
+  catch(error){
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+   }
+}
+
+const cancelApp = async (req,res)=>{
+  const {username,doc,date} = req.body
+  try{
+    const patient = await Patients.findOne({username:username})
+    if(!patient){
+      return res.status(404).json({ error: 'Patient not found' });
+    }
+    const doctor1 = await doctor.findOne({username:doc})
+    if(!doctor1){
+      return res.status(404).json({ error: 'Doctor not found' });
+    }
+    const _did=(await doctor.findOne({username:doc})).id
+    const _pid=(await Patients.findOne({username:username})).id
+    const appointmentsP = patient.appointments || []
+    const appointmentsD = doctor1.appointments || []
+    const indexP = appointmentsP.findIndex((obj => (obj.date===date)&&(obj.doctor===_did))) 
+    const indexD = appointmentsD.findIndex((obj => (obj.date===date)&&(obj.patient===_pid))) 
+    if((indexP!== -1)||(indexD!==-1)){
+      return res.status(404).json({ error: 'Appointment not found' });
+    }
+    if((appointmentsP[indexP].status==='canceled')&&(appointmentsD[indexD].status==='canceled')){
+      return res.status(404).json({ error: 'Appointment already canceled' });
+    }
+    appointmentsP[indexP].status='canceled'
+    appointmentsD[indexD].status='canceled'
+    
+    const emailP = (await model.findOne({username:username})).email
+     const emailD = (await doctor.findOne({username:doc})).email
+    transporter.sendMail({
+      from: 'omarrrrr240@gmail.com', // sender address
+      to: `${emailP}, ${emailD}`,// list of receivers
+      subject: "Appointment Canceled", // Subject line
+      text: "", // plain text body
+      html: `<b> Appointment Canceled </b>`, // html body
+    });
+    if ((new Date(appointmentsD[indexD].date) - Date.now()) / (1000 * 60 * 60) > 24) {
+      patient.wallet += doctor1.price;
+    }
+  }
+  catch(error){
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
  module.exports={viewSubscriptionStatus,createpatient,addmember,viewfamily,viewdocss,charge,
   remove,medichistory,viewhealthpack,subscribeToPackage,ViewHealthPackages,
-  cancelSub,viewslots,addtimes,select,filterMyAppointments,showWallet,viewPrescriptions}
+  cancelSub,viewslots,addtimes,select,filterMyAppointments,showWallet,viewPrescriptions,rescheduleApp,
+  cancelApp}
 
