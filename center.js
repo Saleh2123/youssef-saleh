@@ -1,8 +1,8 @@
 const express= require('express')
 const jwt = require('jsonwebtoken');
 const mongoose=require('mongoose')
-const {createpatient, addmember, viewfamily, viewdocss, charge, remove, medichistory, viewhealthpack, subscribeToPackage, ViewHealthPackages, cancelSub, addtimes, viewslots, select, viewSubscriptionStatus, showWallet, filterMyAppointments, viewPrescriptions, rescheduleApp}= require('./routes/patient')
-const { createdoctor, updatedoc, viewpatients, viewpatient, addHealthRecord, viewAvailableAppointments, viewAppointments, showDoctorWallet, filterDoctorAppointments, addapt, addtimeslot, addPrescription, viewDoctorPrescriptions } = require('./routes/doctors')
+const {createpatient, addmember, viewfamily, viewdocss, charge, remove, medichistory, viewhealthpack, subscribeToPackage, ViewHealthPackages, cancelSub, addtimes, viewslots, select, viewSubscriptionStatus, showWallet, filterMyAppointments, viewPrescriptions, rescheduleApp, cancelApp}= require('./routes/patient')
+const { createdoctor, updatedoc, viewpatients, viewpatient, addHealthRecord, viewAvailableAppointments, viewAppointments, showDoctorWallet, filterDoctorAppointments, addapt, addtimeslot, addPrescription, viewDoctorPrescriptions, cancelPatientApp } = require('./routes/doctors')
 const { deleteuser, docreqs, createadmin, viewapt, viewpres, viewdocapt, deletepack, addpack, updatepack, updatepass, rejdoc, acceptdoc } = require('./routes/admin')
 require ('dotenv').config()
 const app = express()
@@ -137,6 +137,8 @@ app.post('/addPrescription',addPrescription)
 app.get('/viewPrescriptions',viewPrescriptions)
 app.get('viewDoctorPrescriptions',viewDoctorPrescriptions)
 app.patch('/rescheduleApp',rescheduleApp)
+app.patch('/cancelApp',cancelApp)
+app.patch{'/cancelPatientApp',cancelPatientApp}
 
 //app.get('/viewAppointments', viewAppointments);
 
