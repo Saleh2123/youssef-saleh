@@ -8,6 +8,7 @@ import CallObjectContext from '../../CallObjectContext';
 import { roomUrlFromPageUrl, pageUrlFromRoomUrl } from '../../urlUtils';
 import DailyIframe from '@daily-co/daily-js';
 import { logDailyEvent } from '../../logUtils';
+import { useParams } from 'react-router-dom';
 
 const STATE_IDLE = 'STATE_IDLE';
 const STATE_CREATING = 'STATE_CREATING';
@@ -20,20 +21,26 @@ export default function Videochatt() {
   const [appState, setAppState] = useState(STATE_IDLE);
   const [roomUrl, setRoomUrl] = useState(null);
   const [callObject, setCallObject] = useState(null);
-
+  const {patient}=useParams("patient")
+  const {doctor}=useParams("doctor")
   /**
    * Creates a new call room.
    */
   const createCall = useCallback(() => {
     setAppState(STATE_CREATING);
+    try{
     return api
-      .createRoom()
+      .createRoom(doctor,patient)
       .then((room) => room.url)
       .catch((error) => {
         console.log('Error creating room', error);
         setRoomUrl(null);
         setAppState(STATE_IDLE);
       });
+    }
+    catch(err){
+      console.log(err)
+    }
   }, []);
 
   /**
@@ -46,11 +53,18 @@ export default function Videochatt() {
    * events.
    */
   const startJoiningCall = useCallback((url) => {
+    
     const newCallObject = DailyIframe.createCallObject();
     setRoomUrl(url);
     setCallObject(newCallObject);
     setAppState(STATE_JOINING);
+  
+    try{
     newCallObject.join({ url });
+    }
+    catch(err){
+      console.log(err)
+    }
   }, []);
 
   /**
@@ -223,7 +237,16 @@ export default function Videochatt() {
         <StartButton
           disabled={!enableStartButton}
           onClick={() => {
+          try{
             createCall().then((url) => startJoiningCall(url));
+          }
+          catch(err){
+            console.log('h')
+
+           api.joinRoom().then((room)=> startJoiningCall(room.url))
+
+
+          }
           }}
         />
       )}

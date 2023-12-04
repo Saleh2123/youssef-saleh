@@ -13,6 +13,8 @@ const Patients = require('./model/patientvariables');
 const formidable = require("formidable")
 const fs=require("fs")
 const path=require('path');
+const rooms=require("./model/message")
+const socketIo = require('socket.io');
 app.use(express.json())
 app.use(cors())
 app.use((req,res,next)=>{
@@ -21,9 +23,55 @@ app.use((req,res,next)=>{
 })
 mongoose.connect(process.env.MONGO_URI)
 .then(() =>{
-    app.listen(process.env.PORT,()=>{
-        console.log('listening to db ',process.env.PORT)
-    })
+  app.use(cors())
+const server = app.listen(process.env.PORT, () => {
+  console.log(`Server running on port ${process.env.PORT}`);
+});
+const io = socketIo(server);
+
+// Handle socket connections
+io.on('connection', (socket) => {
+console.log('User connected:', socket.id);
+
+// Join a room
+socket.on('joinRoom', async (room) => {
+if(( await rooms.findOne({patient:room.split("-")[1],doctor:room.split("-")[0]}))){
+  io.to(room).emit("message",( await rooms.findOne({patient:room.split("-")[1],doctor:room.split("-")[0]}))?.messages)
+}else{
+  rooms.create({patient:room.split("-")[1],doctor:room.split("-")[0]})
+}
+  socket.join(room);
+});
+
+// Handle chat messages
+socket.on('message',async (data) => {
+  // Broadcast the message to everyone in the room
+
+ var temp=[]
+
+  console.log(data)
+  temp=( await rooms.findOne({patient:data.room.split("-")[1],doctor:data.room.split("-")[0]}))?.messages
+  try{
+  temp.push({message:data.message,id:data.id});
+await   rooms.updateOne({patient:data.room.split("-")[1],doctor:data.room.split("-")[0]},{$set:{messages:temp}})
+
+io.to(data.room).emit('message', temp);
+  }catch(err){
+    console.log(err)
+    
+await   rooms.updateOne({patient:data.room.split("-")[1],doctor:data.room.split("-")[0]},{$set:{messages:[data]}})
+
+io.to(data.room).emit('message', temp);
+  }
+});
+
+// Handle user disconnection
+socket.on('disconnect', () => {
+  socket.disconnect();
+  console.log('User disconnected:', socket.id);
+});
+});
+
 })
 .catch((error)=>{
     console.log(error)
@@ -241,7 +289,8 @@ function makeid(length) {
 }
 
 const notp=require("notp")
-const nodemailer =require("nodemailer")
+const nodemailer =require("nodemailer");
+const { Console } = require('console');
 const transporter = nodemailer.createTransport({ 
   service: 'gmail', 
   auth: { 
@@ -389,4 +438,8 @@ list3.forEach((p)=>{
 })
 res.send(list)
 })
+
+
+
+
 
