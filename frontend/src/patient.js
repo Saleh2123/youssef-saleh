@@ -17,13 +17,36 @@ function Patient(){
         <Link to="apt">   
         <button type="submit">View appointment</button>
         </Link> 
-        <Link to="pres">   
+        <Link to="viewPrescriptions">   
         <button type="submit">View Prescriptions</button>
+        </Link>
+        <Link to="upload">   
+        <button type="submit">upload health records</button>
+        </Link>
+        <Link to="his">   
+        <button type="submit">view health records</button>
         </Link>
         <Link to="healthpack">   
         <button type="submit">View Health Packages</button>
         </Link>
-
+        <Link to="status">   
+        <button type="submit">View Health Package status</button>
+        </Link>
+        <Link to="select">   
+        <button type="submit">select appointment</button>
+        </Link>
+        <Link to="filterMyAppointments">   
+        <button type="submit">filter appointments</button>
+        </Link>
+        <Link to="showWallet">   
+        <button type="submit">show wallet</button>
+        </Link>
+        <Link to="link">   
+        <button type="submit">Link</button>
+        </Link>
+      <Link to="rescheduleApp">   
+        <button type="submit">Reschedule appointment</button>
+        </Link> 
 
      </div> )
 

@@ -46,6 +46,103 @@ setr((await axios.get(`http://localhost:5000/viewdoctors`)).data)
                     <TableCell>{row.date}</TableCell>
                     <TableCell>{row.education}</TableCell>
                     <TableCell>{row.speciality}</TableCell>
+
+
+                    <TableCell  onClick={()=>{
+
+axios({
+  url: `http://localhost:5000/file?file=${row.dets[0]}`, // Replace with your server URL
+  method: 'GET',
+  responseType: 'blob', // Important
+  
+}).then((response) => {
+  // Create a file link in the browser's memory
+  const href = URL.createObjectURL(response.data);
+
+  // Create an <a> HTML element with href to the file & click it
+  const link = document.createElement('a');
+  link.href = href;
+  link.setAttribute('download', row.dets[0]); // Replace with the desired filename or extension
+  document.body.appendChild(link);
+  link.click();
+
+  // Clean up the dynamically created file link and remove ObjectURL
+  document.body.removeChild(link);
+  URL.revokeObjectURL(href);
+});
+
+
+
+
+}} >{row.dets[0]}</TableCell>
+ <TableCell  onClick={()=>{
+
+axios({
+  url: `http://localhost:5000/file?file=${row.dets[1]}`, // Replace with your server URL
+  method: 'GET',
+  responseType: 'blob', // Important
+  
+}).then((response) => {
+  // Create a file link in the browser's memory
+  const href = URL.createObjectURL(response.data);
+
+  // Create an <a> HTML element with href to the file & click it
+  const link = document.createElement('a');
+  link.href = href;
+  link.setAttribute('download', row.dets[1]); // Replace with the desired filename or extension
+  document.body.appendChild(link);
+  link.click();
+
+  // Clean up the dynamically created file link and remove ObjectURL
+  document.body.removeChild(link);
+  URL.revokeObjectURL(href);
+});
+
+
+
+
+}} >{row.dets[1]}</TableCell>
+ <TableCell  onClick={()=>{
+
+axios({
+  url: `http://localhost:5000/file?file=${row.dets[2]}`, // Replace with your server URL
+  method: 'GET',
+  responseType: 'blob', // Important
+  
+}).then((response) => {
+  // Create a file link in the browser's memory
+  const href = URL.createObjectURL(response.data);
+
+  // Create an <a> HTML element with href to the file & click it
+  const link = document.createElement('a');
+  link.href = href;
+  link.setAttribute('download', row.dets[2]); // Replace with the desired filename or extension
+  document.body.appendChild(link);
+  link.click();
+
+  // Clean up the dynamically created file link and remove ObjectURL
+  document.body.removeChild(link);
+  URL.revokeObjectURL(href);
+});
+
+
+
+
+}} >{row.dets[2]}</TableCell>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                    <TableCell> <button
                         className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded`}
                         onClick={async () =>{ await axios.post('http://localhost:5000/accept',{username:row.username})

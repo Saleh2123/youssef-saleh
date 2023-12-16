@@ -15,12 +15,12 @@ function Choose() {
         gap: '16px',
       }}
     >
-      <Link to="/patient" style={{ textDecoration: 'none' }}>
+      <Link to="pateint" style={{ textDecoration: 'none' }}>
         <Button variant="contained" color="primary">
           Register as Patient
         </Button>
       </Link>
-      <Link to="/doctor" style={{ textDecoration: 'none' }}>
+      <Link to="doctor" style={{ textDecoration: 'none' }}>
         <Button variant="contained" color="primary">
           Register as Doctor
         </Button>

@@ -1,65 +1,59 @@
 import axios from "axios";
+import React from 'react';
+import { useParams } from 'react-router-dom';
 import { useEffect, useState } from "react";
-import { json, useParams } from "react-router-dom";
+import { TableContainer, Table, TableBody, TableRow, TableCell, Paper, TableHead } from '@mui/material';
+
 
 export default function Pres(){
-    const [search,setsearch]=useState('')
-    const[state,setstatus]=useState('')
-    const [time,settime]=useState("")
 const {id}= useParams();
-const [apt,setapt]=useState([])
-const [selected,setselect]=useState('')
+const [pres,setpres]=useState([])
+
 useEffect(()=>{
     async function get(){
-setapt((await axios.get(`http://localhost:5000/pres?username=${id}`)).data)
-console.log(apt)
+setpres((await axios.get('http://localhost:5000/viewPrescriptions',{params:{username:id}})).data);
+console.log(pres)
     }
-    get()
-},[])
-
-
-
-console.log(time)
-
+    get();
+},[id]);
+console.log(pres)
 
     return(
-
-<>
-<input  placeholder="doctor"  onChange={(e)=>{setsearch(e.target.value)}}></input>
-
-
-<input  placeholder="status"  onChange={(e)=>{setstatus(e.target.value)}}></input>
-
-<input  type="date" onChange={(e)=>{settime(e.target.value)}}></input>
-{
-    apt?.filter(({doctor,status,date})=>{
-        console.log(date)
-        return doctor.includes(search)&&status.includes(state)&&(time===""||date=== time)
-    }).map((data)=>
-    
-    
-    
-    <div id={`${JSON.stringify(data)}`   } onClick={()=>{ console.log(id);console.log(selected);  setselect(JSON.stringify(data))}}
-    
-    style={{color:JSON.stringify(data)===selected?"blue":"black"}}>
-    {
-    JSON.stringify(data)}
-    </div>    
-    )
-}
-
-
-
-
-
-
-
-
-</>
-
-
-
-
+<div className="container mx-auto mt-8">
+      <h2 className="text-2xl font-bold">Prescriptions</h2>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Doctor Name</TableCell>
+              <TableCell>Date</TableCell>
+              <TableCell>Time</TableCell>
+              <TableCell>Status</TableCell>
+              <TableCell>Medicine Name</TableCell>
+              <TableCell>Medicine Dosage</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+          {pres.length > 0 ? (
+              pres.map((prescription, index) => (
+                <TableRow key={index}>
+                  <TableCell>{prescription.doctor}</TableCell>
+                  <TableCell>{prescription.date}</TableCell>
+                  <TableCell>{prescription.time}</TableCell>
+                  <TableCell>{prescription.status}</TableCell>
+                  <TableCell>{prescription.medicineName}</TableCell>
+                  <TableCell>{prescription.medicineDosage}</TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={6}>No prescriptions available</TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </div>
 
     )
 

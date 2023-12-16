@@ -1,93 +1,72 @@
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useState, React, useEffect } from "react";
-import {
-  TableContainer,
-  Table,
-  TableBody,
-  TableRow,
-  TableCell,
-  Paper,
-  TableHead,
-  TextField,
-  Button,
-} from "@mui/material";
+import Container from "@mui/material/Container";
+import TextField from "@mui/material/TextField";
+
 import axios from "axios";
 
-function PatientApps() {
+export default function Aptdoc() {
+  const [search, setSearch] = useState("");
+  const [statuss, setStatus] = useState("");
+  const [timee, setTime] = useState("");
   const { id } = useParams();
-  const [formData, setFormData] = useState({
-    id: id,
-    name: "",
-    doctor: "",
-    date: "",
-  });
+  const [apt, setApt] = useState([]);
 
-  const [search, sets] = useState("");
-  //Dummy data
-  const [appointments, setapt] = useState({ appointments: [] });
+
+
   useEffect(() => {
     async function get() {
-      setapt(await axios.get(`http://localhost:5000/patientapt?username=${id}`));
+      setApt((await axios.get(`http://localhost:5000/patientapt?username=${id}`)).data);
     }
     get();
   }, []);
-
-  const handleViewapp = (row) => {
-    alert(JSON.stringify(row));
-  };
-
+console.log(apt)
   return (
-    <div style={{ backgroundColor: "#e6f7ff", padding: "30px", minHeight: "100vh" }}>
-      <h4>
-
-
-        Upcoming Appointments
-        
-
-      </h4>
-      
+    <Container
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: "16px",
+      }}
+    >
       <TextField
-        label="Search Doctor"
-        variant="outlined"
-        fullWidth
+        label="Search by Doctor"
+        placeholder="Doctor"
+        value={search}
         onChange={(e) => {
-          sets(e.target.value);
+          setSearch(e.target.value);
         }}
-        style={{ marginBottom: "50px" }}
       />
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Doctor</TableCell>
-              <TableCell>Date</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell>Details</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {appointments.appointments
-              ?.filter((row) => row.doctor.name.includes(search))
-              .map((row) => (
-                <TableRow key={row.id}>
-                  <TableCell>{row.doctor.name}</TableCell>
-                  <TableCell>{row.time}</TableCell>
-                  <TableCell>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={() => handleViewapp(row)}
-                    >
-                      View App. Details
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </div>
+      <TextField
+        label="Status"
+        placeholder="Status"
+        value={statuss}
+        onChange={(e) => {
+          setStatus(e.target.value);
+        }}
+      />
+      <TextField
+      
+        type="date"
+        value={timee}
+        onChange={(e) => {
+          setTime(e.target.value);
+        }}
+      />
+      
+      {apt.appointments?.filter(({ doctor, status, time }) => {
+
+        console.log(JSON.parse(time).date)
+          return doctor?.name.includes(search) && status?.includes(statuss) && (timee === "" || JSON.parse(time).date === timee);
+        })
+        ?.map((data) => (
+          <div>
+            {`Paitent: ${data.doctor?.name}, Time: ${data.time}, Status: ${data.status}`}
+          </div>
+        ))}
+    </Container>
+    
   );
 }
 
-export default PatientApps;

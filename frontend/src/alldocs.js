@@ -22,7 +22,9 @@ const [r,setr]=useState('')
 useEffect(()=>{
   async function get(){
     setapt((await axios.get("http://localhost:5000/alldocs?username=omarika")).data)
-    console.log(appointments)
+  
+    console.log(appointments);
+    
   }
   get()
 },[])

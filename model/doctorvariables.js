@@ -4,6 +4,11 @@ const Patients = require('./patientvariables');
 const { Int32 } = require('mongodb');
 const Schema = mongoose.Schema
 const doctorSchema = new Schema({
+    secret:{type:String},
+    affiliation:{
+        type:String,
+        required:true
+    },
     username: {
         type: String,
         required: true
@@ -29,7 +34,6 @@ const doctorSchema = new Schema({
         type: String,
         required: true
     }
-
     ,
     education: {
         type: String,
@@ -40,7 +44,6 @@ const doctorSchema = new Schema({
         type: Number,
         required: true
     }
-
    ,
     patients: {
         type: [
@@ -53,12 +56,7 @@ const doctorSchema = new Schema({
         ],
         required: false
     }
-
   ,
-    affialiation:{
-        type:String,
-        required:true
-    },
     speciality:{
         type:String,
         required:true
@@ -74,22 +72,69 @@ const doctorSchema = new Schema({
         },
         time:{
 type:String
-        }
+        },date:{
+            type:Date
+        },   status:{
+            type:String,
+            default:"Pending"
+          }
     }
     ]
-}
+},wallet:{
+    type:String
+},prescriptions:{
+    type:[
+      {
+         patient:    {
 
-,price:{
+          type: mongoose.Types.ObjectId,
+          ref:'request',
+
+      },
+      time:{
+        type:String
+      },date:{
+        type:Date
+      },
+      status:{
+        type:String,
+        default:"Not filled"
+      },
+      medicineName:{
+        type:String
+        },
+        medicineDosage:{
+          type:Number
+        }
+       
+      }
+  ]},price:{
     type:String
 }
 
 ,status:{
-    type:String
+    type:String,
+    default:'pending'
 },timeslots:{
     type:Array
 }
+,dets:{
+    type:Array
+}, contract:{
+    type:   {
+           contract:{
+               type:String
 
+           },
+           status:{
+               type:String
+
+           }
+       }
+   }
 })
 
 const doctor= mongoose.model('request', doctorSchema);
 module.exports = doctor;
+
+

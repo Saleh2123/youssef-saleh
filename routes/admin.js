@@ -114,6 +114,8 @@ const updatepack = async (req, res) => {
     await packages.findOneAndDelete({name:name})
     console.log(req)
     res.send('done')
+    await packages.findByIdAndDelete({name:name})
+
  }   
  
   
@@ -146,4 +148,8 @@ res.send(pres)
 
  
  
+
  module.exports={createadmin,deleteuser,docreqs,viewapt,viewpres,viewdocapt,deletepack,addpack,updatepack,updatepass,acceptdoc,rejdoc}
+
+
+

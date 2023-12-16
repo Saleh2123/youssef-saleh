@@ -1,14 +1,18 @@
-/*import {useStripe, useElements, PaymentElement, Elements} from '@stripe/react-stripe-js';
+import {useStripe, useElements, PaymentElement, Elements} from '@stripe/react-stripe-js';
 import { useState,useEffect } from 'react';
 import axios from 'axios';
 import { loadStripe } from '@stripe/stripe-js';
-const stripePromise = loadStripe('pk_test_51OAVMvGeO5iUBvxL6fvjE7UrNQm3PqhvbxN9WJfx8CLrXp2XOj1YdT2Idc3u6LOLMifn7drFobh51P4pepfZ8JY100eP87lH2y');
-const options={clientSecret:(await axios.post("http://localhost:5000/charge")).data.client_secret}
+
+import {useParams} from"react-router-dom"
 
 
-const Check=()=>{
 
+const Check=({options})=>{
+
+  const stripePromise = loadStripe('pk_test_51OAVMvGeO5iUBvxL6fvjE7UrNQm3PqhvbxN9WJfx8CLrXp2XOj1YdT2Idc3u6LOLMifn7drFobh51P4pepfZ8JY100eP87lH2y');
   
+
+
   return(
 <Elements options={options} stripe={stripePromise}>
   <CheckoutForm></CheckoutForm>
@@ -21,7 +25,20 @@ const Check=()=>{
 const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
+  const {id}=useParams()
+const {pack}=useParams()
+  const handleSubscribe = async () => {
+    try {
+      const response = await axios.post('http://localhost:5000/subscribe', {
+        username:id,
+        packageId:pack,
+      });
 
+     
+    } catch (error) {
+      console.error(error);
+       }
+  };
   const handleSubmit = async (event) => {
     // We don't want to let default form submission happen here,
     // which would refresh the page.
@@ -32,7 +49,9 @@ const CheckoutForm = () => {
       // Make sure to disable form submission until Stripe.js has loaded.
       return;
     }
-
+    if(!pack.includes("pack")){
+await handleSubscribe()
+    }
     const result = await stripe.confirmPayment({
       //`Elements` instance that was used to create the Payment Element
       elements,
@@ -40,6 +59,7 @@ const CheckoutForm = () => {
         return_url: "https://example.com/order/123/complete",
       },
     });
+
 
 
     if (result.error) {
@@ -61,4 +81,4 @@ const CheckoutForm = () => {
   )
 };
 
-export default Check;*/
+export default Check;

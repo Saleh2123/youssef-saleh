@@ -1,6 +1,9 @@
 import { useState,useEffect } from "react";
 import {TableContainer,Table,TableBody,TableRow,TableCell,Paper,TableHead} from "@mui/material";
 import axios from "axios";
+function onlyUnique(value, index, array) {
+  return array.indexOf(value) === index;
+  }
 function Viewpatients() {
   const [selectedPatient, setSelectedPatient] = useState(null);
   const [p,setp]=useState([])
@@ -53,7 +56,9 @@ function Viewpatients() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                { p.filter((patient) =>
+                { p.filter((item, index, arr) => {
+  return arr.findIndex(i => i.patient._id === item.patient._id) === index;
+}).filter((patient,index) =>
       patient.patient.name.toLowerCase().includes(searchQuery.toLowerCase())
     ).map((row) => (
                   <TableRow key={row.id}>
