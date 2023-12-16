@@ -11,7 +11,7 @@ const [pres,setpres]=useState([])
 
 useEffect(()=>{
     async function get(){
-setpres((await axios.get('http://localhost:5000/viewPrescriptions',{params:{username:id}})).data);
+setpres((await axios.get('http://localhost:5000/viewDoctorPrescriptions',{params:{username:id}})).data);
 console.log(pres)
     }
     get();
@@ -25,8 +25,8 @@ console.log(pres)
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Doctor Name</TableCell>
-              <TableCell>Date</TableCell>
+              <TableCell>Patient Name</TableCell>
+=              <TableCell>Date</TableCell>
               <TableCell>Time</TableCell>
               <TableCell>Status</TableCell>
               <TableCell>Medicine Name</TableCell>
@@ -37,7 +37,7 @@ console.log(pres)
           {pres.length > 0 ? (
               pres.map((prescription, index) => (
                 <TableRow key={index}>
-                  <TableCell>{prescription.doctor}</TableCell>
+                  <TableCell>{prescription.patient}</TableCell>
                   <TableCell>{prescription.date}</TableCell>
                   <TableCell>{prescription.time}</TableCell>
                   <TableCell>{prescription.status}</TableCell>

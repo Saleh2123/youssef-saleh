@@ -207,6 +207,37 @@ function App2() {
       </MDBCard>
       <MDBCard>
      
+     
+      <Link to="viewDoctorPrescriptions"  style={{color:'black'}}>
+        <MDBCardImage src='https://static.vecteezy.com/system/resources/previews/028/213/659/original/wallet-icon-simple-outline-style-affordable-investment-money-cash-dollar-bill-payment-business-finance-concept-thin-line-symbol-isolated-on-white-background-svg-vector.jpg' alt='...' position='top' />
+        <MDBCardBody>
+          <MDBCardTitle>View Prescriptions I wrote</MDBCardTitle>
+          <MDBCardText>
+           View all prescriptions I wrote to parents
+          </MDBCardText>
+          <MDBCardText>
+            <small className='text-muted'></small>
+          </MDBCardText>
+        </MDBCardBody>
+        </Link>
+      </MDBCard>
+      <MDBCard>
+
+      <Link to="addPrescription"  style={{color:'black'}}>
+        <MDBCardImage src='https://static.vecteezy.com/system/resources/previews/028/213/659/original/wallet-icon-simple-outline-style-affordable-investment-money-cash-dollar-bill-payment-business-finance-concept-thin-line-symbol-isolated-on-white-background-svg-vector.jpg' alt='...' position='top' />
+        <MDBCardBody>
+          <MDBCardTitle>Add Prescription</MDBCardTitle>
+          <MDBCardText>
+           Add a prescription to a patient after appointment 
+          </MDBCardText>
+          <MDBCardText>
+            <small className='text-muted'></small>
+          </MDBCardText>
+        </MDBCardBody>
+        </Link>
+      </MDBCard>
+      <MDBCard>
+
       </MDBCard>
       
     </MDBCardGroup>

@@ -183,10 +183,10 @@ app.get('/filterMyAppointments',filterMyAppointments);
 app.get('/filterDoctorAppointments',filterDoctorAppointments)
 app.post('/addPrescription',addPrescription)
 app.get('/viewPrescriptions',viewPrescriptions)
-app.get('viewDoctorPrescriptions',viewDoctorPrescriptions)
+app.get('/viewDoctorPrescriptions',viewDoctorPrescriptions)
 app.patch('/rescheduleApp',rescheduleApp)
 app.patch('/cancelApp',cancelApp)
-app.patch{'/cancelPatientApp',cancelPatientApp}
+app.patch('/cancelPatientApp',cancelPatientApp)
 
 //app.get('/viewAppointments', viewAppointments);
 
