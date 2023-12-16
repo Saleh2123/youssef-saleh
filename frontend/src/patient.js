@@ -17,7 +17,7 @@ function Patient(){
         <Link to="apt">   
         <button type="submit">View appointment</button>
         </Link> 
-        <Link to="pres">   
+        <Link to="viewPrescriptions">   
         <button type="submit">View Prescriptions</button>
         </Link>
         <Link to="upload">   
@@ -44,7 +44,9 @@ function Patient(){
         <Link to="link">   
         <button type="submit">Link</button>
         </Link>
-
+      <Link to="rescheduleApp">   
+        <button type="submit">Reschedule appointment</button>
+        </Link> 
 
      </div> )
 

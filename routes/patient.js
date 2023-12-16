@@ -366,11 +366,12 @@ const showWallet = async (req,res)=>{
 const viewPrescriptions = async (req,res)=>{
    const {username} = req.query;
    try{
-    const patient = await Patients.findOne({username:username})
-    if(!patient){
-      return res.status(404).json({ error: 'Patient not found' });
+    const pres = await Patients.findOne({username:username}).select('prescriptions -_id').exec()
+    if(!pres){
+      return res.status(404).json({ error: 'Patient has no prescriptions' });
     }
-   res.json(patient.prescriptions);
+    console.log(pres);
+   res.json(pres);
    }
    catch(error){
     console.error(error);
@@ -382,7 +383,7 @@ const viewPrescriptions = async (req,res)=>{
 const rescheduleApp = async (req,res)=>{
    const {username,doc,oldDate,date,time} = req.body
    try{
-    const patient = await Patients.findOne({username:username})
+    const patient = await Patients.findOne({username:username});
     if(!patient){
       return res.status(404).json({ error: 'Patient not found' });
     }
@@ -392,11 +393,11 @@ const rescheduleApp = async (req,res)=>{
     }
     const _did=(await doctor.findOne({username:doc})).id
     const _pid=(await Patients.findOne({username:username})).id
-    const appointmentsP = patient.appointments || []
+    const appointmentsP = (await Patients.findOne({username:username})).select('appointments -_id').exec() || []
     const appointmentsD = doctor1.appointments || []
     const indexP = appointmentsP.findIndex((obj => (obj.date===oldDate)&&(obj.doctor===_did))) 
     const indexD = appointmentsD.findIndex((obj => (obj.date===oldDate)&&(obj.patient===_pid))) 
-    if((indexP!== -1)||(indexD!==-1)){
+    if((indexP=== -1)&&(indexD===-1)){
       return res.status(404).json({ error: 'Appointment not found' });
     }
     appointmentsP[indexP].date=date

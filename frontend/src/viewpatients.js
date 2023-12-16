@@ -22,6 +22,7 @@ function Viewpatients() {
     }
     get()
   },[])
+
   const handleSearch = () => {
     const filteredPatients = p.filter((patient) =>
       patient.patient.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -50,7 +51,9 @@ function Viewpatients() {
                   <TableCell>Email</TableCell>
                   <TableCell>gender</TableCell>
                   <TableCell>Date Of Birth</TableCell>
-                
+                  <TableCell>Select</TableCell>
+                  <TableCell>Chat</TableCell>
+                  <TableCell>Video Call</TableCell>
                 
                 </TableRow>
               </TableHead>
@@ -77,6 +80,12 @@ function Viewpatients() {
                         {selectedPatient === row.id ? "Patient Selected" : "Select Patient"}
                       </button>
                     </TableCell>
+                    <TableCell>
+                      <button  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"> Chat</button> 
+                      </TableCell>
+                      <TableCell>
+                      <button  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"> Video Call</button> 
+                      </TableCell>
                   </TableRow>
                 ))}
               </TableBody>

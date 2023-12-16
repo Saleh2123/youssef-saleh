@@ -12,6 +12,8 @@ export default function Aptdoc() {
   const { id } = useParams();
   const [apt, setApt] = useState([]);
 
+
+
   useEffect(() => {
     async function get() {
       setApt((await axios.get(`http://localhost:5000/patientapt?username=${id}`)).data);
@@ -52,6 +54,7 @@ console.log(apt)
           setTime(e.target.value);
         }}
       />
+      
       {apt.appointments?.filter(({ doctor, status, time }) => {
 
         console.log(JSON.parse(time).date)
@@ -63,5 +66,7 @@ console.log(apt)
           </div>
         ))}
     </Container>
+    
   );
 }
+

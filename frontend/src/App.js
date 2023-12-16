@@ -14,6 +14,7 @@ import Remove from './remove';
 import Family from './viewfamily';
 import Aptpateint from './js/viewapt';
 import Pres from './viewpres';
+import DoctorPres from './viewDocPres';
 import Viewpatients from './viewpatients';
 import Alldocs from './alldocs';
 import Home from './js/home';
@@ -31,6 +32,7 @@ import axios from 'axios';
 import His from './viewmedicalhis';
 import ViewHealthPack from './viewHealthPack';
 import Payment from './payment';
+import Docpres from './Docpres';
 import Check from './stripe';
 import Otp from './otp';
 import Middle from './middle';
@@ -44,7 +46,8 @@ import Hr from './addhr';
 import AddSlot from './addslot';
 import Linkfam from './link';
 import Hisd from './medicalhisdoc';
-
+import ResApt from './rescheduleApt';
+import AddPres from './addPres';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import VideoChat from './video';
 import Videochatt from './videochat/src/components/App/App';
@@ -87,7 +90,12 @@ function App() {
          <Route path="patient/:id/addmember" element={<Addmember/>}/>
             <Route path="patient/:id/apt" element={<Patientapps/>}/>
             <Route path="doctor/:id/apt" element={<Aptdoc/>}/>
+            <Route path="doctor/:id/docviewpres" element={<Docpres/>}/>
             <Route path="patient/:id/pres" element={<Pres/>}/>
+            <Route path="patient/:id/rescheduleApp" element={<ResApt/>}/>
+            <Route path="patient/:id/viewPrescriptions" element={<Pres/>}/>
+            <Route path="doctor/:id/viewDoctorPrescriptions" element={<DoctorPres/>}/>
+            <Route path="doctor/:id/addPrescription" element={<AddPres/>}/>
         <Route path="doctor/:id/viewpatients" element={<Viewpatients/>}/>
    <Route path='/patient/:id/upload' element={<Upload></Upload>}></Route>
   <Route path="/otp" element={<Otp></Otp>}></Route> 

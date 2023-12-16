@@ -81,6 +81,21 @@ export default function Doctor() {
           Update Info
         </Button>
       </form>
+      <Link to="viewpatients" style={{ marginTop: "16px" }}>
+        <Button variant="contained" color="primary" fullWidth>
+          View Patients
+        </Button>
+      </Link>
+      <Link to="apt" style={{ marginTop: "16px" }}>
+        <Button variant="contained" color="primary" fullWidth>
+          View Appointments
+        </Button>
+      </Link>
+      <Link to="docviewpres" style={{ marginTop: "16px" }}>
+        <Button variant="contained" color="primary" fullWidth>
+          View Prescriptions
+        </Button>
+      </Link>
 
         <App></App>
         <App2></App2>
@@ -207,6 +222,37 @@ function App2() {
       </MDBCard>
       <MDBCard>
      
+     
+      <Link to="viewDoctorPrescriptions"  style={{color:'black'}}>
+        <MDBCardImage src='https://static.vecteezy.com/system/resources/previews/028/213/659/original/wallet-icon-simple-outline-style-affordable-investment-money-cash-dollar-bill-payment-business-finance-concept-thin-line-symbol-isolated-on-white-background-svg-vector.jpg' alt='...' position='top' />
+        <MDBCardBody>
+          <MDBCardTitle>View Prescriptions I wrote</MDBCardTitle>
+          <MDBCardText>
+           View all prescriptions I wrote to parents
+          </MDBCardText>
+          <MDBCardText>
+            <small className='text-muted'></small>
+          </MDBCardText>
+        </MDBCardBody>
+        </Link>
+      </MDBCard>
+      <MDBCard>
+
+      <Link to="addPrescription"  style={{color:'black'}}>
+        <MDBCardImage src='https://static.vecteezy.com/system/resources/previews/028/213/659/original/wallet-icon-simple-outline-style-affordable-investment-money-cash-dollar-bill-payment-business-finance-concept-thin-line-symbol-isolated-on-white-background-svg-vector.jpg' alt='...' position='top' />
+        <MDBCardBody>
+          <MDBCardTitle>Add Prescription</MDBCardTitle>
+          <MDBCardText>
+           Add a prescription to a patient after appointment 
+          </MDBCardText>
+          <MDBCardText>
+            <small className='text-muted'></small>
+          </MDBCardText>
+        </MDBCardBody>
+        </Link>
+      </MDBCard>
+      <MDBCard>
+
       </MDBCard>
       
     </MDBCardGroup>
