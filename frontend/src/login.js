@@ -33,6 +33,9 @@ export default function LoginPage() {
       })
     ).data;
     console.log(data);
+    localStorage.setItem("role",data.role);
+    
+    localStorage.setItem("user",username);
     switch (data.role) {
       case 'admin':
         window.location = `http://localhost:3000/admin`;

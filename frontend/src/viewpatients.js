@@ -1,6 +1,7 @@
 import { useState,useEffect } from "react";
 import {TableContainer,Table,TableBody,TableRow,TableCell,Paper,TableHead} from "@mui/material";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 function onlyUnique(value, index, array) {
   return array.indexOf(value) === index;
   }
@@ -9,13 +10,14 @@ function Viewpatients() {
   const [p,setp]=useState([])
   const [patients, setPatients] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const {id}=useParams();
 
   const handleSelect = (id) => {
     setSelectedPatient(id);
   };
   useEffect(()=>{
     async function get(){
-      setp((await axios.get(`http://localhost:5000/doctorapt?username=omarika`)).data)
+      setp((await axios.get(`http://localhost:5000/doctorapt?username=${id}`)).data)
    setPatients(p)
     }
     get()

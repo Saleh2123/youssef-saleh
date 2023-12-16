@@ -49,6 +49,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import VideoChat from './video';
 import Videochatt from './videochat/src/components/App/App';
 import Chat from './chat';
+import Navbar from './dashbard';
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
 
@@ -56,7 +57,9 @@ import Chat from './chat';
 function App() {
 
   return (
+    
     <Router>
+      <Navbar></Navbar>
       <Routes>
       <Route  path="/reg" element={<Choose/>} />
         <Route  path="/reg/pateint" element={<Pateintreg/>} />

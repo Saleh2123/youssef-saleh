@@ -131,9 +131,13 @@ res.send(appointments)
 const viewdocapt= async(req,res)=>{
   
   const {username}=req.query
+  try{
   const {appointments}= await doctor.findOne({username:username}).populate('appointments.patient')
   console.log(appointments)
 res.send(appointments)
+  }catch(err){
+    res.send([])
+  }
 }   
 const viewpres= async(req,res)=>{
   
