@@ -82,6 +82,11 @@ export default function Doctor() {
           View Appointments
         </Button>
       </Link>
+      <Link to="docviewpres" style={{ marginTop: "16px" }}>
+        <Button variant="contained" color="primary" fullWidth>
+          View Prescriptions
+        </Button>
+      </Link>
     </Container>
   );
 }

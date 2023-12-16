@@ -30,6 +30,7 @@ import ChangePasswordPage from './js/changepass';
 import axios from 'axios';
 import ViewHealthPack from './viewHealthPack';
 import Payment from './payment';
+import Docpres from './Docpres';
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
 
@@ -59,6 +60,7 @@ function App() {
          <Route path="patient/:id/addmember" element={<Addmember/>}/>
             <Route path="patient/:id/apt" element={<Patientapps/>}/>
             <Route path="doctor/:id/apt" element={<Aptdoc/>}/>
+            <Route path="doctor/:id/docviewpres" element={<Docpres/>}/>
             <Route path="patient/:id/pres" element={<Pres/>}/>
         <Route path="doctor/:id/viewpatients" element={<Viewpatients/>}/>
    <Route path='/patient/:id/upload' element={<Upload></Upload>}></Route>
