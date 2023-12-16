@@ -20,19 +20,21 @@ const {id}=useParams()
   };
 
   
-
   const handleClick = async (e) => {
     e.preventDefault();
-
+console.log(form)
     if (!form.patient || !form.start || !form.hour) {
       alert("Enter the full details");
       return;
     }
 
     await axios.post("http://localhost:5000/addPrescription", {
-      username: form.patient,
-      doc: id,
+      patientUsername: form.patient,
+      doctorUsername: id,
       time: { date: form.start, hour: form.hour },
+      medicineName:form.name,
+      medicineDosage:form.count
+
     });
     alert("Done");
   };
@@ -45,6 +47,7 @@ const {id}=useParams()
         required
         onChange={handleChange}
         fullWidth
+        name="patient"
         margin="normal"
         >
         </TextField>
@@ -85,6 +88,7 @@ const {id}=useParams()
         Medicine Name:
         <TextField
         required
+        name="medicine"
         onChange={handleChange}
         fullWidth
         margin="normal"
@@ -95,6 +99,7 @@ const {id}=useParams()
         <TextField
         required
         onChange={handleChange}
+        name="count"
         fullWidth
         margin="normal"
         >

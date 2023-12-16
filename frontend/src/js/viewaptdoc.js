@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import axios from "axios";
+import { Button } from "@mui/material";
 
 export default function Aptdoc() {
   const [search, setSearch] = useState("");
@@ -73,6 +74,34 @@ export default function Aptdoc() {
             <Typography variant="body2" sx={{ mb: 1 }}>
               Date: {JSON.parse(data.time).date}, hour: {JSON.parse(data.time).hour}, Status: {data.status}
             </Typography>
+           {data.status==="Pending" &&
+           
+           <>
+           <Button 
+           onClick={async ()=>{
+           await axios.post(`http://localhost:5000/acceptapt`,{username:data.patient.username,doc:id,date:data.time})
+            async function get() {
+              setApt((await axios.get(`http://localhost:5000/doctorapt?username=${id}`)).data);
+            }
+            get();
+           }}
+            >
+              accept
+            </Button>
+            <Button 
+            onClick={async ()=>{
+            await axios.patch(`http://localhost:5000/cancelPatientApp`,{username:data.patient.username,doc:id,date:data.time})
+             
+               setApt((await axios.get(`http://localhost:5000/doctorapt?username=${id}`)).data);
+             
+             
+            }}
+             >
+               reject
+             </Button>
+             </>
+ 
+}
           </Paper>
         ))}
     </Container>

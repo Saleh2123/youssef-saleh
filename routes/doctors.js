@@ -12,7 +12,14 @@ const addtimeslot= async (req,res)=>{
  await model.updateOne({username:title},{$set:{timeslots:timeslots}}).exec()
   
 }
-
+const nodemailer=require("nodemailer")
+const transporter = nodemailer.createTransport({ 
+  service: 'gmail', 
+  auth: { 
+    user: "sarageita74@gmail.com", 
+    pass: "yayvemblnwtvuwsb"
+  } 
+  });
 
 const addapt= async(req,res)=>{
 
@@ -280,35 +287,81 @@ const cancelPatientApp = async (req,res)=>{
     if(!patient){
       return res.status(404).json({ error: 'Patient not found' });
     }
-    const doctor1 = await doctor.findOne({username:doc})
+    const doctor1 = await model.findOne({username:doc})
     if(!doctor1){
       return res.status(404).json({ error: 'Doctor not found' });
     }
-    const _did=(await doctor.findOne({username:doc})).id
+    const _did=(await model.findOne({username:doc})).id
     const _pid=(await Patients.findOne({username:username})).id
     const appointmentsP = patient.appointments || []
     const appointmentsD = doctor1.appointments || []
-    const indexP = appointmentsP.findIndex((obj => (obj.date===date)&&(obj.doctor===_did))) 
-    const indexD = appointmentsD.findIndex((obj => (obj.date===date)&&(obj.patient===_pid))) 
-    if((indexP!== -1)||(indexD!==-1)){
+    const indexP = appointmentsP.findIndex((obj => (obj.time===date)&&(obj.doctor.toString()===_did))) 
+    const indexD = appointmentsD.findIndex((obj => (obj.time===date)&&(obj.patient.toString()===_pid))) 
+    if((indexP== -1)||(indexD==-1)){
       return res.status(404).json({ error: 'Appointment not found' });
     }
+    console.log(appointmentsP)
     if((appointmentsP[indexP].status==='canceled')&&(appointmentsD[indexD].status==='canceled')){
       return res.status(404).json({ error: 'Appointment already canceled' });
     }
-    appointmentsP[indexP].status='canceled'
-    appointmentsD[indexD].status='canceled'
-    
-    const emailP = (await model.findOne({username:username})).email
-     const emailD = (await doctor.findOne({username:doc})).email
+    appointmentsP[indexP].status='Rejected'
+    appointmentsD[indexD].status='Rejected'
+    doctor1.save()
+    patient.save()
+    const emailP = (await Patients.findOne({username:username})).email
+     const emailD = (await model.findOne({username:doc})).email
     transporter.sendMail({
       from: 'omarrrrr240@gmail.com', // sender address
       to: `${emailP}, ${emailD}`,// list of receivers
-      subject: "Appointment Canceled", // Subject line
+      subject: "Appointment cancelled", // Subject line
       text: "", // plain text body
-      html: `<b> Appointment Canceled </b>`, // html body
-    });
-      patient.wallet += doctor1.price;    
+      html: `<b> Appointment cancelled </b>`, // html body
+    }); 
+    res.send("done")
+  }
+  catch(error){
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
+const acceptpatient = async (req,res)=>{
+  const {username,doc,date} = req.body
+  try{
+    const patient = await Patients.findOne({username:username})
+    if(!patient){
+      return res.status(404).json({ error: 'Patient not found' });
+    }
+    const doctor1 = await model.findOne({username:doc})
+    if(!doctor1){
+      return res.status(404).json({ error: 'Doctor not found' });
+    }
+    const _did=(await model.findOne({username:doc})).id
+    const _pid=(await Patients.findOne({username:username})).id
+    const appointmentsP = patient.appointments || []
+    const appointmentsD = doctor1.appointments || []
+    const indexP = appointmentsP.findIndex((obj => (obj.time===date)&&(obj.doctor.toString()===_did))) 
+    const indexD = appointmentsD.findIndex((obj => (obj.time===date)&&(obj.patient.toString()===_pid))) 
+    if((indexP== -1)||(indexD==-1)){
+      return res.status(404).json({ error: 'Appointment not found' });
+    }
+    console.log(appointmentsP)
+    if((appointmentsP[indexP].status==='canceled')&&(appointmentsD[indexD].status==='canceled')){
+      return res.status(404).json({ error: 'Appointment already canceled' });
+    }
+    appointmentsP[indexP].status='Accepted'
+    appointmentsD[indexD].status='Accepted'
+    doctor1.save()
+    patient.save()
+    const emailP = (await Patients.findOne({username:username})).email
+     const emailD = (await model.findOne({username:doc})).email
+    transporter.sendMail({
+      from: 'omarrrrr240@gmail.com', // sender address
+      to: `${emailP}, ${emailD}`,// list of receivers
+      subject: "Appointment confirmed", // Subject line
+      text: "", // plain text body
+      html: `<b> Appointment confirmed </b>`, // html body
+    }); 
   }
   catch(error){
     console.error(error);
@@ -327,7 +380,7 @@ module.exports = {
   addHealthRecord,
   addapt,addtimeslot,viewAppointments,
   filterDoctorAppointments,showDoctorWallet,
-  addPrescription,viewDoctorPrescriptions,
+  addPrescription,viewDoctorPrescriptions,acceptpatient,
   cancelPatientApp
 };
 

@@ -1,7 +1,7 @@
 import { useState,useEffect } from "react";
 import {TableContainer,Table,TableBody,TableRow,TableCell,Paper,TableHead} from "@mui/material";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 function onlyUnique(value, index, array) {
   return array.indexOf(value) === index;
   }
@@ -11,7 +11,7 @@ function Viewpatients() {
   const [patients, setPatients] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const {id}=useParams();
-
+console.log(p)
   const handleSelect = (id) => {
     setSelectedPatient(id);
   };
@@ -81,7 +81,9 @@ function Viewpatients() {
                       </button>
                     </TableCell>
                     <TableCell>
+                      <Link to={`/${id}/chat/${id}/${row.patient.username}`}>
                       <button  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"> Chat</button> 
+                     </Link>
                       </TableCell>
                       <TableCell>
                       <button  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"> Video Call</button> 
