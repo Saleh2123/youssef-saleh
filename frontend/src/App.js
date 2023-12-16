@@ -87,15 +87,12 @@ function App() {
          <Route path="patient/:id/addmember" element={<Addmember/>}/>
             <Route path="patient/:id/apt" element={<Patientapps/>}/>
             <Route path="doctor/:id/apt" element={<Aptdoc/>}/>
-<<<<<<< HEAD
             <Route path="doctor/:id/docviewpres" element={<Docpres/>}/>
             <Route path="patient/:id/pres" element={<Pres/>}/>
-=======
             <Route path="patient/:id/rescheduleApp" element={<ResApt/>}/>
             <Route path="patient/:id/viewPrescriptions" element={<Pres/>}/>
             <Route path="doctor/:id/viewDoctorPrescriptions" element={<DoctorPres/>}/>
             <Route path="doctor/:id/addPrescription" element={<AddPres/>}/>
->>>>>>> 75cf7563847659e7cd66d80eb9c3b913a17297c3
         <Route path="doctor/:id/viewpatients" element={<Viewpatients/>}/>
    <Route path='/patient/:id/upload' element={<Upload></Upload>}></Route>
   <Route path="/otp" element={<Otp></Otp>}></Route> 
