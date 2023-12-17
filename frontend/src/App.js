@@ -55,6 +55,9 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import VideoChat from './video';
 import Videochatt from './videochat/src/components/App/App';
 import Chat from './chat';
+import Navbar from './dashbard';
+import Unique from './uniquedoc';
+import Follow from './followup';
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
 
@@ -62,7 +65,9 @@ import Chat from './chat';
 function App() {
 
   return (
+    
     <Router>
+      <Navbar></Navbar>
       <Routes>
       <Route  path="/reg" element={<Choose/>} />
         <Route  path="/reg/pateint" element={<Pateintreg/>} />
@@ -88,6 +93,10 @@ function App() {
          <Route path="patient/:id/healthpack" element={<ViewHealthPack/>}/>
          <Route path="patient/:id/doctor" element={<Alldocs/>}/>
          <Route path="patient/:id/addmember" element={<Addmember/>}/>
+      
+        <Route path=":id/follow/:doctor" element={<Follow/>}/>
+         
+         <Route path="patient/:id/unique" element={<Unique/>}/>
             <Route path="patient/:id/apt" element={<Patientapps/>}/>
             <Route path="doctor/:id/apt" element={<Aptdoc/>}/>
             <Route path="doctor/:id/docviewpres" element={<Docpres/>}/>

@@ -2,7 +2,7 @@ const express= require('express')
 const jwt = require('jsonwebtoken');
 const mongoose=require('mongoose')
 const {createpatient, addmember, viewfamily, viewdocss, charge, remove, medichistory, viewhealthpack, subscribeToPackage, ViewHealthPackages, cancelSub, addtimes, viewslots, select, viewSubscriptionStatus, showWallet, filterMyAppointments, viewPrescriptions, rescheduleApp, cancelApp}= require('./routes/patient')
-const { createdoctor, updatedoc, viewpatients, viewpatient, addHealthRecord, viewAvailableAppointments, viewAppointments, showDoctorWallet, filterDoctorAppointments, addapt, addtimeslot, addPrescription, viewDoctorPrescriptions, cancelPatientApp } = require('./routes/doctors')
+const { createdoctor, updatedoc, viewpatients, viewpatient, addHealthRecord, viewAvailableAppointments, viewAppointments, showDoctorWallet, filterDoctorAppointments, addapt, addtimeslot, addPrescription, viewDoctorPrescriptions, cancelPatientApp, acceptpatient } = require('./routes/doctors')
 const { deleteuser, docreqs, createadmin, viewapt, viewpres, viewdocapt, deletepack, addpack, updatepack, updatepass, rejdoc, acceptdoc } = require('./routes/admin')
 require ('dotenv').config()
 const app = express()
@@ -370,26 +370,11 @@ if(isVerfied){
 
        
 app.post("/subscribe", subscribeToPackage)
-
 app.get("/ViewSubscriptionStatus",ViewHealthPackages)
 app.get("/cancelsub",cancelSub)
-
-     app.post("/addav",addtimes)
-     app.post("/viewslots",viewslots)
-     app.post("/select",select)
-   
-
-
-
-
-
-
-
-
-
-
-
-     
+app.post("/addav",addtimes)
+app.post("/viewslots",viewslots)
+app.post("/select",select)
 const link =async(req,res)=>{
 
   const {username,familymem1,phone,relation}=req.body;
@@ -418,6 +403,7 @@ res.send("done")
 
 }
 app.post("/link",link)
+app.post("/acceptapt",acceptpatient)
 
 
 

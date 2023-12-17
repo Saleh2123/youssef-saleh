@@ -27,7 +27,6 @@ const {id}=useParams()
   };
 
   
-
   const handleClick = async (e) => {
     e.preventDefault();
 

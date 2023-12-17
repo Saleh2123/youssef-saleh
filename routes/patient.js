@@ -288,8 +288,10 @@ const viewslots =async(req,res)=>{
  
 
 const select= async(req,res)=>{
-      const {username,doc,time,date}=req.body;
+      var {username,doc,time,date}=req.body;
+      time={...time,date}
     try{
+      console.log(req.body)
       const _did=(await doctor.findOne({username:doc})).id
       const _pid=(await Patients.findOne({username:username})).id
       if(!_pid){
@@ -300,11 +302,11 @@ const select= async(req,res)=>{
      }
 
       const appointmentsP= (await model.findOne({username:username})).appointments
-      appointmentsP.push({doctor:_did,time:JSON.stringify(time),date:date})
+      appointmentsP.push({doctor:_did,time:JSON.stringify(time)})
      await model.updateOne({username:username},{$set:{appointments:appointmentsP}}).exec()
 
      const appointmentsD= (await doctor.findOne({username:doc})).appointments
-      appointmentsD.push({patient:_pid,time:JSON.stringify(time),date:date})
+      appointmentsD.push({patient:_pid,time:JSON.stringify(time)})
      await doctor.updateOne({username:doc},{$set:{appointments:appointmentsD}}).exec()
 
      const emailP = (await model.findOne({username:username})).email
@@ -320,7 +322,8 @@ const select= async(req,res)=>{
       res.send(appointmentsP)
   }
   catch(error){
-    res.status(500).json({ error: 'Internal server error' });
+    console.error(error)
+    res.status(500).json({ error: error });
   }
 }
  

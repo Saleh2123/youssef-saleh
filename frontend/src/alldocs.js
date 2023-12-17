@@ -21,7 +21,7 @@ const [r,setr]=useState('')
   const [appointments,setapt] = useState([])
 useEffect(()=>{
   async function get(){
-    setapt((await axios.get("http://localhost:5000/alldocs?username=omarika")).data)
+    setapt((await axios.get("http://localhost:5000/alldocs")).data)
   
     console.log(appointments);
     
