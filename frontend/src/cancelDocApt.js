@@ -22,24 +22,22 @@ const {id}=useParams()
 
   
   const filteredPatients = Array.isArray(patients)
-    ? patients.filter((item, index, arr) => arr.findIndex((i) => i.pateint._id === item.pateint._id) === index)
+    ? patients.filter((item, index, arr) => arr.findIndex((i) => i.patient._id === item.patient._id) === index)
     : [];
 
 
   const handleClick = async (e) => {
     e.preventDefault();
 
-    if (!form.doctor || !form.old || !form.start || !form.hour) {
+    if (!form.doctor || !form.start ) {
       alert("Enter the full details");
       return;
     }
     
 
-    await axios.post("http://localhost:5000/cancelPatientApp", {
-      username: form.doctor,
+    await axios.patch("http://localhost:5000/cancelPatientApp", {
+      username: "hasbo",
       doc: id,
-      oldDate: form.old,
-      time: form.hour,
       date: form.start
     });
     alert("Done");
@@ -49,7 +47,7 @@ const {id}=useParams()
     <Container maxWidth="sm">
       <Box display="flex" flexDirection="column" alignItems="center" mt={4}>
         <Select
-          name="doctor"
+          name="patient"
           onChange={handleChange}
           displayEmpty
           fullWidth

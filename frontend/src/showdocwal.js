@@ -29,7 +29,8 @@ console.log(walletData)
           </TableHead>
           <TableBody>
           
-                <TableCell>{walletData}</TableCell>
+          <TableCell>{id}</TableCell>
+          <TableCell>{walletData}</TableCell>
             
           </TableBody>
         </Table>

@@ -292,8 +292,8 @@ const select= async(req,res)=>{
       time={...time,date}
     try{
       console.log(req.body)
-      const _did=(await doctor.findOne({username:doc})).id
-      const _pid=(await Patients.findOne({username:username})).id
+      const _did=(await doctor.findOne({username:doc}))
+      const _pid=(await Patients.findOne({username:username}))
       if(!_pid){
         return res.status(404).json({ error: 'Patient not found' });
      }
@@ -302,12 +302,15 @@ const select= async(req,res)=>{
      }
 
       const appointmentsP= (await model.findOne({username:username})).appointments
-      appointmentsP.push({doctor:_did,time:JSON.stringify(time)})
+      appointmentsP.push({doctor:_did,time:JSON.stringify(time),date:date})
      await model.updateOne({username:username},{$set:{appointments:appointmentsP}}).exec()
 
      const appointmentsD= (await doctor.findOne({username:doc})).appointments
-      appointmentsD.push({patient:_pid,time:JSON.stringify(time)})
+      appointmentsD.push({patient:_pid,time:JSON.stringify(time),date:date})
      await doctor.updateOne({username:doc},{$set:{appointments:appointmentsD}}).exec()
+
+     _did.save;
+     _pid.save;
 
      const emailP = (await model.findOne({username:username})).email
      const emailD = (await doctor.findOne({username:doc})).email
@@ -430,18 +433,10 @@ const rescheduleApp = async (req,res)=>{
 const cancelApp = async (req,res)=>{
   const {username,doc,date} = req.body
   try{
-    const patient = await Patients.findOne({username:username})
-    if(!patient){
-      return res.status(404).json({ error: 'Patient not found' });
-    }
-    const doctor1 = await doctor.findOne({username:doc})
-    if(!doctor1){
-      return res.status(404).json({ error: 'Doctor not found' });
-    }
-    const _did=(await doctor.findOne({username:doc})).id
-    const _pid=(await Patients.findOne({username:username})).id
-    const appointmentsP = patient.appointments || []
-    const appointmentsD = doctor1.appointments || []
+    const _did=(await doctor.findById(doc));
+    const _pid=(await Patients.findById(username));
+    const appointmentsP = _pid.appointments || []
+    const appointmentsD = _did.appointments || []
     const indexP = appointmentsP.findIndex((obj => (obj.date===date)&&(obj.doctor===_did))) 
     const indexD = appointmentsD.findIndex((obj => (obj.date===date)&&(obj.patient===_pid))) 
     if((indexP!== -1)||(indexD!==-1)){
