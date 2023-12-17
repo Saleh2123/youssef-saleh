@@ -26,7 +26,7 @@ console.log(pres)
           <TableHead>
             <TableRow>
               <TableCell>Patient Name</TableCell>
-=              <TableCell>Date</TableCell>
+              <TableCell>Date</TableCell>
               <TableCell>Time</TableCell>
               <TableCell>Status</TableCell>
               <TableCell>Medicine Name</TableCell>

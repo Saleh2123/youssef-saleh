@@ -4,14 +4,21 @@ import { useParams } from "react-router-dom";
 import { MenuItem, Select, TextField, Button, Container, Box } from "@mui/material";
 
 export default function AddPres() {
-  const [form, setForm] = useState({});
-  const [patients, setPatients] = useState([]);
+  const [form, setForm] = useState({
+    patient: "",
+    start: "",
+    hour: "",
+    status: "",
+    medicine: "",
+    dosage: "",
+  });
+  const [apt, setApt] = useState([]);
 const {id}=useParams()
   useEffect(() => {
-    async function getPatients() {
-      setPatients((await axios.get(`http://localhost:5000/doctorapt?username=${id}`)).data);
+    async function getApt() {
+        setApt((await axios.get(`http://localhost:5000/doctorapt?username=${id}`)).data);
     }
-    getPatients();
+    getApt();
   }, []);
 
   const handleChange = (e) => {
@@ -22,19 +29,27 @@ const {id}=useParams()
   
   const handleClick = async (e) => {
     e.preventDefault();
-console.log(form)
-    if (!form.patient || !form.start || !form.hour) {
+
+    if (!form.patient || !form.start || !form.hour || !form.medicine || !form.dosage || !form.status) {
       alert("Enter the full details");
       return;
     }
 
-    await axios.post("http://localhost:5000/addPrescription", {
-      patientUsername: form.patient,
-      doctorUsername: id,
-      time: { date: form.start, hour: form.hour },
-      medicineName:form.name,
-      medicineDosage:form.count
+    const selectedPatientExists = apt.some((appointment => ((appointment.patientUsername === form.patient) && (appointment.status==="completed"))));
 
+    if (!selectedPatientExists) {
+      alert("You did not have an appointment with this patient");
+      return;
+    }
+
+    await axios.post("http://localhost:5000/addPrescription", {
+      doctorUsername: id,
+      patientUsername: form.patient,
+      data: form.start,
+      status: form.status,
+      medicineName: form.medicine,
+      medicineDosage: form.dosage,
+      time: form.hour ,
     });
     console.log(form)
     alert("Done");
@@ -46,9 +61,10 @@ console.log(form)
         Patient Name:
         <TextField
         required
+        id="patient"
+        name="patient"
         onChange={handleChange}
         fullWidth
-        name="patient"
         margin="normal"
         >
         </TextField>
@@ -60,7 +76,6 @@ console.log(form)
           id="start"
           type="date"
           name="start"
-          label="Date"
           fullWidth
           margin="normal"
         />
@@ -72,7 +87,6 @@ console.log(form)
           id="hour"
           type="time"
           name="hour"
-          label="Hour"
           fullWidth
           margin="normal"
         />
@@ -80,6 +94,8 @@ console.log(form)
         Status
         <TextField
         required
+        id="status"
+        name="status"
         onChange={handleChange}
         fullWidth
         margin="normal"
@@ -89,7 +105,8 @@ console.log(form)
         Medicine Name:
         <TextField
         required
-        name="name"
+        id="medicine"
+        name="medicine"
         onChange={handleChange}
         fullWidth
         margin="normal"
@@ -99,8 +116,9 @@ console.log(form)
         Medicine Dosage:
         <TextField
         required
+        id="dosage"
+        name="dosage"
         onChange={handleChange}
-        name="count"
         fullWidth
         margin="normal"
         >

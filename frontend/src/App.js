@@ -47,6 +47,9 @@ import AddSlot from './addslot';
 import Linkfam from './link';
 import Hisd from './medicalhisdoc';
 import ResApt from './rescheduleApt';
+import ResDocApt from './rescheduleDocApt';
+import CancelApt from './cancelApt';
+import CancelDocApt from './cancelDocApt';
 import AddPres from './addPres';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import VideoChat from './video';
@@ -99,6 +102,9 @@ function App() {
             <Route path="doctor/:id/docviewpres" element={<Docpres/>}/>
             <Route path="patient/:id/pres" element={<Pres/>}/>
             <Route path="patient/:id/rescheduleApp" element={<ResApt/>}/>
+            <Route path="doctor/:id/rescheduleApp" element={<ResDocApt/>}/>
+            <Route path="patient/:id/cancelApp" element={<CancelApt/>}/>
+            <Route path="doctor/:id/cancelPatientApp" element={<CancelDocApt/>}/>
             <Route path="patient/:id/viewPrescriptions" element={<Pres/>}/>
             <Route path="doctor/:id/viewDoctorPrescriptions" element={<DoctorPres/>}/>
             <Route path="doctor/:id/addPrescription" element={<AddPres/>}/>

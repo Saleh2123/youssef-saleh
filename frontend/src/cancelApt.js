@@ -3,15 +3,16 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { MenuItem, Select, TextField, Button, Container, Box } from "@mui/material";
 
-export default function AddSlot() {
+export default function CancelApt() {
   const [form, setForm] = useState({});
-  const [patients, setPatients] = useState([]);
+  const [doctors, setDoctor] = useState([]);
+  
 const {id}=useParams()
   useEffect(() => {
-    async function getPatients() {
-      setPatients((await axios.get(`http://localhost:5000/doctorapt?username=${id}`)).data);
+    async function getapt() {
+        setDoctor((await axios.get(`http://localhost:5000/patientapt?username=${id}`)).data);
     }
-    getPatients();
+    getapt();
   }, []);
 
   const handleChange = (e) => {
@@ -20,19 +21,24 @@ const {id}=useParams()
   };
 
   
+  const filteredDoctors = Array.isArray(doctors)
+    ? doctors.filter((item, index, arr) => arr.findIndex((i) => i.doctor._id === item.doctor._id) === index)
+    : [];
+
 
   const handleClick = async (e) => {
     e.preventDefault();
 
-    if (!form.patient || !form.start || !form.hour) {
+    if (!form.doctor || !form.start) {
       alert("Enter the full details");
       return;
     }
+    
 
-    await axios.post("http://localhost:5000/select", {
-      username: form.patient,
-      doc: id,
-      time: { date: form.start, hour: form.hour },
+    await axios.post("http://localhost:5000/cancelApp", {
+      username: id,
+      doc: form.doctor,
+      date: form.start
     });
     alert("Done");
   };
@@ -41,22 +47,17 @@ const {id}=useParams()
     <Container maxWidth="sm">
       <Box display="flex" flexDirection="column" alignItems="center" mt={4}>
         <Select
-          name="patient"
+          name="doctor"
           onChange={handleChange}
           displayEmpty
           fullWidth
-          label="Patient"
+          label="Doctor"
         >
-          {patients
-            .filter(
-              (item, index, arr) =>
-                arr.findIndex((i) => i.patient._id === item.patient._id) === index
-            )
-            .map(({ patient }) => (
-              <MenuItem key={patient._id} value={patient.username}>
-                {patient.username}
-              </MenuItem>
-            ))}
+          {filteredDoctors.map(({ doctor }) => (
+            <MenuItem key={doctor._id} value={doctor.username}>
+              {doctor.username}
+            </MenuItem>
+          ))}
         </Select>
 
         <TextField
@@ -70,17 +71,6 @@ const {id}=useParams()
           margin="normal"
         />
 
-        <TextField
-          required
-          onChange={handleChange}
-          id="hour"
-          type="time"
-          name="hour"
-          label="Hour"
-          fullWidth
-          margin="normal"
-        />
-
         <Button
           variant="contained"
           color="primary"
@@ -88,7 +78,7 @@ const {id}=useParams()
           fullWidth
           sx={{ mt: 2 }}
         >
-          Add Time Slot
+          Cancel
         </Button>
       </Box>
     </Container>

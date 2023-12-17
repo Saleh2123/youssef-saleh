@@ -47,6 +47,9 @@ function Patient(){
       <Link to="rescheduleApp">   
         <button type="submit">Reschedule appointment</button>
         </Link> 
+        <Link to="cancelApp">   
+        <button type="submit">Cancel appointment</button>
+        </Link> 
 
      </div> )
 

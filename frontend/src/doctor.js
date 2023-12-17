@@ -224,9 +224,9 @@ function App2() {
      
      
       <Link to="viewDoctorPrescriptions"  style={{color:'black'}}>
-        <MDBCardImage src='https://static.vecteezy.com/system/resources/previews/028/213/659/original/wallet-icon-simple-outline-style-affordable-investment-money-cash-dollar-bill-payment-business-finance-concept-thin-line-symbol-isolated-on-white-background-svg-vector.jpg' alt='...' position='top' />
+        <MDBCardImage src='' alt='...' position='top' />
         <MDBCardBody>
-          <MDBCardTitle>View Prescriptions I wrote</MDBCardTitle>
+          <MDBCardTitle>View Prescriptions</MDBCardTitle>
           <MDBCardText>
            View all prescriptions I wrote to parents
           </MDBCardText>
@@ -244,6 +244,37 @@ function App2() {
           <MDBCardTitle>Add Prescription</MDBCardTitle>
           <MDBCardText>
            Add a prescription to a patient after appointment 
+          </MDBCardText>
+          <MDBCardText>
+            <small className='text-muted'></small>
+          </MDBCardText>
+        </MDBCardBody>
+        </Link>
+      </MDBCard>
+      <MDBCard>
+
+      <Link to="rescheduleApp"  style={{color:'black'}}>
+        <MDBCardImage src='' alt='...' position='top' />
+        <MDBCardBody>
+          <MDBCardTitle>Reschedule Appointment</MDBCardTitle>
+          <MDBCardText>
+           Reschedule an appointment with a certain patient 
+          </MDBCardText>
+          <MDBCardText>
+            <small className='text-muted'></small>
+          </MDBCardText>
+        </MDBCardBody>
+        </Link>
+      </MDBCard>
+      <MDBCard>
+
+
+      <Link to="cancelPatientApp"  style={{color:'black'}}>
+        <MDBCardImage src='' alt='...' position='top' />
+        <MDBCardBody>
+          <MDBCardTitle>Cancel Appointment</MDBCardTitle>
+          <MDBCardText>
+           Cancel an appointment with a certain patient 
           </MDBCardText>
           <MDBCardText>
             <small className='text-muted'></small>
