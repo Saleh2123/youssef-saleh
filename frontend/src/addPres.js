@@ -36,6 +36,7 @@ console.log(form)
       medicineDosage:form.count
 
     });
+    console.log(form)
     alert("Done");
   };
 
@@ -88,7 +89,7 @@ console.log(form)
         Medicine Name:
         <TextField
         required
-        name="medicine"
+        name="name"
         onChange={handleChange}
         fullWidth
         margin="normal"

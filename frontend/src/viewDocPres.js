@@ -37,7 +37,7 @@ console.log(pres)
           {pres.length > 0 ? (
               pres.map((prescription, index) => (
                 <TableRow key={index}>
-                  <TableCell>{prescription.patient}</TableCell>
+                  <TableCell>{prescription.patient.name}</TableCell>
                   <TableCell>{prescription.date}</TableCell>
                   <TableCell>{prescription.time}</TableCell>
                   <TableCell>{prescription.status}</TableCell>

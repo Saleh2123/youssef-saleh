@@ -88,7 +88,7 @@ type:String
          patient:    {
 
           type: mongoose.Types.ObjectId,
-          ref:'request',
+          ref:'patient',
 
       },
       time:{

@@ -256,6 +256,7 @@ const addPrescription = async(req,res)=>{
     await Patients.updateOne({username:patientUsername},{$set:{prescriptions:prescription}}).exec()
     const doctorPrescriptions = doctor.prescriptions
     doctorPrescriptions.push({time:time, date:date, patient:patient, medicineName:medicineName, medicineDosage:medicineDosage})
+   console.log(doctorPrescriptions[doctorPrescriptions.length-1])
     await doctors.updateOne({username:doctorUsername},{$set:{prescriptions:doctorPrescriptions}}).exec()
     res.send('done');
   }
@@ -268,7 +269,7 @@ const addPrescription = async(req,res)=>{
 const viewDoctorPrescriptions = async (req,res)=>{
   const {username} = req.query;
   try{
-   const doctor = await doctors.findOne({username:username})
+   const doctor = await doctors.findOne({username:username}).populate("prescriptions.patient")
    if(!doctor){
      return res.status(404).json({ error: 'Doctor not found' });
    }
