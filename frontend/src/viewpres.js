@@ -3,11 +3,13 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import { TableContainer, Table, TableBody, TableRow, TableCell, Paper, TableHead } from '@mui/material';
-
+import PrescriptionDetails from './PrescriptionDetails';
 
 export default function Pres(){
 const {id}= useParams();
-const [pres,setpres]=useState([])
+const [pres,setpres]=useState([]);
+const [form, setForm] = useState({});
+const [selectedPrescription, setSelectedPrescription] = useState(null);
 
 useEffect(()=>{
     async function get(){
@@ -18,6 +20,14 @@ console.log(pres)
 },[id]);
 console.log(pres)
 
+const handleClick = (prescription) => {
+  setSelectedPrescription(prescription);
+};
+
+const handleCloseDetails = () => {
+  setSelectedPrescription(null);
+};
+
     return(
 <div className="container mx-auto mt-8">
       <h2 className="text-2xl font-bold">Prescriptions</h2>
@@ -27,10 +37,7 @@ console.log(pres)
             <TableRow>
               <TableCell>Doctor Name</TableCell>
               <TableCell>Date</TableCell>
-              <TableCell>Time</TableCell>
               <TableCell>Status</TableCell>
-              <TableCell>Medicine Name</TableCell>
-              <TableCell>Medicine Dosage</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -39,10 +46,16 @@ console.log(pres)
                 <TableRow key={index}>
                   <TableCell>{prescription.doctor}</TableCell>
                   <TableCell>{prescription.date}</TableCell>
-                  <TableCell>{prescription.time}</TableCell>
                   <TableCell>{prescription.status}</TableCell>
-                  <TableCell>{prescription.medicineName}</TableCell>
-                  <TableCell>{prescription.medicineDosage}</TableCell>
+                  <button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => handleClick(prescription.id)}
+                  fullWidth
+                  sx={{ mt: 2 }}
+                  >
+                  View details
+                  </button>
                 </TableRow>
               ))
             ) : (
@@ -53,6 +66,12 @@ console.log(pres)
           </TableBody>
         </Table>
       </TableContainer>
+      {selectedPrescription && (
+        <PrescriptionDetails
+          prescription={selectedPrescription}
+          onClose={handleCloseDetails}
+        />
+      )}
     </div>
 
     )

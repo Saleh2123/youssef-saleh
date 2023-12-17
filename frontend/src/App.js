@@ -51,6 +51,8 @@ import ResDocApt from './rescheduleDocApt';
 import CancelApt from './cancelApt';
 import CancelDocApt from './cancelDocApt';
 import AddPres from './addPres';
+import PrescriptionDetails from './PrescriptionDetails';
+import ReqFollowUp from './reqFollowUp';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import VideoChat from './video';
 import Videochatt from './videochat/src/components/App/App';
@@ -101,6 +103,7 @@ function App() {
             <Route path="doctor/:id/apt" element={<Aptdoc/>}/>
             <Route path="doctor/:id/docviewpres" element={<Docpres/>}/>
             <Route path="patient/:id/pres" element={<Pres/>}/>
+            <Route path="patient/:id/requestfollowup" element={<ReqFollowUp/>}/>
             <Route path="patient/:id/rescheduleApp" element={<ResApt/>}/>
             <Route path="doctor/:id/rescheduleApp" element={<ResDocApt/>}/>
             <Route path="patient/:id/cancelApp" element={<CancelApt/>}/>

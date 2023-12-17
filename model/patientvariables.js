@@ -70,7 +70,7 @@ const patientSchema = new Schema({
           },
           status:{
             type:String,
-            default:"Pending"
+            default:"upcoming"
           }
       }
       ]
@@ -101,8 +101,9 @@ const patientSchema = new Schema({
        
       }
   ]},wallet:{
-    type:Number
-  },familymem:{
+    type:Number,
+    default:0
+    },familymem:{
     type:Array
   },pres:{
     type:Array

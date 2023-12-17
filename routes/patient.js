@@ -472,8 +472,46 @@ const cancelApp = async (req,res)=>{
   }
 }
 
+const requestfollowup = async (req, res) => {
+
+  const {patient,doctor,scheduledDate,description} = req.body;
+
+  try {
+
+    const newFollowUp = {
+      scheduledDate :  scheduledDate,
+      patient: patient,
+      description: description
+    }
+
+   
+    const doc = await doctor.findOne({username:doctor})
+
+    if(!doc){
+      return res.status(404).json({message : "no doctor found with this id"});
+    }
+
+    if(doc.followUpAppointments){
+      doc.followUpAppointments.push(newFollowUp);
+    }else{
+      doc.followUpAppointments = [newFollowUp];
+    }
+
+    await doc.save();
+
+    return res.status(200).json({
+      message: "follow up request sent successfuly",
+      followUp: newFollowUp
+    });
+      
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
  module.exports={viewSubscriptionStatus,createpatient,addmember,viewfamily,viewdocss,charge,
   remove,medichistory,viewhealthpack,subscribeToPackage,ViewHealthPackages,
   cancelSub,viewslots,addtimes,select,filterMyAppointments,showWallet,viewPrescriptions,rescheduleApp,
-  cancelApp}
+  cancelApp,requestfollowup}
 

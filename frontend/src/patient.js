@@ -50,6 +50,9 @@ function Patient(){
         <Link to="cancelApp">   
         <button type="submit">Cancel appointment</button>
         </Link> 
+        <Link to="requestfollowup">   
+        <button type="submit">Request Follow Up</button>
+        </Link> 
 
      </div> )
 
