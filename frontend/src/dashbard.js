@@ -23,7 +23,7 @@ const role=localStorage.getItem("role");
 const id=localStorage.getItem("user")
 if(role==="doctor"){
   return (
-    <MDBNavbar expand='lg' light bgColor='light'>
+    <MDBNavbar expand='lg'  sticky light bgColor='light'>
       <MDBContainer fluid>
         <MDBNavbarBrand href='#'>{id}</MDBNavbarBrand>
 
@@ -75,6 +75,28 @@ if(role==="doctor"){
             </MDBNavbarItem>
 
 
+            <MDBNavbarItem>
+              <MDBNavbarLink href={`/doctor/${id}/viewDoctorPrescriptions`}> View Prescriptions</MDBNavbarLink>
+            </MDBNavbarItem>
+
+
+            <MDBNavbarItem>
+              <MDBNavbarLink href={`/doctor/${id}/addPrescription`}> add Prescriptions</MDBNavbarLink>
+            </MDBNavbarItem>
+
+
+            <MDBNavbarItem>
+              <MDBNavbarLink href={`/doctor/${id}/rescheduleApp`}> reschedule</MDBNavbarLink>
+            </MDBNavbarItem>
+
+
+
+            <MDBNavbarItem>
+              <MDBNavbarLink href={`/doctor/${id}/cancelPatientApp`}> cancel</MDBNavbarLink>
+            </MDBNavbarItem>
+
+
+
 
 
 
@@ -88,5 +110,74 @@ if(role==="doctor"){
     </MDBNavbar>
 
   );
+}
+if(role==="patient"){
+  
+  const navigationLinks = [
+    { to: "addmember", text: "Add Member" },
+    { to: "family", text: "View Member" },
+    { to: "doctor", text: "View Doctors" },
+    { to: "apt", text: "View Appointment" },
+    { to: "viewPrescriptions", text: "View Prescriptions" },
+    { to: "upload", text: "Upload Records" },
+    { to: "his", text: "View Records" },
+    { to: "healthpack", text: "View Packages" },
+    { to: "status", text: "View Status" },
+    { to: "select", text: "Select Appointment" },
+    { to: "filterMyAppointments", text: "Filter Appointments" },
+    { to: "showWallet", text: "Show Wallet" },
+    { to: "link", text: "Link" },
+    { to: "rescheduleApp", text: "Reschedule Appointment" },
+    { to: "cancelApp", text: "Cancel Appointment" },
+    { to: "requestfollowup", text: "Request FollowUp" },
+  ];
+  
+  return (
+    <MDBNavbar expand='sm' style={{scale:0.8}} sticky light bgColor='light'>
+      <MDBContainer fluid>
+        <MDBNavbarBrand href='#'>{id}</MDBNavbarBrand>
+
+        <MDBNavbarToggler
+          aria-controls='navbarSupportedContent'
+          aria-expanded='false'
+          aria-label='Toggle navigation'
+          onClick={() => setOpenBasic(!openBasic)}
+        >
+          <MDBIcon icon='bars' fas />
+        </MDBNavbarToggler>
+
+        <MDBCollapse navbar open={openBasic}>
+          <MDBNavbarNav className='mr-auto mb-2 mb-lg-0'>
+            <MDBNavbarItem>
+              <MDBNavbarLink active aria-current='page' href={`/patient/${id}`}>
+                Home
+              </MDBNavbarLink>
+            </MDBNavbarItem>
+
+
+
+{navigationLinks.map((item)=>(
+            <MDBNavbarItem>
+              <MDBNavbarLink href={`/patient/${id}/${item.to}`}>{item.text}</MDBNavbarLink>
+            </MDBNavbarItem>
+
+
+))
+
+
+}
+
+
+
+          </MDBNavbarNav>
+
+        </MDBCollapse>
+      </MDBContainer>
+    </MDBNavbar>
+
+  );
+
+
+
 }
 }

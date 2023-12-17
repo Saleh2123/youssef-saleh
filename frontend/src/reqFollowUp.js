@@ -21,15 +21,15 @@ const {id}=useParams()
   };
 
   
-  const filteredDoctors = Array.isArray(doctors)
-    ? doctors.filter((item, index, arr) => arr.findIndex((i) => i.doctor._id === item.doctor._id) === index)
+  const filteredDoctors = Array.isArray(doctors.appointments)
+    ? doctors.appointments.filter((item, index, arr) => arr.findIndex((i) => i.doctor._id === item.doctor._id) === index)
     : [];
 
 
   const handleClick = async (e) => {
     e.preventDefault();
 
-    if (!form.doctor || !form.start || !form.description) {
+    if (!form.doctor || !form.old || !form.description) {
       alert("Enter the full details");
       return;
     }
@@ -37,9 +37,9 @@ const {id}=useParams()
 
     await axios.post("http://localhost:5000/requestfollowup", {
       patient: id,
-      doctor: form.doctor,
+      doct: form.doctor,
       scheduledDate: form.old,
-      description: form.hour
+      description: form.description
     });
     alert("Done");
   };
@@ -66,7 +66,7 @@ const {id}=useParams()
           onChange={handleChange}
           id="start"
           type="date"
-          name="start"
+          name="old"
           label="Date"
           fullWidth
           margin="normal"

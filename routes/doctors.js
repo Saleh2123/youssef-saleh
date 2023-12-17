@@ -357,6 +357,7 @@ const acceptpatient = async (req,res)=>{
       text: "", // plain text body
       html: `<b> Appointment confirmed </b>`, // html body
     }); 
+    res.status(200)
   }
   catch(error){
     console.error(error);

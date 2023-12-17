@@ -3,14 +3,14 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { MenuItem, Select, TextField, Button, Container, Box } from "@mui/material";
 
-export default function ResDocApt() {
+export default function ResApt() {
   const [form, setForm] = useState({});
-  const [patients, setPatients] = useState([]);
+  const [doctors, setDoctor] = useState([]);
   
 const {id}=useParams()
   useEffect(() => {
     async function getapt() {
-        setPatients((await axios.get(`http://localhost:5000/doctorapt?username=${id}`)).data);
+        setDoctor((await axios.get(`http://localhost:5000/doctorapt?username=${id}`)).data);
     }
     getapt();
   }, []);
@@ -20,9 +20,15 @@ const {id}=useParams()
     setForm({ ...form, [name]: value });
   };
 
+  console.log(doctors)
+  const filteredDoctors = Array.isArray(doctors.appointments)
+    ? doctors.appointments.filter((item, index, arr) => arr.findIndex((i) => i.doctor._id === item.doctor._id) === index)
+    : [];
+
+
   const handleClick = async (e) => {
     e.preventDefault();
-
+console.log(form)
     if (!form.doctor || !form.old || !form.start || !form.hour) {
       alert("Enter the full details");
       return;
@@ -30,8 +36,8 @@ const {id}=useParams()
     
 
     await axios.post("http://localhost:5000/rescheduleApp", {
-      username: form.doctor,
       doc: id,
+      username: form.doctor,
       oldDate: form.old,
       time: form.hour,
       date: form.start
@@ -43,15 +49,14 @@ const {id}=useParams()
     <Container maxWidth="sm">
       <Box display="flex" flexDirection="column" alignItems="center" mt={4}>
         <Select
-          name="doctor"
-          onChange={handleChange}
+          onChange={(e)=>{form.doctor=e.target.value.doctor.username;form.old=e.target.value.time}}
           displayEmpty
           fullWidth
           label="Doctor"
         >
-          {patients.map(({ patient }) => (
-            <MenuItem key={patient._id} value={patient.username}>
-              {patient.username}
+          {doctors?.map(({ patient:doctor,time }) => (
+            <MenuItem   onSelect={()=>{form.old=JSON.parse(time).data}} key={doctor._id} value={{doctor,time}}>
+              {doctor.username}---{time}
             </MenuItem>
           ))}
         </Select>
@@ -63,17 +68,6 @@ const {id}=useParams()
           type="date"
           name="start"
           label="Date"
-          fullWidth
-          margin="normal"
-        />
-
-        <TextField
-          required
-          onChange={handleChange}
-          id="old"
-          type="date"
-          name="old"
-          label="OldDate"
           fullWidth
           margin="normal"
         />

@@ -81,24 +81,10 @@ export default function Doctor() {
           Update Info
         </Button>
       </form>
-      <Link to="viewpatients" style={{ marginTop: "16px" }}>
-        <Button variant="contained" color="primary" fullWidth>
-          View Patients
-        </Button>
-      </Link>
-      <Link to="apt" style={{ marginTop: "16px" }}>
-        <Button variant="contained" color="primary" fullWidth>
-          View Appointments
-        </Button>
-      </Link>
-      <Link to="docviewpres" style={{ marginTop: "16px" }}>
-        <Button variant="contained" color="primary" fullWidth>
-          View Prescriptions
-        </Button>
-      </Link>
 
         <App></App>
         <App2></App2>
+        <App3></App3>
     </Container>
   );
 }
@@ -167,6 +153,7 @@ export default function Doctor() {
         </Link>
       </MDBCard>
       
+      
     </MDBCardGroup>
   );
 }
@@ -220,72 +207,83 @@ function App2() {
         </MDBCardBody>
         </Link>
       </MDBCard>
-      <MDBCard>
-     
-     
-      <Link to="viewDoctorPrescriptions"  style={{color:'black'}}>
-        <MDBCardImage src='' alt='...' position='top' />
-        <MDBCardBody>
-          <MDBCardTitle>View Prescriptions</MDBCardTitle>
-          <MDBCardText>
-           View all prescriptions I wrote to parents
-          </MDBCardText>
-          <MDBCardText>
-            <small className='text-muted'></small>
-          </MDBCardText>
-        </MDBCardBody>
-        </Link>
-      </MDBCard>
-      <MDBCard>
-
-      <Link to="addPrescription"  style={{color:'black'}}>
-        <MDBCardImage src='https://static.vecteezy.com/system/resources/previews/028/213/659/original/wallet-icon-simple-outline-style-affordable-investment-money-cash-dollar-bill-payment-business-finance-concept-thin-line-symbol-isolated-on-white-background-svg-vector.jpg' alt='...' position='top' />
-        <MDBCardBody>
-          <MDBCardTitle>Add Prescription</MDBCardTitle>
-          <MDBCardText>
-           Add a prescription to a patient after appointment 
-          </MDBCardText>
-          <MDBCardText>
-            <small className='text-muted'></small>
-          </MDBCardText>
-        </MDBCardBody>
-        </Link>
-      </MDBCard>
-      <MDBCard>
-
-      <Link to="rescheduleApp"  style={{color:'black'}}>
-        <MDBCardImage src='' alt='...' position='top' />
-        <MDBCardBody>
-          <MDBCardTitle>Reschedule Appointment</MDBCardTitle>
-          <MDBCardText>
-           Reschedule an appointment with a certain patient 
-          </MDBCardText>
-          <MDBCardText>
-            <small className='text-muted'></small>
-          </MDBCardText>
-        </MDBCardBody>
-        </Link>
-      </MDBCard>
-      <MDBCard>
-
-
-      <Link to="cancelPatientApp"  style={{color:'black'}}>
-        <MDBCardImage src='' alt='...' position='top' />
-        <MDBCardBody>
-          <MDBCardTitle>Cancel Appointment</MDBCardTitle>
-          <MDBCardText>
-           Cancel an appointment with a certain patient 
-          </MDBCardText>
-          <MDBCardText>
-            <small className='text-muted'></small>
-          </MDBCardText>
-        </MDBCardBody>
-        </Link>
-      </MDBCard>
-      <MDBCard>
-
-      </MDBCard>
       
     </MDBCardGroup>
   );
+}
+
+
+
+
+
+function App3(){
+return(
+<MDBCardGroup>
+
+<MDBCard>
+     
+     
+<Link to="viewDoctorPrescriptions"  style={{color:'black'}}>
+  <MDBCardImage src='https://cdn3.iconfinder.com/data/icons/medical-clinic-icons/1250/prescription_icon_2-1024.png' alt='' position='top' />
+  <MDBCardBody>
+    <MDBCardTitle>View Prescriptions</MDBCardTitle>
+    <MDBCardText>
+     View all prescriptions I wrote to parents
+    </MDBCardText>
+    <MDBCardText>
+      <small className='text-muted'></small>
+    </MDBCardText>
+  </MDBCardBody>
+  </Link>
+</MDBCard>
+<MDBCard>
+
+<Link to="addPrescription"  style={{color:'black'}}>
+  <MDBCardImage src='https://cdn3.iconfinder.com/data/icons/medical-clinic-icons/1250/prescription_icon_2-1024.png' alt='...' position='top' />
+  <MDBCardBody>
+    <MDBCardTitle>Add Prescription</MDBCardTitle>
+    <MDBCardText>
+     Add a prescription to a patient after appointment 
+    </MDBCardText>
+    <MDBCardText>
+      <small className='text-muted'></small>
+    </MDBCardText>
+  </MDBCardBody>
+  </Link>
+</MDBCard>
+<MDBCard>
+
+<Link to="rescheduleApp"  style={{color:'black'}}>
+  <MDBCardImage src='https://th.bing.com/th/id/OIP.ZfeFalLyDm1CmuzGh1huNAHaHa?rs=1&pid=ImgDetMain' alt='...' position='top' />
+  <MDBCardBody>
+    <MDBCardTitle>Reschedule Appointment</MDBCardTitle>
+    <MDBCardText>
+     Reschedule an appointment with a certain patient 
+    </MDBCardText>
+    <MDBCardText>
+      <small className='text-muted'></small>
+    </MDBCardText>
+  </MDBCardBody>
+  </Link>
+</MDBCard>
+<MDBCard>
+
+
+<Link to="cancelPatientApp"  style={{color:'black'}}>
+  <MDBCardImage src='https://cdn1.iconfinder.com/data/icons/line-essentials-4/20/168-512.png' alt='...' position='top' />
+  <MDBCardBody>
+    <MDBCardTitle>Cancel Appointment</MDBCardTitle>
+    <MDBCardText>
+     Cancel an appointment with a certain patient 
+    </MDBCardText>
+    <MDBCardText>
+      <small className='text-muted'></small>
+    </MDBCardText>
+  </MDBCardBody>
+  </Link>
+</MDBCard>
+<MDBCard>
+
+</MDBCard>
+</MDBCardGroup>)
 }

@@ -47,7 +47,9 @@ export default function Aptdoc() {
         >
           <MenuItem value="">Select Status</MenuItem>
           <MenuItem value="Pending">Pending</MenuItem>
-          <MenuItem value="Upcoming">Upcoming</MenuItem>
+          <MenuItem value="Accepted">Accepted</MenuItem>
+          
+          <MenuItem value="canceled">canceled</MenuItem>
         </Select>
         <TextField
           type="date"
@@ -102,6 +104,9 @@ export default function Aptdoc() {
              </>
  
 }
+
+
+
           </Paper>
         ))}
     </Container>

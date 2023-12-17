@@ -302,11 +302,11 @@ const select= async(req,res)=>{
      }
 
       const appointmentsP= (await model.findOne({username:username})).appointments
-      appointmentsP.push({doctor:_did,time:JSON.stringify(time),date:date})
+      appointmentsP.push({doctor:_did,status:"Pending",time:JSON.stringify(time),date:date})
      await model.updateOne({username:username},{$set:{appointments:appointmentsP}}).exec()
 
      const appointmentsD= (await doctor.findOne({username:doc})).appointments
-      appointmentsD.push({patient:_pid,time:JSON.stringify(time),date:date})
+      appointmentsD.push({patient:_pid,status:"Pending",time:JSON.stringify(time),date:date})
      await doctor.updateOne({username:doc},{$set:{appointments:appointmentsD}}).exec()
 
      _did.save;
@@ -399,18 +399,23 @@ const rescheduleApp = async (req,res)=>{
     }
     const _did=(await doctor.findOne({username:doc})).id
     const _pid=(await Patients.findOne({username:username})).id
-    const appointmentsP = (await Patients.findOne({username:username})).select('appointments -_id').exec() || []
+    const appointmentsP = patient.appointments || []
     const appointmentsD = doctor1.appointments || []
-    const indexP = appointmentsP.findIndex((obj => (obj.date===oldDate)&&(obj.doctor===_did))) 
-    const indexD = appointmentsD.findIndex((obj => (obj.date===oldDate)&&(obj.patient===_pid))) 
+    const indexP = appointmentsP.findIndex((obj => (obj.time===oldDate))) 
+    const indexD = appointmentsD.findIndex((obj => (obj.time===oldDate))) 
+    console.log(appointmentsD[0].time)
+    console.log(oldDate)
+    
+    console.log(appointmentsP[0].time===oldDate)
     if((indexP=== -1)&&(indexD===-1)){
+      console.log(indexD)
+      console.log(indexP)
       return res.status(404).json({ error: 'Appointment not found' });
     }
-    appointmentsP[indexP].date=date
-    appointmentsP[indexP].time=time
+    appointmentsP[indexP].time=JSON.stringify({hour:time,date:date})
     appointmentsP[indexP].status='rescheduled'
-    appointmentsD[indexD].date=date
-    appointmentsD[indexD].time=time
+  
+    appointmentsD[indexD].time=JSON.stringify({hour:time,date:date})
     appointmentsD[indexD].status='rescheduled'
 
     const emailP = (await model.findOne({username:username})).email
@@ -422,7 +427,8 @@ const rescheduleApp = async (req,res)=>{
       text: "", // plain text body
       html: `<b> Appointment Rescheduled </b>`, // html body
     });
-
+await patient.save()
+await doctor1.save()
   }
   catch(error){
     console.error(error);
@@ -433,54 +439,65 @@ const rescheduleApp = async (req,res)=>{
 const cancelApp = async (req,res)=>{
   const {username,doc,date} = req.body
   try{
-    const _did=(await doctor.findById(doc));
-    const _pid=(await Patients.findById(username));
-    const appointmentsP = _pid.appointments || []
-    const appointmentsD = _did.appointments || []
-    const indexP = appointmentsP.findIndex((obj => (obj.date===date)&&(obj.doctor===_did))) 
-    const indexD = appointmentsD.findIndex((obj => (obj.date===date)&&(obj.patient===_pid))) 
-    if((indexP!== -1)||(indexD!==-1)){
-      return res.status(404).json({ error: 'Appointment not found' });
+   
+    const patient = await Patients.findOne({username:username});
+    if(!patient){
+      return res.status(404).json({ error: 'Patient not found' });
     }
-    if((appointmentsP[indexP].status==='canceled')&&(appointmentsD[indexD].status==='canceled')){
-      return res.status(404).json({ error: 'Appointment already canceled' });
+    const doctor1 = await doctor.findOne({username:doc})
+    if(!doctor1){
+      return res.status(404).json({ error: 'Doctor not found' });
+    }
+    const _did=(await doctor.findOne({username:doc})).id
+    const _pid=(await Patients.findOne({username:username})).id
+    const appointmentsP = patient.appointments || []
+    const appointmentsD = doctor1.appointments || []
+    const indexP = appointmentsP.findIndex((obj => (obj.time===date))) 
+    const indexD = appointmentsD.findIndex((obj => (obj.time===date))) 
+  
+    if((indexP=== -1)&&(indexD===-1)){
+      console.log(indexD)
+      console.log(indexP)
+      return res.status(404).json({ error: 'Appointment not found' });
     }
     appointmentsP[indexP].status='canceled'
     appointmentsD[indexD].status='canceled'
-    
+
     const emailP = (await model.findOne({username:username})).email
      const emailD = (await doctor.findOne({username:doc})).email
     transporter.sendMail({
       from: 'omarrrrr240@gmail.com', // sender address
       to: `${emailP}, ${emailD}`,// list of receivers
-      subject: "Appointment Canceled", // Subject line
+      subject: "Appointment canceled", // Subject line
       text: "", // plain text body
-      html: `<b> Appointment Canceled </b>`, // html body
+      html: `<b> Appointment canceled </b>`, // html body
     });
-    if ((new Date(appointmentsD[indexD].date) - Date.now()) / (1000 * 60 * 60) > 24) {
+await patient.save()
+await doctor1.save()
       patient.wallet += doctor1.price;
-    }
+    
   }
+
   catch(error){
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
-}
 
+}
 const requestfollowup = async (req, res) => {
 
-  const {patient,doctor,scheduledDate,description} = req.body;
+  const {patient,doct,scheduledDate,description} = req.body;
 
   try {
 
     const newFollowUp = {
       scheduledDate :  scheduledDate,
-      patient: patient,
+      patient:(await model.findOne({username:patient}))._id,
       description: description
     }
 
    
-    const doc = await doctor.findOne({username:doctor})
+    const doc = await doctor.findOne({username:doct})
 
     if(!doc){
       return res.status(404).json({message : "no doctor found with this id"});

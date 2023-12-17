@@ -20,15 +20,15 @@ const {id}=useParams()
     setForm({ ...form, [name]: value });
   };
 
-  
-  const filteredDoctors = Array.isArray(doctors)
-    ? doctors.filter((item, index, arr) => arr.findIndex((i) => i.doctor._id === item.doctor._id) === index)
+  console.log(doctors)
+  const filteredDoctors = Array.isArray(doctors.appointments)
+    ? doctors.appointments.filter((item, index, arr) => arr.findIndex((i) => i.doctor._id === item.doctor._id) === index)
     : [];
 
 
   const handleClick = async (e) => {
     e.preventDefault();
-
+console.log(form)
     if (!form.doctor || !form.old || !form.start || !form.hour) {
       alert("Enter the full details");
       return;
@@ -49,15 +49,14 @@ const {id}=useParams()
     <Container maxWidth="sm">
       <Box display="flex" flexDirection="column" alignItems="center" mt={4}>
         <Select
-          name="doctor"
-          onChange={handleChange}
+          onChange={(e)=>{form.doctor=e.target.value.doctor.username;form.old=e.target.value.time}}
           displayEmpty
           fullWidth
           label="Doctor"
         >
-          {filteredDoctors.map(({ doctor }) => (
-            <MenuItem key={doctor._id} value={doctor.username}>
-              {doctor.username}
+          {doctors?.appointments?.map(({ doctor,time }) => (
+            <MenuItem   onSelect={()=>{form.old=JSON.parse(time).data}} key={doctor._id} value={{doctor,time}}>
+              {doctor.username}---{time}
             </MenuItem>
           ))}
         </Select>
@@ -69,17 +68,6 @@ const {id}=useParams()
           type="date"
           name="start"
           label="Date"
-          fullWidth
-          margin="normal"
-        />
-
-        <TextField
-          required
-          onChange={handleChange}
-          id="old"
-          type="date"
-          name="old"
-          label="OldDate"
           fullWidth
           margin="normal"
         />

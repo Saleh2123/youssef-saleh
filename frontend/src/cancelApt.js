@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { MenuItem, Select, TextField, Button, Container, Box } from "@mui/material";
 
-export default function CancelApt() {
+export default function ResApt() {
   const [form, setForm] = useState({});
   const [doctors, setDoctor] = useState([]);
   
@@ -20,25 +20,22 @@ const {id}=useParams()
     setForm({ ...form, [name]: value });
   };
 
-  
-  const filteredDoctors = Array.isArray(doctors)
-    ? doctors.filter((item, index, arr) => arr.findIndex((i) => i.doctor._id === item.doctor._id) === index)
+  console.log(doctors)
+  const filteredDoctors = Array.isArray(doctors.appointments)
+    ? doctors.appointments.filter((item, index, arr) => arr.findIndex((i) => i.doctor._id === item.doctor._id) === index)
     : [];
 
 
   const handleClick = async (e) => {
     e.preventDefault();
 
-    if (!form.doctor || !form.start) {
-      alert("Enter the full details");
-      return;
-    }
     
 
     await axios.post("http://localhost:5000/cancelApp", {
       username: id,
       doc: form.doctor,
-      date: form.start
+      date: form.old,
+      
     });
     alert("Done");
   };
@@ -47,29 +44,17 @@ const {id}=useParams()
     <Container maxWidth="sm">
       <Box display="flex" flexDirection="column" alignItems="center" mt={4}>
         <Select
-          name="doctor"
-          onChange={handleChange}
+          onChange={(e)=>{form.doctor=e.target.value.doctor.username;form.old=e.target.value.time}}
           displayEmpty
           fullWidth
           label="Doctor"
         >
-          {filteredDoctors.map(({ doctor }) => (
-            <MenuItem key={doctor._id} value={doctor.username}>
-              {doctor.username}
+          {doctors?.appointments?.map(({ doctor,time }) => (
+            <MenuItem   onSelect={()=>{form.old=JSON.parse(time).data}} key={doctor._id} value={{doctor,time}}>
+              {doctor.username}---{time}
             </MenuItem>
           ))}
         </Select>
-
-        <TextField
-          required
-          onChange={handleChange}
-          id="start"
-          type="date"
-          name="start"
-          label="Date"
-          fullWidth
-          margin="normal"
-        />
 
         <Button
           variant="contained"
@@ -78,7 +63,7 @@ const {id}=useParams()
           fullWidth
           sx={{ mt: 2 }}
         >
-          Cancel
+          cancel
         </Button>
       </Box>
     </Container>
