@@ -27,7 +27,7 @@ console.log(walletData)
             </TableRow>
           </TableHead>
           <TableBody>
-          
+                <TableCell>{id}</TableCell>
                 <TableCell>{walletData}</TableCell>
             
           </TableBody>

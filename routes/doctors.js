@@ -227,9 +227,8 @@ const showDoctorWallet = async (req,res)=>{
 };
 
 const addPrescription = async(req,res)=>{
-  const {patientUsername, doctorUsername, time, medicineName, medicineDosage} = req.body
+  const {patientUsername, doctorUsername, date, time, medicineName, medicineDosage} = req.body
   try{
-    const date = Date.now();
     const doctor = await doctors.findOne({username:doctorUsername})
     if(!doctor){
       return res.status(404).json({ error: 'Doctor not found' });
@@ -280,11 +279,11 @@ const cancelPatientApp = async (req,res)=>{
     if(!patient){
       return res.status(404).json({ error: 'Patient not found' });
     }
-    const doctor1 = await doctor.findOne({username:doc})
+    const doctor1 = await doctors.findOne({username:doc})
     if(!doctor1){
       return res.status(404).json({ error: 'Doctor not found' });
     }
-    const _did=(await doctor.findOne({username:doc})).id
+    const _did=(await doctors.findOne({username:doc})).id
     const _pid=(await Patients.findOne({username:username})).id
     const appointmentsP = patient.appointments || []
     const appointmentsD = doctor1.appointments || []
@@ -299,8 +298,8 @@ const cancelPatientApp = async (req,res)=>{
     appointmentsP[indexP].status='canceled'
     appointmentsD[indexD].status='canceled'
     
-    const emailP = (await model.findOne({username:username})).email
-     const emailD = (await doctor.findOne({username:doc})).email
+    const emailP = (await Patients.findOne({username:username})).email
+     const emailD = (await doctors.findOne({username:doc})).email
     transporter.sendMail({
       from: 'omarrrrr240@gmail.com', // sender address
       to: `${emailP}, ${emailD}`,// list of receivers
