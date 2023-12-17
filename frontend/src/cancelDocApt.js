@@ -14,7 +14,7 @@ const {id}=useParams()
     }
     getapt();
   }, []);
-
+console.log(patients)
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });

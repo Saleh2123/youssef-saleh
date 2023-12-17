@@ -20,12 +20,6 @@ const {id}=useParams()
     setForm({ ...form, [name]: value });
   };
 
-  
-  const filteredPatients = Array.isArray(patients)
-    ? patients.filter((item, index, arr) => arr.findIndex((i) => i.pateint._id === item.pateint._id) === index)
-    : [];
-
-
   const handleClick = async (e) => {
     e.preventDefault();
 
@@ -55,7 +49,7 @@ const {id}=useParams()
           fullWidth
           label="Doctor"
         >
-          {filteredPatients.map(({ patient }) => (
+          {patients.map(({ patient }) => (
             <MenuItem key={patient._id} value={patient.username}>
               {patient.username}
             </MenuItem>
