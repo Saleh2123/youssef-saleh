@@ -76,12 +76,34 @@ type:String
             type:Date
         },   status:{
             type:String,
-            default:"Pending"
+            default:"upcoming"
           }
     }
     ]
-},wallet:{
-    type:String
+},followUpAppointments: [
+         {     scheduledDate: {
+                type: Date,
+                required: true,
+            },
+            patient: {
+                type: mongoose.Types.ObjectId,
+                ref: 'patient',
+                required: true,
+            },
+            description: {
+                type: String,
+                required: true,
+            },
+            status: {
+                type: String,
+                enum: ['pending', 'accepted', 'revoked'],
+                default: 'pending',
+            },
+        },
+    ]
+,wallet:{
+    type:Number,
+    default:0
 },prescriptions:{
     type:[
       {

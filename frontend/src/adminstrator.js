@@ -50,7 +50,7 @@ function App() {
           <MDBCardBody>
             <MDBCardTitle>  Remove doctor/patient/admin</MDBCardTitle>
             <MDBCardText>
-              Remove any staff member that is no more in our concideration 
+              Remove any user that is no more in our concideration 
             </MDBCardText>
             <MDBCardText>
               <small className='text-muted'></small>

@@ -282,22 +282,17 @@ const viewDoctorPrescriptions = async (req,res)=>{
 
 const cancelPatientApp = async (req,res)=>{
   const {username,doc,date} = req.body
+  console.log(doc)
   try{
-    const patient = await Patients.findOne({username:username})
-    if(!patient){
-      return res.status(404).json({ error: 'Patient not found' });
-    }
-    const doctor1 = await doctors.findOne({username:doc})
-    if(!doctor1){
-      return res.status(404).json({ error: 'Doctor not found' });
-    }
-    const _did=(await doctors.findOne({username:doc})).id
-    const _pid=(await Patients.findOne({username:username})).id
-    const appointmentsP = patient.appointments || []
-    const appointmentsD = doctor1.appointments || []
-    const indexP = appointmentsP.findIndex((obj => (obj.time===date)&&(obj.doctor.toString()===_did))) 
-    const indexD = appointmentsD.findIndex((obj => (obj.time===date)&&(obj.patient.toString()===_pid))) 
-    if((indexP== -1)||(indexD==-1)){
+    const _did=(await doctors.findOne({username:doc}));
+    const _pid=(await Patients.findOne({username:username}));
+    const appointmentsP= (await Patients.findOne({username:username})).appointments
+    const appointmentsD = _did.appointments || []
+    const indexP = appointmentsP.findIndex((obj => (obj.status==="upcoming"))) 
+    console.log(indexP)
+    const indexD = appointmentsD.findIndex((obj => (obj.status==="upcoming"))) 
+    console.log(indexD)
+    if((indexP=== -1)||(indexD===-1)){
       return res.status(404).json({ error: 'Appointment not found' });
     }
     console.log(appointmentsP)
@@ -306,8 +301,8 @@ const cancelPatientApp = async (req,res)=>{
     }
     appointmentsP[indexP].status='canceled'
     appointmentsD[indexD].status='canceled'
-    doctor1.save()
-    patient.save()
+    _pid.save()
+    _did.save()
     const emailP = (await Patients.findOne({username:username})).email
      const emailD = (await model.findOne({username:doc})).email
     transporter.sendMail({
@@ -342,7 +337,7 @@ const acceptpatient = async (req,res)=>{
     const appointmentsD = doctor1.appointments || []
     const indexP = appointmentsP.findIndex((obj => (obj.time===date)&&(obj.doctor.toString()===_did))) 
     const indexD = appointmentsD.findIndex((obj => (obj.time===date)&&(obj.patient.toString()===_pid))) 
-    if((indexP== -1)||(indexD==-1)){
+    if((indexP=== -1)||(indexD===-1)){
       return res.status(404).json({ error: 'Appointment not found' });
     }
     console.log(appointmentsP)
@@ -369,6 +364,76 @@ const acceptpatient = async (req,res)=>{
   }
 }
 
+
+
+const acceptFollowUpAppointment = async (req, res) =>{
+
+  const doctorId = req.params.id;
+  const appointmentId = req.body.id;
+
+
+  try {
+      const doctor = await doctors.findById(doctorId);
+
+      if (!doctor) {
+          //throw new Error('Doctor not found');
+          return res.status(404).json({message : "No doctors found."});
+      }
+
+      const appointmentIndex = doctor.followUpAppointments.findIndex(appointment => appointment.id === appointmentId);
+
+      if (appointmentIndex !== -1) {
+          doctor.followUpAppointments[appointmentIndex].status = 'accepted';
+          await doctor.save();
+          return res.status(200).json({
+            message : "follow up appointment accepted successfuly",
+            followUp : doctor.followUpAppointments[appointmentIndex]
+          });
+      } else {
+          //throw new Error('Appointment not found');
+          return res.status(404).json({
+            message: "follow up with this ID not found"
+          });
+      }
+  } catch (error) {
+      throw new Error('Error accepting follow-up appointment: ' + error.message);
+  }
+}
+const revokeFollowUpAppointment = async (req, res) =>{
+  const doctorId = req.params.id;
+  const appointmentId = req.body.id;
+
+
+  try {
+      const doctor = await doctors.findById(doctorId);
+
+      if (!doctor) {
+          //throw new Error('Doctor not found');
+          return res.status(404).json({message : "No doctors found."});
+      }
+
+      const appointmentIndex = doctor.followUpAppointments.findIndex(appointment => appointment.id === appointmentId);
+
+      if (appointmentIndex !== -1) {
+          doctor.followUpAppointments[appointmentIndex].status = 'revoked';
+          await doctor.save();
+          return res.status(200).json({
+            message : "follow up appointment accepted successfuly",
+            followUp : doctor.followUpAppointments[appointmentIndex]
+          });
+      } else {
+          //throw new Error('Appointment not found');
+          return res.status(404).json({
+            message: "follow up with this ID not found"
+          });
+      }
+  } catch (error) {
+      throw new Error('Error accepting follow-up appointment: ' + error.message);
+  }
+}
+
+
+
 module.exports = {
   createdoctor,
   updatedoc,
@@ -381,7 +446,7 @@ module.exports = {
   addapt,addtimeslot,viewAppointments,
   filterDoctorAppointments,showDoctorWallet,
   addPrescription,viewDoctorPrescriptions,acceptpatient,
-  cancelPatientApp
+  cancelPatientApp,acceptFollowUpAppointment,revokeFollowUpAppointment
 };
 
 
